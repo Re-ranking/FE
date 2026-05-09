@@ -1,0 +1,25 @@
+.common-button {
+  width: 219px;
+  height: 34px;
+  border-radius: 50px;
+  background: #AFB3FF;
+  border: none;
+  cursor: pointer;
+  
+  /* 텍스트 스타일 */
+  color: #1A1A1A;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  
+  /* 버튼을 중앙에 정렬하기 위해 추가 */
+  display: block;
+  margin: 0 auto; 
+  
+  transition: background 0.3s ease;
+}
+
+.common-button:hover {
+  background: #9fa4ff; /* 마우스 올렸을 때 살짝 진해지는 효과 */
+}

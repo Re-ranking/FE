@@ -1,0 +1,15 @@
+.custom-input {
+  height: 34px;
+  align-self: stretch;
+  border-radius: 50px;
+  border: 1px solid #656ED3;
+  background: rgba(175, 179, 255, 0.00);
+  padding: 0 15px; /* 글자가 테두리에 붙지 않게 안쪽 여백 추가 */
+  width: 100%;    /* 부모 컨테이너에 꽉 차게 설정 */
+  box-sizing: border-box; /* 패딩이 너비에 영향을 주지 않도록 설정 */
+  outline: none;  /* 클릭 시 기본 파란 테두리 제거 (선택 사항) */
+}
+
+.custom-input:focus {
+  border: 2px solid #656ED3; /* 포커스 시 조금 더 진하게 강조 */
+}
