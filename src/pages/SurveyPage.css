@@ -1,0 +1,88 @@
+/* 1. 전체 페이지 컨테이너 */
+.survey-page-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
+  background-attachment: fixed; /* 스크롤 시 배경 고정 */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. 왼쪽 스테퍼 사이드바 영역 */
+.stepper-sidebar {
+  width: 240px;
+  position: sticky; /* 스크롤 따라오기 */
+  top: 80px;
+  height: fit-content;
+  margin-left: 40px;
+  padding-top: 40px;
+  flex-shrink: 0;
+}
+
+/* 3. 오른쪽 메인 설문 영역 */
+.survey-main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* 4. 설문 카드들이 담기는 내부 래퍼 */
+.survey-content-inner {
+  width: 100%;
+  max-width: 1100px;
+  padding: 80px 50px 150px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 카드 세트들을 중앙에 배치 */
+}
+
+/* ✅ 카드 + 버튼 하나를 감싸는 개별 스텝 래퍼 */
+.survey-step-wrapper {
+  width: 100%;
+  margin-bottom: 100px; /* 다음 카드 세트와의 간격 */
+  display: flex;
+  flex-direction: column;
+  /* 💡 중요: 내부의 버튼을 오른쪽 끝으로 밀어내기 위한 설정 */
+  align-items: flex-end; 
+  scroll-margin-top: 100px; /* 스크롤 시 멈추는 위치 여백 */
+}
+
+/* 카드 컴포넌트 자체가 래퍼 너비를 꽉 채우도록 설정 */
+.survey-step-wrapper > div:first-child {
+  width: 100%;
+}
+
+/* 5. 각 카드 바로 아래의 NEXT 버튼 영역 */
+.survey-next-button {
+  margin-top: 25px; /* 카드 하단과 버튼 사이 여백 */
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* CommonButton 스타일 정의 */
+.survey-next-button button {
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  background-color: #AFB3FF;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 15px rgba(101, 110, 211, 0.3);
+  transition: all 0.2s ease;
+}
+
+.survey-next-button button:hover {
+  transform: translateY(-2px);
+  background-color: #545cb5;
+  box-shadow: 0px 6px 20px rgba(101, 110, 211, 0.4);
+}
+
+.survey-next-button button:active {
+  transform: translateY(0);
+}

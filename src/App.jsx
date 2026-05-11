@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import CVupload from './pages/CVupload'; // ✅ 1. CVupload 컴포넌트 불러오기
+import CVupload from './pages/CVupload'; 
+import SurveyPage from './pages/SurveyPage'; // ✅ 성향 입력 페이지 임포트
 import './App.css';
 
 function App() {
@@ -17,8 +18,11 @@ function App() {
         {/* ✅ 회원가입 페이지 */}
         <Route path="/register" element={<Register />} />
 
-        {/* ✅ CV 업로드 페이지 (추가됨) */}
+        {/* ✅ CV 업로드 페이지 */}
         <Route path="/CVupload" element={<CVupload />} /> 
+
+        {/* ✅ 성향 입력 페이지 (추가됨) */}
+        <Route path="/survey" element={<SurveyPage />} /> 
       </Routes>
     </BrowserRouter>
   );
