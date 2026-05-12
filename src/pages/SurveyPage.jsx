@@ -23,22 +23,43 @@ function SurveyPage() {
     }));
   };
 
-  // ✅ [추가] 백엔드 임시 저장 함수
-  const saveTemporaryStep = async (stepNum, answers) => {
+  // ✅ [백엔드 요구사항 1] 스텝별 임시 저장 함수
+  // await를 제거하여 화면 전환이 즉시 일어나도록 합니다.
+  const saveTemporaryStep = (stepNum, answers) => {
+    console.log(`[임시 저장 요청] Step ${stepNum}:`, answers);
+    
+    fetch('http://localhost:8080/survey/temp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        step: stepNum,
+        answers: answers
+      })
+    }).catch(err => {
+      console.warn("임시 저장 실패(백그라운드 처리 중):", err);
+    });
+  };
+
+  // ✅ [백엔드 요구사항 2] 최종 제출 함수
+  const submitFinalSurvey = async () => {
     try {
-      console.log(`[임시 저장] Step ${stepNum}:`, answers);
-      
-      // 백엔드와 상의한 임시저장 엔드포인트로 전송
-      await fetch('http://localhost:8080/survey/temp', {
+      console.log("최종 제출 데이터:", allAnswers);
+      const response = await fetch('http://localhost:8080/survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          step: stepNum,
-          answers: answers
-        })
+        body: JSON.stringify(allAnswers) 
       });
+
+      const result = await response.json();
+      if (result.success) {
+        alert("모든 설문이 완료되었습니다!");
+        window.location.href = '/result';
+      } else {
+        alert(result.message || "최종 제출에 실패했습니다.");
+      }
     } catch (error) {
-      console.error("임시 저장 중 오류 발생:", error);
+      console.error('최종 전송 에러:', error);
+      alert('서버 전송 중 오류가 발생했습니다.');
     }
   };
 
@@ -105,45 +126,29 @@ function SurveyPage() {
     }
   };
 
-  // ✅ 버튼 클릭 핸들러 (임시저장 + 스크롤 + 최종제출)
-  const handleNext = async (stepNum) => {
+  // ✅ 버튼 클릭 핸들러: NEXT 클릭 시 즉시 실행
+  const handleNext = (stepNum) => {
     const currentStepNum = parseInt(stepNum);
     const nextStepNum = currentStepNum + 1;
     const totalSteps = Object.keys(surveyData).length;
 
-    // 1. 현재 스텝 데이터 임시 저장 (백엔드 전송)
-    await saveTemporaryStep(currentStepNum, allAnswers[currentStepNum]);
+    // 1. 임시 저장 실행 (백그라운드에서 비동기 처리)
+    saveTemporaryStep(currentStepNum, allAnswers[currentStepNum]);
 
     if (nextStepNum <= totalSteps) {
-      // 2-A. 다음 단계가 있으면 이동 및 스크롤
+      // 2. 다음 단계로 즉시 이동
       setCurrentStep(nextStepNum);
-      stepRefs.current[nextStepNum]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    } else {
-      // 2-B. 마지막 단계면 최종 제출
-      try {
-        console.log("최종 제출 데이터:", allAnswers);
-
-        const response = await fetch('http://localhost:8080/survey', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(allAnswers) 
+      
+      // ✅ React가 렌더링을 끝낸 후 스크롤 하도록 약간의 지연(50ms) 부여
+      setTimeout(() => {
+        stepRefs.current[nextStepNum]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
-
-        const result = await response.json();
-
-        if (result.success) {
-          alert("모든 설문이 완료되었습니다!");
-          window.location.href = '/result';
-        } else {
-          alert(result.message || "제출에 실패했습니다.");
-        }
-      } catch (error) {
-        console.error('최종 전송 에러:', error);
-        alert('서버 전송 중 오류가 발생했습니다.');
-      }
+      }, 50);
+    } else {
+      // 3. 마지막 단계면 최종 제출 실행
+      submitFinalSurvey();
     }
   };
 
@@ -155,7 +160,6 @@ function SurveyPage() {
 
       <main className="survey-main-content">
         <div className="survey-content-inner">
-          
           {Object.entries(surveyData).map(([stepNum, data]) => (
             <div 
               key={stepNum} 
@@ -186,7 +190,6 @@ function SurveyPage() {
               </div>
             </div>
           ))}
-
         </div>
       </main>
     </div>
