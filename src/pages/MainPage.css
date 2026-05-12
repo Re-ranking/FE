@@ -1,0 +1,110 @@
+.main-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff; /* 기본 배경은 화이트 */
+}
+
+.main-content {
+  display: flex; /* 좌우 배치를 위해 flex 사용 */
+  height: calc(100vh - 70px);
+}
+
+/* ✅ 왼쪽 섹션 스타일: 비율을 1.2로 늘림 */
+.hero-left {
+  flex: 1.2; /* 기존 1에서 1.2로 변경 (오른쪽보다 20% 더 넓어짐) */
+  background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* ✅ 오른쪽 섹션 스타일: 비율을 0.8로 줄임 */
+.hero-right {
+  flex: 0.8; /* 왼쪽이 늘어난 만큼 오른쪽은 조금 줄임 */
+  background-color: #ffffff;
+  display: flex; /* 추후 오른쪽 콘텐츠 배치를 위해 미리 추가 */
+  justify-content: center;
+  align-items: center;
+}
+
+/* 내부 콘텐츠 가독성을 위한 너비 제한 유지 */
+.hero-content {
+  text-align: center;
+  max-width: 550px; /* 영역이 넓어진 만큼 최대 너비도 살짝(500->550) 키워주면 시원해 보입니다 */
+}
+
+/* 상단 장식 선 영역 */
+.deco-lines {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* 선들이 바닥(글자 방향)을 기준으로 정렬되게 함 */
+  gap: 12px;             /* 선 사이의 간격 */
+  margin-bottom: 50px;   /* 타이틀과의 거리 */
+}
+
+.deco-lines span {
+  width: 2.5px;          /* 선의 굵기를 아주 가늘게 해서 세련미 강조 */
+  background-color: #222; /* 너무 진하지 않은 검정색 */
+  display: inline-block;
+  border-radius: 1px;    /* 끝을 아주 살짝 둥글게 */
+}
+
+/* 왼쪽 선: 가장 짧음 */
+.deco-lines span:nth-child(1) {
+  height: 40px;
+}
+
+/* 가운데 선: 가장 길고 위로 솟은 느낌 */
+.deco-lines span:nth-child(2) {
+  height: 120px;
+  background-color: #444; /* 미세하게 색 차이를 주면 더 깊이감이 생겨요 */
+}
+
+/* 오른쪽 선: 중간 높이 */
+.deco-lines span:nth-child(3) {
+  height: 65px;
+}
+
+/* 타이틀 */
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #000;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  word-break: keep-all; /* 한글 단어 끊김 방지 */
+}
+
+/* 설명 문구 */
+.hero-description {
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+/* 회원가입 버튼 */
+.signup-main-btn {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 15px 60px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.signup-main-btn:hover {
+  background-color: #333333;
+  transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+}
+
+/* 오른쪽 섹션 (임시) */
+.hero-right {
+  flex: 1;
+  background-color: #ffffff;
+}
