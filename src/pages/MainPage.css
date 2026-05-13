@@ -101,7 +101,7 @@
   flex-direction: column;
   justify-content: center; /* ✅ 세로 중앙 */
 
-  gap: 60px;
+  gap: 100px;
   width: 100%;
   max-width: 450px;
 
