@@ -1,0 +1,61 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000000;
+  padding: 0 40px;
+  height: 70px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+
+.navbar-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 60px; /* 메뉴 사이 간격 */
+  margin: 0;
+}
+
+.nav-menu li {
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  /* ✅ 색상이 변할 때 0.3초 동안 부드럽게 변함 */
+  transition: color 0.3s ease;
+}
+
+/* ✅ 마우스를 올렸을 때 연보라색으로 변경 */
+.nav-menu li:hover {
+  color: #d1d1ff;
+}
+
+.login-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.login-btn:hover {
+  color: #d1d1ff;
+}

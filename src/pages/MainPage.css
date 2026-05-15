@@ -1,0 +1,157 @@
+/* 전체 컨테이너 */
+.main-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* ✅ 핵심: 부모 height 확실히 잡기 */
+.main-content {
+  display: flex;
+  min-height: calc(100vh - 70px); /* ✅ navbar 제외 */
+
+  align-items: stretch; /* ✅ 자식 높이 강제 맞춤 */
+}
+
+/* --- [왼쪽 섹션] --- */
+.hero-left {
+  flex: 1.2;
+  background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 550px;
+}
+
+.deco-lines {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 50px;
+}
+
+.deco-lines span {
+  width: 2.5px;
+  background-color: #222;
+  display: inline-block;
+  border-radius: 1px;
+}
+
+.deco-lines span:nth-child(1) { height: 40px; }
+.deco-lines span:nth-child(2) { height: 120px; background-color: #444; }
+.deco-lines span:nth-child(3) { height: 65px; }
+
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #000;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  word-break: keep-all;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+.signup-main-btn {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 15px 60px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signup-main-btn:hover {
+  background-color: #333333;
+  transform: translateY(-2px);
+}
+
+/* --- [오른쪽 섹션] --- */
+.hero-right {
+  flex: 0.8;
+  background-color: #ffffff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+/* ✅ 중앙 정렬 핵심 */
+.recommend-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ✅ 세로 중앙 */
+
+  gap: 100px;
+  width: 100%;
+  max-width: 450px;
+
+  height: 100%; /* ✅ 부모 높이 기준으로 작동 */
+}
+
+.recommend-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* ✅ 내부 정렬 */
+  text-align: center;
+}
+
+.recommend-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+.recommend-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  word-break: keep-all;
+}
+
+.main-icon {
+  width: 60px;
+  height: auto;
+  margin-bottom: 25px;
+  object-fit: contain;
+}
+
+.recommend-btn {
+  background-color: #B2B8F9;
+  color: #000;
+  padding: 12px 50px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1px solid #9FA5E6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.recommend-btn:hover {
+  background-color: #9FA5E6;
+  transform: translateY(-2px);
+}
