@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CVupload.css';
 import CommonButton from '../components/CommonButton'; 
 import defaultIcon from '../assets/images/profile-default.png'; 
@@ -6,7 +7,9 @@ import uploadIcon from '../assets/images/upload-icon.png';
 
 function CVupload() {
 
-  // ✅ 실제 서버로 보낼 파일 객체 (가장 중요 ⭐)
+  const navigate = useNavigate();
+
+  // ✅ 실제 서버로 보낼 파일 객체
   const [file, setFile] = useState(null);
 
   // ✅ 화면에 보여줄 파일 이름 (UI용)
@@ -51,61 +54,53 @@ function CVupload() {
     console.log('선택된 파일:', selectedFile);
   };
 
-  // ✅ NEXT 버튼 클릭 → 서버로 파일 업로드
+  //NEXT 버튼 클릭 → 서버로 파일 업로드
   const handleNext = async () => {
 
-    // ✅ 파일 없으면 막기
-    if (!file) {
-      alert("CV를 업로드 해주세요!");
+  if (!file) {
+    alert("CV를 업로드 해주세요!");
+    return;
+  }
+
+  // 개발용 (백엔드 연결 전) 나중에 false로 수정하면 됨
+  const isMockMode = true;
+
+  if (isMockMode) {
+    console.log("Mock 모드: 업로드 없이 이동");
+    navigate('/main');
+    return;
+  }
+
+  // 실제 백엔드 연동
+  try {
+    const formData = new FormData();
+    formData.append('cv', file);
+
+    const response = await fetch('http://localhost:8080/cv-upload', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error('서버 오류 발생');
+    }
+
+    if (!result.success) {
+      alert(result.message);
       return;
     }
 
-    try {
-      // ✅ FormData 생성 (파일 전송 필수)
-      const formData = new FormData();
+    console.log('CV 업로드 성공:', result);
 
-      // ✅ key 이름은 백엔드와 반드시 동일해야 함 ⭐
-      // 👉 예: Spring → @RequestParam("cv")
-      // 👉 예: Node → upload.single("cv")
-      formData.append('cv', file);
+    navigate('/main');
 
-      // ✅ API 요청
-      const response = await fetch('http://localhost:8080/cv-upload', {
-        method: 'POST',
-
-        // ❗ Content-Type 절대 직접 설정하지 말 것
-        // 👉 브라우저가 자동으로 multipart/form-data로 설정함
-        body: formData
-      });
-
-      // ✅ JSON 파싱
-      const result = await response.json();
-
-      // ✅ HTTP 에러 (서버 자체 문제)
-      if (!response.ok) {
-        throw new Error('서버 오류 발생');
-      }
-
-      // ✅ 비즈니스 로직 실패 (ex: 파일 저장 실패)
-      if (!result.success) {
-        alert(result.message);
-        return;
-      }
-
-      // ✅ 업로드 성공
-      console.log('CV 업로드 성공:', result);
-
-      // ✅ 다음 페이지 이동 (예: 메인 or 분석 페이지)
-      window.location.href = '/home';
-
-      // 👉 React Router 사용 시:
-      // navigate('/home');
-
-    } catch (error) {
-      console.error('업로드 에러:', error);
-      alert('CV 업로드 중 오류가 발생했습니다.');
-    }
-  };
+  } catch (error) {
+    console.error('업로드 에러:', error);
+    alert('CV 업로드 중 오류가 발생했습니다.');
+  }
+};
 
   return (
     <div className="cv-container">
