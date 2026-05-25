@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CVupload from './pages/CVupload';
-import MainPage from './pages/MainPage';     
+import MainPage from './pages/MainPage';  
+import ContestList from './pages/ContestList';   
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/CVupload" element={<CVupload />} />
         <Route path="/main" element={<MainPage />} />
+        <Route path="/contests" element={<ContestList />} />
       </Routes>
     </BrowserRouter>
   );

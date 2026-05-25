@@ -1,0 +1,25 @@
+.contest-list-page {
+  background-color: #FAFAFB;
+  min-height: 100vh;
+}
+
+.contest-list-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+
+.contest-grid {
+  display: grid;
+  /* 피그마 시안처럼 완벽하게 2열 배치 */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 30px;
+  width: 100%;
+}
+
+/* 태블릿이나 모바일 대응을 위한 미디어 쿼리 (선택사항) */
+@media (max-width: 850px) {
+  .contest-grid {
+    grid-template-columns: 1fr;
+  }
+}
