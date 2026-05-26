@@ -6,6 +6,27 @@ import './ContestDetail.css';
 import poster02 from '../assets/images/contest-poster-02.png'; 
 import defaultIcon from '../assets/images/profile-default.png'; 
 
+// 데이터 정제 함수 (컴포넌트 바깥에 배치)
+const normalizeContest = (raw) => { 
+  const dateRegex = /\d{4}-\d{2}-\d{2}/g; 
+  const dates = raw["접수기간"]?.match(dateRegex) || []; 
+  
+  return { 
+    id: raw.id ?? raw.contestId ?? null, 
+    title: raw.name ?? raw.title ?? "", 
+    categories: raw["분야"] ? raw["분야"].split(', ') : raw.categories ?? [], 
+    target: raw["응모대상"] ?? raw.target ?? "", 
+    organizer: raw["주최/주관"] ?? raw.organizer ?? raw.host ?? "", 
+    startDate: raw.startDate ?? dates[0] ?? null, 
+    endDate: raw.endDate ?? dates[1] ?? null, 
+    totalPrize: raw["총 상금"] ?? raw.totalPrize ?? "", 
+    firstPrize: raw["1등 상금"] ?? raw.firstPrize ?? "", 
+    homepageUrl: raw["홈페이지"] ?? raw.homepageUrl ?? raw.link ?? "", 
+    imageUrl: raw.image_url ?? raw.imageUrl ?? "", 
+    description: raw.description ?? "" 
+  }; 
+};
+
 function ContestDetail() {
   const { id } = useParams(); 
   const navigate = useNavigate(); 
@@ -13,65 +34,40 @@ function ContestDetail() {
   const [contest, setContest] = useState(null);
 
   useEffect(() => {
+    // 원본 크롤링 데이터 예시
     const backendRawData = {
-      "name": "제7회 공군 창의ㆍ혁신 아이디어 공모 해커톤",
-      "source_url": "https://www.wevity.com?c=find&s=_university&gub=1&cidx=20&gbn=view&gp=1&ix=106965",
+      "name": "제4회 문화체육관광 인공지능·데이터 활용 공모전",
       "분야": "기획/아이디어, 논문/리포트, 웹/모바일/IT, 게임/소프트웨어, 과학/공학, 대외활동/서포터즈",
       "응모대상": "제한없음",
-      "주최/주관": "문화체육관광부 / 한국문화정보원, 국민체육진흥공단, 한국관광공사, 한국문화예술위원회, 한국콘텐츠진흥원",
+      "주최/주관": "문화체육관광부 / 한국문화정보원",
       "접수기간": "2026-04-27 ~ 2026-06-26 D-46",
       "총 상금": "5천만원이상",
       "1등 상금": "1,000만원",
       "홈페이지": "https://vo.la/HDynhd5",
       "image_url": poster02, 
-      "description": "※ 본 내용은 참고 자료입니다. 반드시 주최사 홈페이지의 일정 및 상세 내용을 확인하세요. 제4회 문화체육관광 인공지능·데이터 활용 공모전 우리 문화 생태계의 경쟁력을 높이고 새로운 활력을 불어넣을 「문화체육관광 인공지능·데이터 활용 공모전」을 개최합니다. 본 공모전은 제13회 범정부 공공데이터 활용 창업경진대회에서 '대통령상' 수상팀을 배출하며 그 저력을 입증했습니다. 기술과 문화의 융합으로 미래를 설계할 여러분의 창의적인 도전을 기다립니다. ■"
+      "description": "※ 본 내용은 참고 자료입니다. 반드시 주최사 홈페이지의 일정 및 상세 내용을 확인하세요. 제4회 문화체육관광 인공지능·데이터 활용 공모전 우리 문화 생태계의 경쟁력을 높이고 새로운 활력을 불어넣을 「문화체육관광 인공지능·데이터 활용 공모전」을 최합니다. 본 공모전은 제13회 범정부 공공데이터 활용 창업경진대회에서 '대통령상' 수상팀을 배출하며 그 저력을 입증했습니다. 기술과 문화의 융합으로 미래를 설계할 여러분의 창의적인 도전을 기다립니다."
     };
 
-    setContest(backendRawData);
+    // 데이터를 저장할 때 정제함수 거치기
+    const cleanData = normalizeContest(backendRawData);
+    setContest(cleanData);
   }, [id]);
 
   if (!contest) return <div className="loading">로딩 중...</div>;
 
-  const tagsArray = contest["분야"] ? contest["분야"].split(', ') : [];
-
-  // 🌟 오늘 날짜 기준으로 디데이를 실시간 계산하는 마법의 로직
-  const getLiveDDay = (periodText) => {
-    try {
-      // 1. "2026-04-27 ~ 2026-06-26 D-46" 에서 마감일인 "2026-06-26"만 정규식으로 추출합니다.
-      const dateRegex = /\d{4}-\d{2}-\d{2}/g;
-      const dates = periodText.match(dateRegex); // ['2026-04-27', '2026-06-26'] 순서로 뽑힘
-      
-      if (!dates || dates.length < 2) return "";
-
-      const endDate = new Date(dates[1]); // 마감 날짜 객체 생성
-      const today = new Date(); // 오늘 날짜 객체 생성
-
-      // 시, 분, 초 때문에 날짜 계산이 틀어지는 것을 막기 위해 자정(00:00:00)으로 통일합니다.
-      endDate.setHours(0,0,0,0);
-      today.setHours(0,0,0,0);
-
-      // 2. 두 날짜의 밀리초(ms) 차이를 구한 뒤 하루(24시간) 단위로 나눕니다.
-      const diffTime = endDate.getTime() - today.getTime();
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      // 3. 남은 일수에 따라 텍스트를 리턴합니다.
-      if (diffDays > 0) {
-        return `D-${diffDays}`;
-      } else if (diffDays === 0) {
-        return "D-DAY";
-      } else {
-        return "마감"; // 마감일이 지났을 때
-      }
-    } catch (e) {
-      return "";
-    }
+  // 오늘 기준 실시간 디데이 계산
+  const getLiveDDay = (endDateStr) => {
+    if (!endDateStr) return "";
+    const endDate = new Date(endDateStr);
+    const today = new Date();
+    endDate.setHours(0,0,0,0);
+    today.setHours(0,0,0,0);
+    
+    const diffDays = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    return diffDays > 0 ? `D-${diffDays}` : diffDays === 0 ? "D-DAY" : "마감";
   };
 
-  // 기존 백엔드 디데이 텍스트 대신, 방금 만든 함수로 실시간 디데이를 구합니다!
-  const dDayText = getLiveDDay(contest["접수기간"]);
-  
-  // 주소창 옆에 보여줄 순수 기간만 분리 (예: "2026-04-27 ~ 2026-06-26")
-  const purePeriodText = contest["접수기간"].replace(/D-\d+/, "").trim();
+  const dDayText = getLiveDDay(contest.endDate);
 
   const handleRecommendClick = () => {
     navigate(`/contests/${id}/recommend`);
@@ -84,7 +80,7 @@ function ContestDetail() {
       <main className="contest-detail-content">
         <div className="detail-header-section">
           <div className="detail-poster-wrapper">
-            <img src={contest.image_url} alt={contest.name} />
+            <img src={contest.imageUrl} alt={contest.title} />
           </div>
 
           <div className="detail-summary-info">
@@ -97,10 +93,10 @@ function ContestDetail() {
               </span>
             )}
             
-            <h1 className="detail-title">{contest.name}</h1>
+            <h1 className="detail-title">{contest.title}</h1>
             
             <div className="detail-tags-list">
-              {tagsArray.map((tag, idx) => (
+              {contest.categories.map((tag, idx) => (
                 <span key={idx} className="detail-tag-badge">#{tag}</span>
               ))}
             </div>
@@ -111,7 +107,7 @@ function ContestDetail() {
                   <img src={defaultIcon} alt="" className="label-icon" />
                   <span className="label-text">응모 대상</span>
                 </div> 
-                <div className="info-value">{contest["응모대상"]}</div>
+                <div className="info-value">{contest.target}</div>
               </div>
 
               <div className="info-row">
@@ -119,7 +115,7 @@ function ContestDetail() {
                   <img src={defaultIcon} alt="" className="label-icon" />
                   <span className="label-text">주최/주관</span>
                 </div> 
-                <div className="info-value">{contest["주최/주관"]}</div>
+                <div className="info-value">{contest.organizer}</div>
               </div>
 
               <div className="info-row">
@@ -127,7 +123,7 @@ function ContestDetail() {
                   <img src={defaultIcon} alt="" className="label-icon" />
                   <span className="label-text">접수 기간</span>
                 </div> 
-                <div className="info-value">{purePeriodText}</div>
+                <div className="info-value">{contest.startDate} ~ {contest.endDate}</div>
               </div>
 
               <div className="info-row">
@@ -136,13 +132,13 @@ function ContestDetail() {
                   <span className="label-text">총 상금</span>
                 </div> 
                 <div className="info-value">
-                  {contest["총 상금"]} {contest["1등 상금"] && `(1등: ${contest["1등 상금"]})`}
+                  {contest.totalPrize} {contest.firstPrize && `(1등: ${contest.firstPrize})`}
                 </div>
               </div>
             </div>
 
             <div className="detail-btn-group">
-              <a href={contest["홈페이지"]} target="_blank" rel="noreferrer" className="visit-btn">
+              <a href={contest.homepageUrl} target="_blank" rel="noreferrer" className="visit-btn">
                 주최사 홈페이지 바로가기
               </a>
               <button onClick={handleRecommendClick} className="recommend-btn">
