@@ -11,15 +11,25 @@
 
 .contest-grid {
   display: grid;
-  /* 피그마 시안처럼 완벽하게 2열 배치 */
   grid-template-columns: repeat(2, 1fr); 
   gap: 30px;
   width: 100%;
 }
 
-/* 태블릿이나 모바일 대응을 위한 미디어 쿼리 (선택사항) */
+.no-result {
+  grid-column: span 2;
+  text-align: center;
+  padding: 80px 0;
+  color: #999;
+  font-size: 16px;
+  font-weight: 500;
+}
+
 @media (max-width: 850px) {
   .contest-grid {
     grid-template-columns: 1fr;
+  }
+  .no-result {
+    grid-column: span 1;
   }
 }

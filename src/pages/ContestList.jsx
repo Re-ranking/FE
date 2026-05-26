@@ -1,72 +1,124 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ContestList.css';
 import Navbar from '../components/Navbar';
 import SearchBar from '../components/SearchBar';
 import ContestCard from '../components/ContestCard';
-import poster1 from '../assets/images/purple-icon.png'; 
+import poster01 from '../assets/images/contest-poster-01.png'; 
+import poster02 from '../assets/images/contest-poster-02.png'; 
+import poster03 from '../assets/images/contest-poster-03.png'; 
+import poster04 from '../assets/images/contest-poster-04.png'; 
+import poster05 from '../assets/images/contest-poster-05.png'; 
+import poster06 from '../assets/images/contest-poster-06.png';
+
+// import axios from 'axios'; 
 
 function ContestList() {
-  const [isLoggedIn] = useState(true); // Navbar 로그아웃 상태 테스트용
+  const [isLoggedIn] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState('All');
 
-  // 피그마 시안 기준 더미 데이터 6개 설정
-  const [contests] = useState([
+  // contests 상태 관리
+  // 지금은 화면 테스트를 위해 더미 데이터 넣어둠
+  const [contests, setContests] = useState([
     {
       title: "제 6회 K-디지털 트레이닝 해커톤",
-      tags: ["# 기획/아이디어", "# 논문/리포트"],
+      tags: ["기획/아이디어", "논문/리포트", "웹/모바일/IT", "게임/소프트웨어"],
       target: "대학생",
-      posterImg: poster1
+      posterImg: poster01
     },
     {
       title: "제7회 공군 창의·혁신 아이디어 공모 해커톤",
-      tags: ["# Python", "# ML"],
-      members: "3명",
-      difficulty: "중",
-      posterImg: poster1
+      tags: ["과학/공학", "게임/소프트웨어", "기획/아이디어"],
+      target: "대학생/일반인",
+      posterImg: poster02
     },
     {
-      title: "CYBER SECURITY 해커톤",
-      tags: ["# Python", "# ML"],
-      members: "3명",
-      difficulty: "중",
-      posterImg: poster1
+      title: "CYBER SECURITY 융합 보안 경진대회",
+      tags: ["웹/모바일/IT", "과학/공학", "대외활동/서포터즈"],
+      target: "대학원생/직장인",
+      posterImg: poster03
     },
     {
-      title: "Us:Code 해커톤 in 의성",
-      tags: ["# Python", "# ML"],
-      members: "4명",
-      difficulty: "중",
-      posterImg: poster1
+      title: "Us:Code 융복합 챌린지 in 의성",
+      tags: ["웹/모바일/IT", "기획/아이디어", "대외활동/서포터즈", "게임/소프트웨어", "과학/공학"],
+      target: "청년/대학생",
+      posterImg: poster04
     },
     {
-      title: "제7회 K-디지털 트레이닝 해커톤 공모전",
-      tags: ["# Python", "# ML"],
-      members: "3명",
-      difficulty: "중",
-      posterImg: poster1
+      title: "국방 소프트웨어 및 AI 매치업 공모전",
+      tags: ["게임/소프트웨어", "과학/공학"],
+      target: "구직자/대학생",
+      posterImg: poster05
     },
     {
-      title: "제3회 KISIA 정보보호 개발자 해커톤",
-      tags: ["# Python", "# ML"],
-      members: "3명",
-      difficulty: "중",
-      posterImg: poster1
+      title: "제3회 KISIA 정보보호 청년 인재 서포터즈",
+      tags: ["대외활동/서포터즈", "웹/모바일/IT", "기획/아이디어"],
+      target: "대학생",
+      posterImg: poster06
     }
   ]);
 
+  // 백엔드 API 호출 부분
+  useEffect(() => {
+    
+    /* [여기부터 주석 해제]
+    const getContestList = async () => {
+      try {
+        // 공모전 전체 조회 API URL
+        const response = await axios.get('백엔드_공모전_API_주소_작성');
+        
+        // 백엔드 데이터로 contests 상태 교
+        // response.data의 구조가 [{title, tags, target, posterImg}, ...] 기준
+        // 백엔드 데이터 보고 수정하기 !!!!!!!!!!!!!!!!!!
+        setContests(response.data); 
+        
+      } catch (error) {
+        console.error("공모전 데이터를 가져오는 중 오류가 발생했습니다:", error);
+      }
+    };
+
+    getContestList(); 
+    [여기까지 주석 해제] */
+    
+  }, []);
+
+
+  // 검색 기능 핸들러 
+  const handleSearch = (filter, keyword) => {
+    setSelectedFilter(filter);
+    setSearchTerm(keyword);
+  };
+
+  // 실시간 필터링 로직 
+  const filteredContests = contests.filter((contest) => {
+    const keyword = searchTerm.toLowerCase().trim();
+    if (!keyword) return true; 
+
+    if (selectedFilter === 'All') {
+      return contest.title.toLowerCase().includes(keyword);
+    } else if (selectedFilter === '분야') {
+      return contest.tags.some(tag => tag.toLowerCase().includes(keyword));
+    } else if (selectedFilter === '대상') {
+      return contest.target.toLowerCase().includes(keyword);
+    }
+    return true;
+  });
+
   return (
     <div className="contest-list-page">
-      {/* 이전에 만들어둔 내비게이션 바 재사용 */}
       <Navbar isLoggedIn={isLoggedIn} />
       
       <main className="contest-list-content">
-        {/* 검색바 컴포넌트 */}
-        <SearchBar />
+        <SearchBar onSearch={handleSearch} />
         
-        {/* 공모전 2열 그리드 리스트 */}
         <div className="contest-grid">
-          {contests.map((contest, index) => (
-            <ContestCard key={index} contest={contest} />
-          ))}
+          {filteredContests.length > 0 ? (
+            filteredContests.map((contest, index) => (
+              <ContestCard key={index} contest={contest} />
+            ))
+          ) : (
+            <div className="no-result">검색 결과가 없습니다.</div>
+          )}
         </div>
       </main>
     </div>
