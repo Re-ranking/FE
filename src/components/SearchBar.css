@@ -1,0 +1,104 @@
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 580px;
+  height: 54px;
+  /* 검은 테두리 대신 세련된 연한 보라/회색 테두리와 그림자 적용 */
+  border: 1.5px solid #000;
+  border-radius: 30px;
+  background: #FFF;
+  padding: 0 24px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(113, 118, 240, 0.06);
+  transition: all 0.3s ease;
+}
+
+.filter-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4A4A6A;
+  min-width: 55px;
+  user-select: none;
+}
+
+.arrow-icon {
+  font-size: 9px;
+  color: #7176F0;
+  transition: transform 0.2s;
+}
+
+.search-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #000;
+  margin: 0 16px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #B0B0C3;
+}
+
+.search-submit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.2s ease;
+}
+
+.search-submit-btn:hover {
+  transform: scale(1.1);
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  width: 110px;
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 10;
+  text-align: left;
+}
+
+.filter-dropdown-menu li {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-dropdown-menu li:hover {
+  background: #F5F5FA;
+  color: #7176F0;
+  font-weight: 600;
+}
