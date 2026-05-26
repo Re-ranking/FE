@@ -150,7 +150,7 @@
   background: #E8E9FF; 
 }
 
-.recommend-btn {
+.contest-detail-page .recommend-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -167,7 +167,7 @@
   transition: background 0.15s ease-in-out;
 }
 
-.recommend-btn:hover {
+.contest-detail-page .recommend-btn:hover {
   background: #5A5FE0; 
 }
 
