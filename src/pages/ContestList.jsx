@@ -18,7 +18,6 @@ function ContestList() {
   const [selectedFilter, setSelectedFilter] = useState('All');
 
   // contests 상태 관리
-  // 지금은 화면 테스트를 위해 더미 데이터 넣어둠
   const [contests, setContests] = useState([
     {
       title: "제 6회 K-디지털 트레이닝 해커톤",
@@ -60,18 +59,11 @@ function ContestList() {
 
   // 백엔드 API 호출 부분
   useEffect(() => {
-    
     /* [여기부터 주석 해제]
     const getContestList = async () => {
       try {
-        // 공모전 전체 조회 API URL
         const response = await axios.get('백엔드_공모전_API_주소_작성');
-        
-        // 백엔드 데이터로 contests 상태 교
-        // response.data의 구조가 [{title, tags, target, posterImg}, ...] 기준
-        // 백엔드 데이터 보고 수정하기 !!!!!!!!!!!!!!!!!!
         setContests(response.data); 
-        
       } catch (error) {
         console.error("공모전 데이터를 가져오는 중 오류가 발생했습니다:", error);
       }
@@ -79,9 +71,7 @@ function ContestList() {
 
     getContestList(); 
     [여기까지 주석 해제] */
-    
   }, []);
-
 
   // 검색 기능 핸들러 
   const handleSearch = (filter, keyword) => {
@@ -114,7 +104,8 @@ function ContestList() {
         <div className="contest-grid">
           {filteredContests.length > 0 ? (
             filteredContests.map((contest, index) => (
-              <ContestCard key={index} contest={contest} />
+              // 상세페이지 주소로 이동
+              <ContestCard key={index} contest={contest} id={index} />
             ))
           ) : (
             <div className="no-result">검색 결과가 없습니다.</div>

@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import CVupload from './pages/CVupload';
 import MainPage from './pages/MainPage';  
 import ContestList from './pages/ContestList';   
+import ContestDetail from './pages/ContestDetail';
 import './App.css';
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <Route path="/CVupload" element={<CVupload />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/contests" element={<ContestList />} />
+        {/* 동적라우팅 */}
+        <Route path="/contests/:id" element={<ContestDetail />} />
       </Routes>
     </BrowserRouter>
   );
