@@ -72,7 +72,7 @@ function MainPage() {
                 역량 보완성부터 협업 성향까지 고려한 <br />완벽한 팀 빌딩
               </p>
               <img src={mainIcon2} alt="팀원 추천 아이콘" className="main-icon" />
-              <button className="recommend-btn" onClick={() => navigate('/Teamrecommend')}>
+              <button className="recommend-btn" onClick={() => navigate('/contest-recommend')}>
                 팀원 추천받기
               </button>
             </div>
