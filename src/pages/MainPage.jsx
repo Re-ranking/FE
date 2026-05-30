@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ 페이지 이동을 위한 hook
+import { useNavigate } from 'react-router-dom'; 
 import Navbar from '../components/Navbar';
 import './MainPage.css';
 import mainIcon1 from '../assets/images/main-icon1.png'; 
@@ -9,8 +9,7 @@ function MainPage() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
-  /* [백엔드 통신 가이드]
-     페이지 로드 시 토큰 존재 여부를 확인하여 로그인 상태를 유지하는 로직이 들어갈 자리입니다.
+  /* 페이지 로드 시 토큰 존재 여부를 확인하여 로그인 상태를 유지하는 로직이 들어갈 예정
   */
   useEffect(() => {
     // 예시: const token = localStorage.getItem('token');
@@ -20,7 +19,7 @@ function MainPage() {
   // 메인 버튼 클릭 핸들러
   const handleMainButtonClick = () => {
     if (isLoggedIn) {
-      navigate('/competitions'); // 로그인 시: 공모전 목록 페이지로 이동 (예정)
+      navigate('/contests'); // 로그인 시: 공모전 목록 페이지로 이동 (예정)
     } else {
       navigate('/register');      // 비로그인 시: 회원가입 페이지로 이동
     }
@@ -73,7 +72,7 @@ function MainPage() {
                 역량 보완성부터 협업 성향까지 고려한 <br />완벽한 팀 빌딩
               </p>
               <img src={mainIcon2} alt="팀원 추천 아이콘" className="main-icon" />
-              <button className="recommend-btn" onClick={() => navigate('/team-matching')}>
+              <button className="recommend-btn" onClick={() => navigate('/contest-recommend')}>
                 팀원 추천받기
               </button>
             </div>

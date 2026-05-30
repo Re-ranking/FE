@@ -1,0 +1,32 @@
+.recommendation-page {
+  background-color: #FAFAFB; /* 연한 회색 배경으로 카드를 돋보이게 함 */
+  min-height: 100vh;
+}
+
+.recommendation-content {
+  max-width: 1200px; /* 시안 비율에 맞게 조절 */
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.competition-title {
+  font-size: 56px;
+  color: #656ED3;
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 100px;
+  letter-spacing: -1px;
+}
+
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3열 고정 */
+  gap: 35px;
+}
+
+/* 모바일 대응 (선택사항) */
+@media (max-width: 900px) {
+  .member-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
