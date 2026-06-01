@@ -8,19 +8,18 @@
 .main-content {
   display: flex;
   min-height: calc(100vh - 70px); 
-
   align-items: stretch; 
 }
 
 /* --- [왼쪽 섹션] --- */
 .hero-left {
   flex: 1.2;
+  /* 원래의 고정 그라데이션 배경으로 복구 */
   background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
   
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 40px;
 }
 
@@ -29,6 +28,7 @@
   max-width: 550px;
 }
 
+/* deco-lines 이퀄라이저 애니메이션 */
 .deco-lines {
   display: flex;
   justify-content: center;
@@ -39,14 +39,33 @@
 
 .deco-lines span {
   width: 2.5px;
-  background-color: #222;
+  background-color: #222222;
   display: inline-block;
   border-radius: 1px;
+  /* 부드럽게 위아래로 scale되는 애니메이션 추가 */
+  animation: barBounce 1.2s ease-in-out infinite alternate;
 }
 
-.deco-lines span:nth-child(1) { height: 40px; }
-.deco-lines span:nth-child(2) { height: 120px; background-color: #444; }
-.deco-lines span:nth-child(3) { height: 65px; }
+/* 각 막대별 원래 높이 유지 및 박자 엇갈리게 설정 */
+.deco-lines span:nth-child(1) { 
+  height: 40px; 
+  animation-delay: 0.1s;
+}
+.deco-lines span:nth-child(2) { 
+  height: 120px; 
+  background-color: #444444; 
+  animation-delay: 0.4s;
+}
+.deco-lines span:nth-child(3) { 
+  height: 65px; 
+  animation-delay: 0.2s;
+}
+
+/* 데코 라인 바운스 키프레임 */
+@keyframes barBounce {
+  0% { transform: scaleY(0.8); }
+  100% { transform: scaleY(1.2); }
+}
 
 .hero-title {
   font-size: 2.2rem;
