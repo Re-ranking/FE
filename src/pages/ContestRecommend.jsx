@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import './ContestRecommend.css'; // 메인 페이지 전용 CSS
+import './ContestRecommend.css'; 
 import Navbar from '../components/Navbar';
 import ContestCard from '../components/ContestRecommendCard'; 
 import defaultProfile from '../assets/images/yeonwoo.jpg';
@@ -11,7 +11,7 @@ import poster06 from '../assets/images/contest-poster-06.png';
 const STRENGTH_COLORS = ['#471E8F', '#8E6CEF', '#C2B2FC', '#E6E1FE'];
 const WEAKNESS_COLORS = ['#D83EAD', '#EFA1DC', '#F7C8EB', '#FCEAF7'];
 
-function ContestRecommendPage() { // 🌟 이름 겹침 방지를 위해 컴포넌트명 변경
+function ContestRecommendPage() { 
   const [showResults, setShowResults] = useState(false);
 
   const [cvData, setCvData] = useState({
@@ -56,8 +56,12 @@ function ContestRecommendPage() { // 🌟 이름 겹침 방지를 위해 컴포�
     }
   ];
 
+  // 공모전추천 -> 팀원추천 로직 확인용 
+  // 공모전 추천받기 버튼 누르면 내비게이션 바에 저장
   const handleRecommendClick = () => {
     setShowResults(true);
+    // 클릭 시 localStorage에 완료 표시 저장
+    localStorage.setItem('contestRecommended', 'true');
   };
 
   return (
@@ -191,7 +195,6 @@ function ContestRecommendPage() { // 🌟 이름 겹침 방지를 위해 컴포�
             <h2 className="section-title">공모전 추천 결과</h2>
             <div className="contest-cards-grid">
               {recommendedContests.map((contest, index) => (
-                /* 🌟 여기서 이름 변경된 카드 컴포넌트를 사용합니다 */
                 <ContestCard
                   key={index}
                   title={contest.title}
