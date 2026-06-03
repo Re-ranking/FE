@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // 🌟 백엔드 로그인 상태 유지를 위해 useEffect 추가
+import React, { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 import './Navbar.css';
 import purpleIcon from '../assets/images/purple-icon.png'; 
@@ -7,67 +7,79 @@ import AuthModal from './AuthModal';
 function Navbar() { 
   const navigate = useNavigate(); 
 
-  // 모달창 열림/닫힘 제어용 스위치 상태
+  // 모달창 제어 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  // 🌟 임시 로그인 상태값 (테스트를 위해 true/false로 바꿔가며 확인해보세요!)
-  const [isLoggedIn, setIsLoggedIn] = useState(true); 
+  const [modalMessage, setModalMessage] = useState('');
+
+  // 임시 로그인 상태값 (테스트용 true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   /* =========================================================================
-     [백엔드 연동 포인트 1 - 유저 로그인 상태 유지 각주]
-     - 유저가 브라우저를 새로고침 하더라도 로그인 상태가 유지되어야 합니다.
-     - 렌더링 시점에 브라우저(localStorage 등)에 토큰이 있는지 확인하거나,
-       백엔드의 인증 확인 API(예: axios.get('/api/auth/status'))를 호출하여 
-       setIsLoggedIn(true)로 상태를 변경해주는 로직이 여기에 들어가야 합니다.
+    [ 프론트 테스트용 핵심 더미 스위치!]
+     - 아래 변수값을 바꿔가며 모달이 잘 뜨는지 확인
+     - false : 공모전 추천을 안 받은 상태 ➡️ "공모전 추천 먼저..." 모달 뜸!
+     - true  : 공모전 추천을 이미 받은 상태 ➡️ 모달 없이 팀원 추천 페이지로 바로 이동!
+     ========================================================================= */
+  const isContestRecommendedDummy = false; // 지금 false니까 모달이 무조건 뜬다.
+
+
+  /* =========================================================================
+     [백엔드 연동 포인트 1 - 유저 로그인 상태 유지]
      ========================================================================= */
   useEffect(() => {
-    // 예시: const token = localStorage.getItem('token');
-    // if (token) setIsLoggedIn(true);
+    const token = localStorage.getItem('token');
+    if (token) setIsLoggedIn(true);
   }, []);
 
   // 로그아웃 및 로그인 버튼 클릭 핸들러
   const handleAuthClick = () => {
     if (isLoggedIn) {
-      // ------------------------------------------------------
-      // [프론트엔드 테스트용 기능] 
-      // ------------------------------------------------------
       alert('로그아웃 되었습니다!');
-      setIsLoggedIn(false); // 테스트를 위해 프론트 상태를 로그아웃으로 변경
-      navigate('/main'); 
+      setIsLoggedIn(false); 
       
-      /* =========================================================================
-         [백엔드 연동 포인트 2 - 로그아웃 API 통신 각주]
-         - 단순히 alert만 띄우면 브라우저에 로그인 기록(토큰 등)이 남아있습니다.
-         - 여기에 백엔드 로그아웃 API를 호출하는 코드를 작성해야 합니다.
-         
-         예시 코드:
-         axios.post('/api/auth/logout')
-           .then(() => {
-              localStorage.removeItem('token'); // 내 컴퓨터에 저장된 토큰 삭제
-              setIsLoggedIn(false);             // 로그인 상태 꺼두기
-              navigate('/main');
-           })
-           .catch(err => console.error('로그아웃 실패:', err));
-         ========================================================================= */
+      // [백엔드 연동 시] 로그아웃할 때 서버 세션이나 토큰을 파기하는 곳
+      // localStorage.removeItem('token');
+      
+      navigate('/main'); 
     } else {
-      // 로그인 상태가 아닐 때 누르면 로그인 페이지로 이동
       navigate('/login'); 
     }
   };
 
-  // 비회원을 막아서고 모달을 띄우는 가드 핸들러 함수
+  // 비회원 및 선행 로직 막아서는 가드 핸들러 함수
   const handleProtectedMenuClick = (path) => {
-    /* =========================================================================
-       [백엔드 연동 포인트 3 - 접근 권한 제어 각주]
-       - 회원가입 시 CV를 필수로 제출하므로, 여기서는 오직 로그인 여부만 검사하면 됩니다.
-       - isLoggedIn 상태가 true라면 백엔드 DB에 이미 유저 정보와 CV 데이터가 매핑되어 
-         있는 것이 보장되므로 안심하고 통과시켜 줍니다.
-       ========================================================================= */
+    // 1단계 가드: 로그인 여부 확인
     if (!isLoggedIn) {
-      setIsModalOpen(true); // 비회원이면 모달 켜기!
-    } else {
-      navigate(path); // 회원이면 원래 가려던 페이지로 이동
+      setModalMessage('로그인이 필요한 서비스입니다.');
+      setIsModalOpen(true); 
+      return;
     }
+
+    // 2단계 가드: 팀원 추천 페이지 접근 시 선행 조건 확인
+    if (path === '/Teamrecommend') {
+      
+      /* =========================================================================
+         [백엔드 연동 포인트 2 - 공모전 추천 여부 DB 조회]
+         - 실제 백엔드 연동 시에는 로컬 스토리지나 더미 스위치 대신, 
+           로그인한 유저의 DB 데이터(예: user.hasRecommended)를 백엔드에서 받아와서 검증합니다.
+         
+         예시 코드:
+         axios.get('/api/user/status')
+           .then(res => {
+             if(!res.data.contestRecommended) { ... 모달 띄우기 ... }
+           })
+         ========================================================================= */
+
+      // 현재는 발표 및 테스트를 위해 위에 선언한 더미 스위치(isContestRecommendedDummy)를 바라봅니다.
+      if (!isContestRecommendedDummy) {
+        setModalMessage('공모전 추천을 먼저 받아주세요!');
+        setIsModalOpen(true);
+        return; // 페이지 이동 차단
+      }
+    }
+
+    // 조건 통과 시 페이지 이동
+    navigate(path);
   };
 
   return (
@@ -80,26 +92,24 @@ function Navbar() {
 
       <div className="navbar-center">
         <ul className="nav-menu">
-          {/* 비회원을 막아야 하는 메뉴들에 가드 함수 적용 */}
           <li onClick={() => handleProtectedMenuClick('/mypage')} style={{ cursor: 'pointer' }}>MYPAGE</li>
           <li onClick={() => handleProtectedMenuClick('/contest-recommend')} style={{ cursor: 'pointer' }}>공모전 추천 페이지</li>
           <li onClick={() => handleProtectedMenuClick('/Teamrecommend')} style={{ cursor: 'pointer' }}>팀원 추천 페이지</li>
-          
-          {/* 공모전 목록보기는 비회원도 구경할 수 있게 기본 원본 그대로 유지 */}
           <li onClick={() => navigate('/contests')} style={{ cursor: 'pointer' }}>공모전 목록보기</li>
         </ul>
       </div>
 
       <div className="navbar-right">
-        <button 
-          className="login-btn" 
-          onClick={handleAuthClick}
-        >
+        <button className="login-btn" onClick={handleAuthClick}>
           {isLoggedIn ? "LOGOUT" : "LOGIN"}
         </button>
       </div>
 
-      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AuthModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        message={modalMessage} 
+      />
     </nav>
   );
 }
