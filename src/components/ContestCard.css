@@ -1,0 +1,114 @@
+.contest-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contest-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(113, 118, 240, 0.08); /* 브랜드 컬러가 섞인 은은한 그림자 */
+  border-color: #E2E2EC;
+}
+
+.poster-wrapper {
+  width: 140px;
+  height: 190px;
+  border-radius: 16px; /* 조금 더 둥글게 교체 */
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #f5f5f5;
+}
+
+.poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contest-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  position: relative;
+}
+
+.contest-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2D2D3F;
+  margin: 0 0 10px 0;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.contest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+/* 태그를 은은한 배경색이 있는 뱃지 스타일로 변경해 세련미 추가 */
+.contest-tag {
+  font-size: 12px;
+  color: #7176F0;
+  background-color: #F0F1FF;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.contest-details {
+  font-size: 14px;
+  color: #555566;
+  text-align: left;
+  margin-bottom: auto; 
+  width: 100%;
+}
+
+.contest-details p {
+  margin: 6px 0;
+}
+
+/* 텍스트 가독성을 높이기 위한 라벨 스타일링 추가 */
+.detail-label {
+  color: #9494A6;
+  font-weight: 500;
+  margin-right: 6px;
+}
+
+.detail-divider {
+  color: #E2E2EC;
+  margin: 0 6px;
+}
+
+.detail-btn {
+  align-self: flex-end; 
+  background: #7176F0; 
+  border: none;       
+  color: #FFFFFF;      
+  padding: 8px 24px;   
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(113, 118, 240, 0.15); 
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.detail-btn:hover {
+  background: #5A5FE0; 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 16px rgba(113, 118, 240, 0.3); 
+}
+
+.detail-btn:active {
+  transform: translateY(0); 
+  box-shadow: 0 2px 8px rgba(113, 118, 240, 0.2);
+}

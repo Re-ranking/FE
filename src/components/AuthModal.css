@@ -1,0 +1,82 @@
+/* 1. 화면 전체를 강제로 완전히 덮어버리는 레이어 */
+.modal-overlay {
+  position: fixed;   /* 🌟 핵심: 스크롤과 상관없이 화면에 박제 */
+  top: 0;
+  left: 0;
+  width: 100vw;      /* 화면 가로 전체 */
+  height: 100vh;     /* 화면 세로 전체 */
+  background-color: rgba(0, 0, 0, 0.4); /* 뒷배경 어둡게 */
+  
+  /* 내비게이션 바를 포함한 웹사이트의 모든 요소보다 무조건 위로 배치 */
+  z-index: 99999 !important; 
+  
+  /* 내부 정중앙 정렬을 강제 */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* 2. 피그마 디자인 본체 (둥근 흰색 카드) */
+.modal-box {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 500px;         /* 피그마 비율에 맞는 적당한 가로길이 */
+  padding: 60px 40px 50px 40px; /* 내부 여백 넉넉하게 */
+  border-radius: 32px;      /* 피그마 특유의 둥글둥글한 모서리 */
+  box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.18); /* 부드럽고 고급진 그림자 효과 */
+  
+  /* 내비게이션 바 스타일의 영향을 받지 않도록 초기화 */
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 3. 토끼 로고 감싸는 박스 */
+.modal-logo-container {
+  width: 100%;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 4. 실제 토끼 이미지 */
+.modal-rabbit-logo {
+  width: 60px;             /* 피그마와 유사한 큼직한 존재감 */
+  height: auto;
+  object-fit: contain;
+}
+
+/* 5. "회원가입 후 이용해주세요" 타이틀 */
+.modal-message {
+  font-size: 1.7.rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 35px 0;       
+  letter-spacing: -0.5px;
+  font-family: sans-serif;
+}
+
+/* 6. 시크한 블랙 확인 버튼 */
+.modal-confirm-btn {
+  background-color: #000000;
+  color: #ffffff;
+  width: 100%;
+  max-width: 340px;         /* 피그마처럼 카드 너비보다 살짝 작게 설정 */
+  height: 58px;             /* 두툼하고 안정감 있는 높이 */
+  border: none;
+  border-radius: 16px;      /* 버튼도 부드러운 라운딩 */
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 버튼 호버 효과 */
+.modal-confirm-btn:hover {
+  background-color: #222222;
+  transform: translateY(-2px); /* 살짝 떠오르는 느낌 */
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}

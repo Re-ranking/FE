@@ -1,0 +1,299 @@
+/* 브라우저 기본 여백 제거 (네비바가 화면 끝까지 닿게 밀어주는 역할) */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.recommend-page-container {
+  background-color: #f9f9f9;
+  min-height: calc(100vh - 80px); /* 네비바 높이를 고려한 반응형 높이 설정 */
+  padding: 50px 20px;            /* 상단 여백을 주어 프로필 카드가 자연스럽게 내려오도록 설정 */
+  font-family: 'Pretendard', sans-serif;
+  box-sizing: border-box;
+}
+
+.profile-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.profile-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.profile-left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.user-profile-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start; /* 이름, 학교, 학과 왼쪽 정렬 */
+}
+
+.user-name-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #222;
+  text-align: left;
+}
+
+.user-school-text {
+  font-size: 0.95rem;
+  color: #777;
+  margin: 0;
+  text-align: left;
+}
+
+.one-liner-box {
+  background-color: #E6E6FF; 
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin-top: 10px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.profile-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.domain-title {
+  font-weight: 700;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.domain-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.domain-tag {
+  background-color: #F0EDFF;
+  color: #000;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cv-analysis-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #6255A5; 
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 30px;
+  align-items: center;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.chart-item {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: flex-start;
+}
+
+.recharts-wrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.recharts-donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 86px;
+  height: 86px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #222;
+  pointer-events: none; 
+}
+
+.chart-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  align-items: flex-start; /* 그래프 옆 라벨 왼쪽 정렬 */
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.table-container {
+  width: 100%;
+}
+
+.analysis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.analysis-table th {
+  color: #666;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.analysis-table td {
+  padding: 13px 6px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 표 내부 첫 번째 열(항목 라벨) 왼쪽 정렬 추가 */
+.analysis-table th:first-child,
+.analysis-table td:first-child {
+  text-align: left;
+  padding-left: 15px;
+}
+
+.analysis-table tbody tr {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.table-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.plus-text { color: #5136FF; font-weight: 700 !important; }
+.minus-text { color: #FF5A92; font-weight: 700 !important; }
+
+.action-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.recommend-trigger-btn {
+  background-color: #EAE6FF;
+  color: #000;
+  border: none;
+  padding: 16px 50px;
+  font-size: 1.15rem;
+  font-weight: 500;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(112, 89, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.recommend-trigger-btn:hover {
+  background-color: #DDD6FF;
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   공모전 추천 결과 그리드 레이아웃
+========================================== */
+.result-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 60px auto 0 auto;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.contest-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
