@@ -19,12 +19,8 @@ function App() {
         <Route path="/CVupload" element={<CVupload />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/Teamrecommend" element={<TeamRecommendation />} />
-        
-        {/* 🌟 2. 내비게이션 바 링크와 매칭되는 공모전 추천 페이지 라우터 등록 */}
         <Route path="/contest-recommend" element={<ContestRecommend />} />
-        
         <Route path="/contests" element={<ContestList />} />
-        {/* 동적라우팅 */}
         <Route path="/contests/:id" element={<ContestDetail />} />
       </Routes>
     </BrowserRouter>
