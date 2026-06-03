@@ -1,3 +1,8 @@
+/* =========================================================================
+   [MainPage 스타일시트 - 오른쪽 영역 원본 복구 버전]
+   - 왼쪽의 애니메이션 및 가독성 디테일은 유지하고, 오른쪽 영역은 원본 디자인으로 롤백했습니다.
+   ========================================================================= */
+
 /* 전체 컨테이너 */
 .main-container {
   width: 100%;
@@ -14,9 +19,8 @@
 /* --- [왼쪽 섹션] --- */
 .hero-left {
   flex: 1.2;
-  /* 원래의 고정 그라데이션 배경으로 복구 */
+  /* 부드러운 고정 그라데이션 배경 */
   background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
-  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,11 +46,10 @@
   background-color: #222222;
   display: inline-block;
   border-radius: 1px;
-  /* 부드럽게 위아래로 scale되는 애니메이션 추가 */
   animation: barBounce 1.2s ease-in-out infinite alternate;
 }
 
-/* 각 막대별 원래 높이 유지 및 박자 엇갈리게 설정 */
+/* 각 막대별 원래 높이 및 박자 설정 */
 .deco-lines span:nth-child(1) { 
   height: 40px; 
   animation-delay: 0.1s;
@@ -101,15 +104,13 @@
   transform: translateY(-2px);
 }
 
-/* --- [오른쪽 섹션] --- */
+/* --- [오른쪽 섹션 - 🌟 원본 디자인 복구 구역] --- */
 .hero-right {
   flex: 0.8;
   background-color: #ffffff;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 20px;
 }
 
@@ -117,11 +118,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center; 
-
-  gap: 100px;
+  gap: 100px; /* 기존의 여유로운 간격 복구 */
   width: 100%;
   max-width: 450px;
-
   height: 100%; 
 }
 
@@ -131,6 +130,18 @@
   align-items: center;
   justify-content: center; 
   text-align: center;
+  /* 테두리나 박스 배경 없이 깔끔했던 원본 형태로 롤백 */
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* 마우스 호버 시에도 오른쪽 구역은 과도한 변화 없이 부드러운 위치 이동만 유지 */
+.recommend-section:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .recommend-title {
@@ -153,8 +164,17 @@
   height: auto;
   margin-bottom: 25px;
   object-fit: contain;
+  background-color: transparent; /* 배경 링 제거 */
+  padding: 0;
+  border-radius: 0;
 }
 
+/* 호버 시 아이콘 회전 효과 제거 */
+.recommend-section:hover .main-icon {
+  transform: none;
+}
+
+/* 원래의 이쁜 연보라색 버튼 스펙으로 복구 */
 .recommend-btn {
   background-color: #b2b8f9;
   color: #000;
@@ -170,5 +190,7 @@
 
 .recommend-btn:hover {
   background-color: #9FA5E6;
+  color: #000;
+  border-color: #9FA5E6;
   transform: translateY(-2px);
 }
