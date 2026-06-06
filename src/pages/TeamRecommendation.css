@@ -1,10 +1,18 @@
 .recommendation-page {
-  background-color: #FAFAFB; /* 연한 회색 배경으로 카드를 돋보이게 함 */
+  background-color: #f8fafc; 
+  background-image: 
+    linear-gradient(rgba(101, 110, 211, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101, 110, 211, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 15% 20%, rgba(203, 198, 255, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(242, 227, 255, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(226, 232, 240, 0.4) 0%, transparent 60%);
+  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed; 
   min-height: 100vh;
 }
 
 .recommendation-content {
-  max-width: 1200px; /* 시안 비율에 맞게 조절 */
+  max-width: 1200px; 
   margin: 0 auto;
   padding: 80px 20px;
 }
@@ -13,20 +21,37 @@
   font-size: 56px;
   color: #656ED3;
   text-align: center;
-  font-weight: 800;
+  font-weight: 600;
   margin-bottom: 100px;
   letter-spacing: -1px;
 }
 
 .member-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3열 고정 */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 35px;
 }
 
-/* 모바일 대응 (선택사항) */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+  .competition-title {
+    font-size: 42px;
+    margin-bottom: 70px;
+  }
   .member-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (max-width: 650px) {
+  .recommendation-content {
+    padding: 50px 20px;
+  }
+  .competition-title {
+    font-size: 32px;
+    margin-bottom: 50px;
+  }
+  .member-grid {
+    grid-template-columns: 1fr;
   }
 }

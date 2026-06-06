@@ -1,11 +1,9 @@
-/* ✅ 로그인과 동일한 변수 사용 */
 :root {
   --primary-color: #696db5;
   --text-color: #1A1A1A;
   --bg-gradient: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
 }
 
-/* ✅ 전체 컨테이너 */
 .register-container {
   display: flex;
   justify-content: center;
@@ -17,10 +15,9 @@
   box-sizing: border-box;
 }
 
-/* ✅ 카드 */
 .register-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 540px;
   min-height: 750px; /* ✅ 로그인보다 살짝 크게 */
 
   border-radius: 25px;

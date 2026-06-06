@@ -1,39 +1,36 @@
-/* 1. 배경 컨테이너 */
 .cv-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
+  background: linear-gradient(180deg, #E2DFFF 0%, #FFF1F5 100%); 
   margin: 0;
-  padding: 20px;
+  padding: 40px;
   box-sizing: border-box;
 }
 
-/* 2. 카드와 버튼을 하나로 묶는 영역 (가로 정렬의 기준) */
 .cv-content-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* 내부 요소(버튼)를 오른쪽 끝으로 밀어냄 */
-  gap: 20px;            /* 카드와 버튼 사이의 수직 간격 */
-  width: 700px;         /* 카드의 너비와 동일하게 설정 */
+  align-items: flex-end; 
+  gap: 20px;            
+  width: 100%;
+  max-width: 800px;         
 }
 
-/* 3. CV 업로드 카드 메인 */
 .cv-card {
-  width: 100%;          /* wrapper의 너비를 따라감 */
-  height: 450px;
+  width: 100%;          
+  height: 520px;        
   background: #fff;
   border-radius: 25px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 40px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.06);
+  padding: 50px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 
-/* 4. 헤더 영역 (아이콘 + 텍스트) */
 .cv-header {
   display: flex;
   align-items: center;
@@ -49,12 +46,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* 이미지가 원 밖으로 나가지 않게 */
+  overflow: hidden; 
   background-color: #fff;
 }
 
 .header-icon-img {
-  width: 60%;       /* 원 안에서 아이콘 크기 조절 */
+  width: 60%;       
   height: 60%;
   object-fit: contain;
 }
@@ -62,37 +59,35 @@
 .cv-header-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 자식 요소들을 왼쪽으로 정렬 */
-  text-align: left;        /* 텍스트 자체를 왼쪽 정렬 */
+  align-items: flex-start; 
+  text-align: left;        
 }
 
 .cv-header-text h2 {
   margin: 0;
   font-size: 26px;
   color: #656ED3;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .cv-header-text p {
-    margin: 4px 0 0 0;
+  margin: 4px 0 0 0;
   font-size: 20px;
   color: #A0A0A0;
   font-weight: 500;
 }
 
-/* 5. 구분선 */
 .cv-divider {
   width: 100%;
   border: 0;
-  border-top: 1px solid #000;
-  margin: 10px 0 30px 0;
+  border-top: 1px solid #E2E8F0; 
+  margin: 15px 0 35px 0;
 }
 
-/* 6. 점선 업로드 박스 */
 .upload-box {
-  flex: 1;             /* 남은 카드 높이를 꽉 채움 */
+  flex: 1;             
   width: 100%;
-  border: 2px dashed #000;
+  border: 2px dashed #B2B8F9; 
   border-radius: 20px;
   display: flex;
   justify-content: center;
@@ -104,24 +99,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 20px; 
+}
+
+.upload-info-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px; 
 }
 
 .upload-cloud-icon {
   font-size: 40px;
-  color: #888;
+  color: #656ED3; 
+  margin-bottom: 2px;
 }
 
 .upload-text {
   font-size: 18px;
   font-weight: 600;
   color: #444;
-  margin-bottom: 5px;
+  margin: 0;
 }
 
-/* 7. 파일 찾아보기 버튼 */
+.selected-file-name {
+  font-size: 14px;
+  color: #656ED3;
+  font-weight: 500;
+  margin: 0;
+}
+
 .file-find-btn {
-  border: 2px solid #000;
+  border: 1.5px solid #656ED3; 
   background: #EBEFFF;
   border-radius: 12px;
   padding: 10px 25px;
@@ -137,15 +146,17 @@
   transform: translateY(-1px);
 }
 
-.selected-file-name {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #656ED3;
-  font-weight: 500;
+.next-button-wrapper {
+  margin-top: 5px;
 }
 
-/* 8. NEXT 버튼 래퍼 */
-.next-button-wrapper {
-  /* 카드 바로 밑 오른쪽에 위치하게 됨 */
-  margin-top: 5px;
+@media (max-width: 850px) {
+  .cv-container {
+    padding: 20px;
+  }
+  .cv-card {
+    padding: 35px 25px;
+    height: auto;
+    min-height: 480px;
+  }
 }

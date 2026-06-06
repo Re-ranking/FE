@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import './ContestRecommend.css'; 
 import Navbar from '../components/Navbar';
@@ -12,13 +13,14 @@ const STRENGTH_COLORS = ['#471E8F', '#8E6CEF', '#C2B2FC', '#E6E1FE'];
 const WEAKNESS_COLORS = ['#D83EAD', '#EFA1DC', '#F7C8EB', '#FCEAF7'];
 
 function ContestRecommendPage() { 
+  const navigate = useNavigate(); 
   const [showResults, setShowResults] = useState(false);
 
   const [cvData, setCvData] = useState({
     name: "이연우",
     school: "숙명여자대학교",
     major: "인공지능공학부",
-    oneLiner: "데이터 기반 의사결정을 돕는 인사이트 도출과 사용자 행동 분석에 강점을 가진 데이터 분석가",
+    oneLiner: "데이터 기반 의사결정을 돕는 인사이트 도출และ 사용자 행동 분석에 강점을 가진 데이터 분석가",
     primaryDomains: ["핀테크 및 금융", "헬스케어", "웰빙"],
     profileImg: defaultProfile,
     strengths: [
@@ -56,12 +58,17 @@ function ContestRecommendPage() {
     }
   ];
 
-  // 공모전추천 -> 팀원추천 로직 확인용 
-  // 공모전 추천받기 버튼 누르면 내비게이션 바에 저장
   const handleRecommendClick = () => {
     setShowResults(true);
-    // 클릭 시 localStorage에 완료 표시 저장
     localStorage.setItem('contestRecommended', 'true');
+  };
+
+  /**
+   * 팀원 추천 페이지 이동 핸들러
+   * - 프로젝트의 라우터 구조에 맞는 경로(ex: /team-recommend)로 수정하여 사용하세요.
+   */
+  const handleTeamRecommendClick = () => {
+    navigate('/Teamrecommend'); 
   };
 
   return (
@@ -69,7 +76,6 @@ function ContestRecommendPage() {
       <Navbar isLoggedIn={true} />
       
       <div className="recommend-page-container">
-        {/* 프로필 섹션 */}
         <section className="profile-section">
           <div className="profile-card">
             <div className="profile-left">
@@ -92,13 +98,11 @@ function ContestRecommendPage() {
           </div>
         </section>
 
-        {/* CV 분석 섹션 */}
         <section className="cv-analysis-section">
           <h2 className="section-title">CV 분석</h2>
           
           <div className="analysis-grid">
             <div className="charts-container">
-              {/* 강점 차트 */}
               <div className="chart-item">
                 <div className="recharts-wrapper">
                   <ResponsiveContainer width="100%" height="100%">
@@ -123,7 +127,6 @@ function ContestRecommendPage() {
                 </ul>
               </div>
 
-              {/* 약점 차트 */}
               <div className="chart-item">
                 <div className="recharts-wrapper">
                   <ResponsiveContainer width="100%" height="100%">
@@ -149,7 +152,6 @@ function ContestRecommendPage() {
               </div>
             </div>
 
-            {/* 분석 표 */}
             <div className="table-container">
               <table className="analysis-table">
                 <thead>
@@ -189,7 +191,6 @@ function ContestRecommendPage() {
           </div>
         </section>
 
-        {/* 추천 결과 조건부 렌더링 */}
         {showResults && (
           <section className="result-section">
             <h2 className="section-title">공모전 추천 결과</h2>
@@ -203,6 +204,13 @@ function ContestRecommendPage() {
                   description={contest.description}
                 />
               ))}
+            </div>
+
+            {/* 🌟 공모전 결과 카드 그리드 하단에 컴포넌트 구조 통일하여 추가된 팀원 추천 영역 */}
+            <div className="action-button-container" style={{ marginTop: '60px' }}>
+              <button className="recommend-trigger-btn" onClick={handleTeamRecommendClick}>
+                팀원 추천 받기
+              </button>
             </div>
           </section>
         )}

@@ -6,8 +6,16 @@ html, body {
 }
 
 .recommend-page-container {
-  background-color: #f9f9f9;
-  min-height: calc(100vh - 80px); /* 네비바 높이를 고려한 반응형 높이 설정 */
+  background-color: #f8fafc; 
+  background-image: 
+    linear-gradient(rgba(101, 110, 211, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101, 110, 211, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 15% 20%, rgba(203, 198, 255, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(242, 227, 255, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(226, 232, 240, 0.4) 0%, transparent 60%);
+  background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed; 
+  min-height: 100vh;
   padding: 50px 20px;            /* 상단 여백을 주어 프로필 카드가 자연스럽게 내려오도록 설정 */
   font-family: 'Pretendard', sans-serif;
   box-sizing: border-box;
@@ -252,21 +260,32 @@ html, body {
 }
 
 .recommend-trigger-btn {
-  background-color: #EAE6FF;
-  color: #000;
+  background-color: #656ED3;
+  color: #ffffff;
   border: none;
-  padding: 16px 50px;
+  outline: none;
+  padding: 18px 65px;
   font-size: 1.15rem;
   font-weight: 500;
-  border-radius: 14px;
+  border-radius: 16px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(112, 89, 255, 0.1);
-  transition: all 0.2s ease;
+  letter-spacing: -0.3px;
+  position: relative;
+  
+  box-shadow: 
+    0px 1px 2px rgba(0, 0, 0, 0.05), 
+    inset 0px 1px 0px rgba(255, 255, 255, 0.2); 
+    
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .recommend-trigger-btn:hover {
-  background-color: #DDD6FF;
-  transform: translateY(-2px);
+  background-color: #4f56b5; 
+}
+
+.recommend-trigger-btn:active {
+  transform: scale(0.98); 
+  background-color: #3f4593;
 }
 
 /* ==========================================
