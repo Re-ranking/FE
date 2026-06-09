@@ -12,7 +12,7 @@ function Navbar() {
   const [modalMessage, setModalMessage] = useState('');
 
   // 임시 로그인 상태값 (테스트용 true)
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(true); 
 
   /* =========================================================================
     [ 프론트 테스트용 핵심 더미 스위치!]

@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
 import ProfileImage from '../components/ProfileImage';
 import './Register.css';
 
 function Register() {
+  const navigate = useNavigate(); 
+
   const [formData, setFormData] = useState({
     name: '',
     major: '',
     grade: '',
     email: '',
     password: '',
-    bio: '' // ✅ 한줄 소개(About me) 필드 추가
+    bio: '' // ✅ 한줄 소개(About me) 필드
   });
 
   const [profileImage, setProfileImage] = useState(null);
@@ -48,7 +51,8 @@ function Register() {
       }
 
       alert('회원가입 성공!');
-      window.location.href = '/cv-upload';
+      navigate('/cv-upload'); 
+      
     } catch (err) {
       console.error(err);
       alert('회원가입 중 오류 발생');
@@ -83,8 +87,6 @@ function Register() {
               <label className="input-label">Password:</label>
               <CommonInput type="password" name="password" value={formData.password} onChange={handleChange} />
             </div>
-
-            {/* ✅ About me: 한줄 소개 칸 추가 */}
             <div className="input-wrapper">
               <label className="input-label">About me:</label>
               <CommonInput 
@@ -100,7 +102,7 @@ function Register() {
             <CommonButton text="Register" type="submit" />
             <button 
               type="button" 
-              onClick={() => (window.location.href = '/CVupload')}
+              onClick={() => navigate('/cv-upload')} 
               style={{ 
                 marginTop: '10px', 
                 fontSize: '12px', 
@@ -116,7 +118,7 @@ function Register() {
 
             <p className="login-text">
               Already have an account?
-              <span className="login-link" onClick={() => (window.location.href = '/login')}>
+              <span className="login-link" onClick={() => navigate('/login')}>
                 Login
               </span>
             </p>

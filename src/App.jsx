@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/CVupload" element={<CVupload />} />
+        <Route path="/cv-upload" element={<CVupload />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/Teamrecommend" element={<TeamRecommendation />} />
         <Route path="/contest-recommend" element={<ContestRecommend />} />
