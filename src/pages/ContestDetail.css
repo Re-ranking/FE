@@ -135,24 +135,32 @@
   justify-content: flex-end;
   align-items: center; 
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
-.visit-btn {
+.visit-btn, .recommend-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #F4F5FF; 
-  border: none;
-  color: #5A5FE0;
-  padding: 0 28px;           
   height: 48px; 
+  padding: 0 24px;
   border-radius: 12px;       
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   box-sizing: border-box;
+  border: none;
+  margin: 0;
+  outline: none;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
   transition: background-color 0.2s ease, transform 0.1s ease; 
+}
+
+.visit-btn {
+  background: #F4F5FF; 
+  color: #5A5FE0;
 }
 
 .visit-btn:hover {
@@ -160,21 +168,9 @@
 }
 
 .recommend-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
   background-color: #656ED3;      
   color: #FFFFFF;
-  padding: 0 28px;           
-  height: 48px; 
-  border-radius: 12px;
-  font-size: 14px;           
-  font-weight: 600;         
-  cursor: pointer;
-  box-sizing: border-box;
   letter-spacing: -0.3px;
-  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .recommend-btn:hover {

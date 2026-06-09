@@ -75,11 +75,6 @@ function Register() {
             </div>
 
             <div className="input-wrapper">
-              <label className="input-label">Grade:</label>
-              <CommonInput name="grade" value={formData.grade} onChange={handleChange} />
-            </div>
-
-            <div className="input-wrapper">
               <label className="input-label">Email:</label>
               <CommonInput type="email" name="email" value={formData.email} onChange={handleChange} />
             </div>
