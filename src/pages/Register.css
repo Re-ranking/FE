@@ -18,26 +18,34 @@
 .register-card {
   width: 100%;
   max-width: 540px;
-  min-height: 750px; /* ✅ 로그인보다 살짝 크게 */
-
-  border-radius: 25px;
-  background: #FFF;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-
+  min-height: 750px;
+  border-radius: 32px; 
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.75) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.03),
+    0 20px 50px rgba(105, 109, 181, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: clamp(40px, 6vw, 100px) clamp(20px, 5vw, 60px);
   box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ✅ 프로필 영역 */
+.register-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 6px 40px rgba(0, 0, 0, 0.04),
+    0 24px 60px rgba(105, 109, 181, 0.12);
+}
+
 .profile-wrapper {
   margin-bottom: 50px;
 }
 
-/* ✅ 폼 */
 .register-form {
   display: flex;
   flex-direction: column;
@@ -45,13 +53,13 @@
   flex: 1;
 }
 
-/* ✅ 입력 영역 */
 .input-section {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* 로그인보다 살짝 좁게 */
+  gap: 10px;
   margin-bottom: 30px;
 }
+
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -67,8 +75,6 @@
   margin-left: 5px;
 }
 
-
-/* ✅ 하단 영역 */
 .bottom-section {
   margin-top: auto;
   display: flex;
@@ -78,8 +84,6 @@
   width: 100%;
 }
 
-
-/* ✅ 로그인 안내 텍스트 */
 .login-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
@@ -88,7 +92,6 @@
   text-align: center;
 }
 
-/* ✅ 로그인 링크 */
 .login-link {
   color: var(--primary-color);
   font-weight: 600;
@@ -102,10 +105,10 @@
   opacity: 0.8;
 }
 
-/* ✅ 모바일 대응 */
 @media (max-width: 480px) {
   .register-card {
-    border-radius: 18px;
+    border-radius: 24px;
+    padding: 40px 20px;
   }
 
   .login-text {

@@ -1,35 +1,37 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
 import ProfileImage from '../components/ProfileImage';
+import { register } from '../api/authAPI';  // authAPI에서 가져오기
 import './Register.css';
 
 function Register() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
     major: '',
-    grade: '',
     email: '',
     password: '',
-    bio: '' // ✅ 한줄 소개(About me) 필드
+    bio: ''
   });
-
   const [profileImage, setProfileImage] = useState(null);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
     try {
+      // FormData 조립 (multipart/form-data 전송용)
       const data = new FormData();
       Object.keys(formData).forEach((key) => {
         data.append(key, formData[key]);
@@ -38,24 +40,17 @@ function Register() {
         data.append('profileImage', profileImage);
       }
 
-      const response = await fetch('http://localhost:8080/register', {
-        method: 'POST',
-        body: data
-      });
+      // authAPI의 register 함수 호출
+      await register(data);
 
-      const result = await response.json();
-      if (!response.ok) throw new Error('서버 오류');
-      if (!result.success) {
-        alert(result.message);
-        return;
-      }
+      // 회원가입 성공 → CV 업로드 페이지로 이동
+      navigate('/cv-upload');
 
-      alert('회원가입 성공!');
-      navigate('/cv-upload'); 
-      
     } catch (err) {
-      console.error(err);
-      alert('회원가입 중 오류 발생');
+      const message = err.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+      setError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,11 +82,12 @@ function Register() {
               <label className="input-label">Password:</label>
               <CommonInput type="password" name="password" value={formData.password} onChange={handleChange} />
             </div>
+
             <div className="input-wrapper">
               <label className="input-label">About me:</label>
-              <CommonInput 
-                name="bio" 
-                value={formData.bio} 
+              <CommonInput
+                name="bio"
+                value={formData.bio}
                 onChange={handleChange}
                 placeholder="간단한 한 줄 소개를 적어주세요!"
               />
@@ -99,22 +95,17 @@ function Register() {
           </div>
 
           <div className="bottom-section">
-            <CommonButton text="Register" type="submit" />
-            <button 
-              type="button" 
-              onClick={() => navigate('/cv-upload')} 
-              style={{ 
-                marginTop: '10px', 
-                fontSize: '12px', 
-                color: '#999', 
-                background: 'none', 
-                border: 'none', 
-                cursor: 'pointer',
-                textDecoration: 'underline'
-              }}
-            >
-              (개발용) CV 업로드 페이지 미리보기
-            </button>
+            <CommonButton
+              text="Register"
+              type="submit"
+              disabled={isLoading}
+            />
+
+            {error && (
+              <p style={{ color: 'red', fontSize: '14px', margin: 0 }}>
+                {error}
+              </p>
+            )}
 
             <p className="login-text">
               Already have an account?
