@@ -134,6 +134,8 @@ function ContestList() {
           <div className="contest-grid">
             {filteredContests.length > 0 ? (
               filteredContests.map((contest, index) => (
+                // 변경 후
+               // <ContestCard key={contest.id} contest={contest} id={contest.id} />
                 <ContestCard key={index} contest={contest} id={index} />
               ))
             ) : (
