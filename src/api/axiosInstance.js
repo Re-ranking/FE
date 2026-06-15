@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
         if (!refreshToken) throw new Error('No refresh token');
 
         const { data } = await axios.post(
-          `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080'}/auth/refresh`,
+          `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/auth/refresh`,
           { refreshToken }
         );
 
