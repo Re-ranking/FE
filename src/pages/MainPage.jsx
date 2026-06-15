@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import Navbar from '../components/Navbar';
+import { useAuth } from '../hooks/useAuth';
 import './MainPage.css';
 import mainIcon1 from '../assets/images/main-icon1.png'; 
 import mainIcon2 from '../assets/images/main-icon2.png';
 
 function MainPage() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
-
-  useEffect(() => {
-  }, []);
+  const { isLoggedIn } = useAuth();
 
   const handleMainButtonClick = () => {
     if (isLoggedIn) {
@@ -22,7 +20,7 @@ function MainPage() {
 
   return (
     <div className="main-container">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
 
       <main className="main-content">
         <section className="hero-left">
