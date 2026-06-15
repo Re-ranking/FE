@@ -4,10 +4,12 @@ import './CVupload.css';
 import CommonButton from '../components/CommonButton';
 import defaultIcon from '../assets/images/profile-default.png';
 import uploadIcon from '../assets/images/upload-icon.png';
-import { uploadCV } from '../api/cvAPI'; // cvAPI 연결
+import { uploadCV } from '../api/cvAPI';
+import useModal from '../hooks/useModal.jsx'; // useModal 훅
 
 function CVupload() {
   const navigate = useNavigate();
+  const { openModal, ModalComponent } = useModal(); 
 
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
@@ -23,7 +25,7 @@ function CVupload() {
     if (!selectedFile) return;
 
     if (selectedFile.size > 5 * 1024 * 1024) {
-      alert('파일 크기는 5MB 이하만 가능합니다.');
+      openModal('파일 크기는 5MB 이하만 가능합니다.'); 
       return;
     }
 
@@ -33,7 +35,7 @@ function CVupload() {
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
     if (!allowedTypes.includes(selectedFile.type)) {
-      alert('PDF 또는 Word 파일만 업로드 가능합니다.');
+      openModal('PDF 또는 Word 파일만 업로드 가능합니다.'); 
       return;
     }
 
@@ -43,18 +45,17 @@ function CVupload() {
 
   const handleNext = async () => {
     if (!file) {
-      alert('CV를 업로드 해주세요!');
+      openModal('CV를 업로드 해주세요!'); 
       return;
     }
 
     setIsLoading(true);
     try {
-      // cvAPI의 uploadCV 호출
       await uploadCV(file);
       navigate('/main');
     } catch (err) {
       const message = err.response?.data?.message || 'CV 업로드 중 오류가 발생했습니다.';
-      alert(message);
+      openModal(message); 
     } finally {
       setIsLoading(false);
     }
@@ -92,29 +93,21 @@ function CVupload() {
                 style={{ display: 'none' }}
               />
 
-              <button
-                type="button"
-                className="file-find-btn"
-                onClick={handleFileButtonClick}
-              >
+              <button type="button" className="file-find-btn" onClick={handleFileButtonClick}>
                 파일 찾아보기
               </button>
 
-              {fileName && (
-                <p className="selected-file-name">{fileName}</p>
-              )}
+              {fileName && <p className="selected-file-name">{fileName}</p>}
             </div>
           </div>
         </div>
 
         <div className="next-button-wrapper">
-          <CommonButton
-            text={isLoading ? 'NEXT' : 'NEXT'}
-            onClick={handleNext}
-            disabled={isLoading}
-          />
+          <CommonButton text="NEXT" onClick={handleNext} disabled={isLoading} />
         </div>
       </div>
+
+      {ModalComponent}
     </div>
   );
 }
