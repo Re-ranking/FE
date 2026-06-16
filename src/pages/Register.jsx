@@ -20,6 +20,16 @@ function Register() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // ✅ 비밀번호 유효성 검사
+  const passwordRules = [
+    { label: '8자 이상', test: (pw) => pw.length >= 8 },
+    { label: '대문자 포함', test: (pw) => /[A-Z]/.test(pw) },
+    { label: '소문자 포함', test: (pw) => /[a-z]/.test(pw) },
+    { label: '숫자 포함', test: (pw) => /[0-9]/.test(pw) },
+    { label: '특수문자 ! 포함', test: (pw) => /[!]/.test(pw) },
+  ];
+  const isPasswordValid = passwordRules.every(rule => rule.test(formData.password));
+
   // 이메일 인증 관련 상태
   const [isCodeSent, setIsCodeSent] = useState(false);       // 인증번호 전송 여부
   const [code, setCode] = useState('');                       // 입력한 인증번호
@@ -92,6 +102,10 @@ function Register() {
     e.preventDefault();
     if (!isEmailVerified) {
       setError('이메일 인증을 완료해주세요.');
+      return;
+    }
+    if (!isPasswordValid) {
+      setError('비밀번호 조건을 확인해주세요.');
       return;
     }
     setError('');
@@ -185,6 +199,19 @@ function Register() {
             <div className="input-wrapper">
               <label className="input-label">Password:</label>
               <CommonInput type="password" name="password" value={formData.password} onChange={handleChange} />
+              {/* ✅ 비밀번호 조건 표시 */}
+              {formData.password && (
+                <div className="password-rules">
+                  {passwordRules.map((rule, idx) => (
+                    <span
+                      key={idx}
+                      className={`password-rule ${rule.test(formData.password) ? 'valid' : 'invalid'}`}
+                    >
+                      {rule.label}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="input-wrapper">
