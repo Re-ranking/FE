@@ -68,7 +68,11 @@ function ContestRecommendPage() {
    * - 프로젝트의 라우터 구조에 맞는 경로(ex: /team-recommend)로 수정하여 사용하세요.
    */
   const handleTeamRecommendClick = () => {
-    navigate('/Teamrecommend'); 
+    // 1위 공모전 id를 쿼리 파라미터로 전달
+    // 백엔드 연동 시 recommendedContests[0].id 사용
+    // 지금은 더미 index 0으로 테스트
+    const topContestId = recommendedContests[0]?.id ?? 0;
+    navigate(`/Teamrecommend?contestId=${topContestId}`);
   };
 
   return (
@@ -206,7 +210,7 @@ function ContestRecommendPage() {
               ))}
             </div>
 
-            {/* 🌟 공모전 결과 카드 그리드 하단에 컴포넌트 구조 통일하여 추가된 팀원 추천 영역 */}
+            {/* 공모전 결과 카드 그리드 하단에 컴포넌트 구조 통일하여 추가된 팀원 추천 영역 */}
             <div className="action-button-container" style={{ marginTop: '60px' }}>
               <button className="recommend-trigger-btn" onClick={handleTeamRecommendClick}>
                 팀원 추천 받기
