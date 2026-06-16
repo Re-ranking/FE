@@ -73,7 +73,7 @@ function ContestRecommendPage() {
 
   return (
     <>
-      <Navbar isLoggedIn={true} />
+      <Navbar />
       
       <div className="recommend-page-container">
         <section className="profile-section">
