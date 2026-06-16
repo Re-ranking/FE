@@ -105,6 +105,50 @@
   opacity: 0.8;
 }
 
+/* ✅ 이메일 인증 행 */
+.email-verify-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  align-items: center;
+}
+
+.email-verify-row input,
+.email-verify-row .common-input {
+  flex: 1;
+}
+
+/* ✅ 인증 버튼 */
+.verify-send-btn {
+  height: 48px;
+  padding: 0 18px;
+  background: #F0F1FF;
+  color: #656ED3;
+  border: 1.5px solid #C5C7F5;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  transition: all 0.15s ease;
+}
+
+.verify-send-btn:hover {
+  background: #656ED3;
+  color: #fff;
+  border-color: #656ED3;
+}
+
+.verify-send-btn:disabled {
+  background: #F5F5F8;
+  color: #B0B0C0;
+  border-color: #E8E8F0;
+  cursor: not-allowed;
+}
+
 @media (max-width: 480px) {
   .register-card {
     border-radius: 24px;

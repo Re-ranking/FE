@@ -72,7 +72,7 @@ function Login() {
           <div className="bottom-section">
             {/* ✅ 로딩 중엔 버튼 비활성화 */}
             <CommonButton
-              text={isLoading ? '로그인 중...' : 'Login'}
+              text="Login"
               type="submit"
               disabled={isLoading}
             />

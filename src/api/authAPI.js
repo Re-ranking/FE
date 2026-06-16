@@ -22,11 +22,10 @@ export const register = async (formData) => {
 export const login = async (credentials) => {
   const { data } = await axiosInstance.post('/api/auth/login', credentials);
 
-  // 백엔드에서 토큰을 어떻게 주느냐에 따라 아래 key 이름 조정 필요
-  // 예: data.accessToken / data.token / data.data.accessToken 등
+  // ✅ accessToken, refreshToken 둘 다 저장
   localStorage.setItem('accessToken', data.accessToken);
   localStorage.setItem('refreshToken', data.refreshToken);
-  localStorage.setItem('user', JSON.stringify(data.user));
+  if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
 
   return data;
 };
@@ -47,6 +46,17 @@ export const logout = async () => {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
   }
+};
+
+/**
+ * 이메일 인증번호 확인 API
+ * POST /api/auth/confirm
+ * 
+ * @param {{ email: string, code: string }} payload
+ */
+export const confirmEmail = async (email, code) => {
+  const { data } = await axiosInstance.post('/api/auth/confirm', { email, code });
+  return data;
 };
 
 /** 현재 로그인 유저 정보 반환 */
