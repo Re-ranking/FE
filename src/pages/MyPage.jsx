@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import useModal from '../hooks/useModal.jsx';
 import ProfileCard from '../components/ProfileCard';
+import TraitInputBanner from '../components/TraitInputBanner';
 import MyPageEditableItemSection from '../components/MyPageEditableItemSection';
 import MyPageCvAnalysisSection from '../components/MyPageCvAnalysisSection';
 import MyPageRecommendHistorySection from '../components/MyPageRecommendHistorySection';
@@ -229,6 +230,9 @@ function MyPage() {
           onAddTag={handleAddSkill}
           onRemoveTag={handleRemoveSkill}
         />
+
+        {/* ✅ 협업 성향 입력 안내 배너 - 클릭 시 성향입력 페이지로 이동 */}
+        <TraitInputBanner />
 
         {/* ✅ domains & projects & experience - 2열 그리드, 한 칸은 비워둠 */}
         <div className="section-card">
