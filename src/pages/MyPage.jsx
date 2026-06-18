@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import useModal from '../hooks/useModal.jsx';
-import MyPageProfileCard from '../components/MyPageProfileCard';
+import ProfileCard from '../components/ProfileCard';
 import MyPageEditableItemSection from '../components/MyPageEditableItemSection';
 import MyPageCvAnalysisSection from '../components/MyPageCvAnalysisSection';
 import MyPageRecommendHistorySection from '../components/MyPageRecommendHistorySection';
@@ -217,16 +217,17 @@ function MyPage() {
       <main className="mypage-content">
 
         {/* ✅ 프로필 카드 (이름, 한줄소개, 스킬) */}
-        <MyPageProfileCard
+        <ProfileCard
           name={current.name}
           profileImageUrl={profileImageUrl}
           defaultProfile={defaultProfile}
           oneLiner={current.oneLiner}
-          skills={current.skills}
+          tagLabel="Skills"
+          tags={current.skills}
           isEditing={isEditing}
           onOneLinerChange={(value) => setDraft(prev => ({ ...prev, oneLiner: value }))}
-          onAddSkill={handleAddSkill}
-          onRemoveSkill={handleRemoveSkill}
+          onAddTag={handleAddSkill}
+          onRemoveTag={handleRemoveSkill}
         />
 
         {/* ✅ domains & projects & experience - 2열 그리드, 한 칸은 비워둠 */}

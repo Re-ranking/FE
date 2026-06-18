@@ -1,36 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /**
- * 마이페이지 - 프로필 카드 (이름, 한줄소개, 스킬)
+ * 프로필 카드 (이름, 한줄소개, 태그 목록)
+ * - 마이페이지: tagLabel="Skills", tags=skills
+ * - 공모전 추천 페이지: tagLabel="Domains", tags=domains
  *
  * props:
  * - name: string
  * - profileImageUrl: string | null
  * - defaultProfile: 이미지 import
  * - oneLiner: string
- * - skills: string[]
- * - isEditing: boolean
+ * - tagLabel: string (예: "Skills", "Domains")
+ * - tags: string[]
+ * - isEditing: boolean (편집 가능한 페이지에서만 true로 사용, 읽기 전용 페이지는 항상 false)
  * - onOneLinerChange(value: string)
- * - onAddSkill(value: string)
- * - onRemoveSkill(idx: number)
+ * - onAddTag(value: string)
+ * - onRemoveTag(idx: number)
  */
-function MyPageProfileCard({
+function ProfileCard({
   name,
   profileImageUrl,
   defaultProfile,
   oneLiner,
-  skills,
+  tagLabel,
+  tags,
   isEditing,
   onOneLinerChange,
-  onAddSkill,
-  onRemoveSkill,
+  onAddTag,
+  onRemoveTag,
 }) {
-  const [skillInput, setSkillInput] = React.useState('');
+  const [tagInput, setTagInput] = useState('');
 
-  const handleAddSkill = (e) => {
-    if (e.key === 'Enter' && skillInput.trim()) {
-      onAddSkill(skillInput.trim());
-      setSkillInput('');
+  const handleAddTag = (e) => {
+    if (e.key === 'Enter' && tagInput.trim()) {
+      onAddTag(tagInput.trim());
+      setTagInput('');
     }
   };
 
@@ -57,25 +61,25 @@ function MyPageProfileCard({
       </div>
 
       <div className="skills-section">
-        <span className="skills-title">Skills</span>
+        <span className="skills-title">{tagLabel}</span>
         <div className="skills-tags">
-          {skills.map((skill, idx) =>
+          {tags.map((tag, idx) =>
             isEditing ? (
               <span key={idx} className="skill-tag editable">
-                {skill}
-                <button className="skill-remove-btn" onClick={() => onRemoveSkill(idx)}>×</button>
+                {tag}
+                <button className="skill-remove-btn" onClick={() => onRemoveTag(idx)}>×</button>
               </span>
             ) : (
-              <span key={idx} className="skill-tag">{skill}</span>
+              <span key={idx} className="skill-tag">{tag}</span>
             )
           )}
           {isEditing && (
             <input
               className="skill-add-input"
               placeholder="추가"
-              value={skillInput}
-              onChange={(e) => setSkillInput(e.target.value)}
-              onKeyDown={handleAddSkill}
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={handleAddTag}
             />
           )}
         </div>
@@ -84,4 +88,4 @@ function MyPageProfileCard({
   );
 }
 
-export default MyPageProfileCard;
+export default ProfileCard;

@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import './TeamRecommendation.css';
 import Navbar from '../components/Navbar';
 import TeamMemberCard from '../components/TeamMemberCard';
+import LoadingOverlay from '../components/LoadingOverlay';
+import '../components/LoadingOverlay.css';
 import useModal from '../hooks/useModal.jsx';
 import { submitTeamFeedback, getTeamRecommendations } from '../api/teamAPI';
 import defaultProfile from '../assets/images/yeonwoo.jpg';
@@ -12,6 +14,9 @@ function TeamRecommendation() {
   const contestId = searchParams.get('contestId'); // ✅ 공모전 추천 1위 id
 
   const { openModal, ModalComponent } = useModal();
+
+  // ✅ 팀원 매칭 로딩 상태 - 페이지 진입 시 AI 매칭이 끝날 때까지 표시
+  const [isMatching, setIsMatching] = useState(true);
 
   // 피드백 상태
   const [feedback, setFeedback] = useState(null); // null | 'liked' | 'disliked'
@@ -33,9 +38,13 @@ function TeamRecommendation() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
+    // ⚠️ 더미 데이터라 즉시 끝나지만, 실제 AI 매칭은 시간이 걸리므로 로딩 오버레이로 감싸둠
+    setIsMatching(true);
+
     // 더미 데이터 사용 (백엔드 연동 시 아래 주석 해제)
     setCompetitionName(mockData.competitionName);
     setMembers(mockData.members);
+    setIsMatching(false);
 
     // const fetchTeamRecommend = async () => {
     //   try {
@@ -44,6 +53,8 @@ function TeamRecommendation() {
     //     setMembers(data.members);
     //   } catch (err) {
     //     console.error('팀원 추천 로드 실패:', err);
+    //   } finally {
+    //     setIsMatching(false);
     //   }
     // };
     // fetchTeamRecommend();
@@ -100,6 +111,12 @@ function TeamRecommendation() {
       </main>
 
       {ModalComponent}
+
+      <LoadingOverlay
+        isVisible={isMatching}
+        message="팀원을 매칭하고 있어요"
+        subMessage="잠시만 기다려주세요. 최대 1분 정도 걸릴 수 있어요."
+      />
     </div>
   );
 }
