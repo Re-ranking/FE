@@ -7,6 +7,7 @@ import TeamRecommendation from './pages/TeamRecommendation';
 import ContestList from './pages/ContestList';   
 import ContestDetail from './pages/ContestDetail';
 import ContestRecommend from './pages/ContestRecommend'; 
+import MyPage from './pages/MyPage';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/contest-recommend" element={<ContestRecommend />} />
         <Route path="/contests" element={<ContestList />} />
         <Route path="/contests/:id" element={<ContestDetail />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );
