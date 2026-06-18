@@ -206,7 +206,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 800;
   color: #1A1A2E;
   margin: 0 0 20px 0;
@@ -227,7 +227,7 @@
 }
 
 .info-list-item {
-  font-size: 16px;
+  font-size: 17px;
   color: #555566;
   line-height: 1.75;
   word-break: keep-all;
@@ -265,9 +265,9 @@
 }
 
 .editable-item-text {
-  font-size: 14.5px;
+  font-size: 15.5px;
   color: #1A1A2E;
-  line-height: 1.5;
+  line-height: 1.55;
   word-break: keep-all;
 }
 
@@ -302,12 +302,12 @@
 
 .item-add-input {
   flex: 1;
-  height: 42px;
+  height: 44px;
   border: 1.5px dashed #C5C7F5;
   background: #F7F7FF;
   border-radius: 12px;
   padding: 0 14px;
-  font-size: 14px;
+  font-size: 15px;
   color: #2D2D3F;
   outline: none;
   font-family: inherit;
@@ -386,6 +386,80 @@
   display: flex;
 }
 
+/* ✅ CV 분석 (bar chart) */
+.analysis-card {
+  padding: 40px;
+}
+
+.analysis-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1A1A2E;
+  text-align: center;
+  margin: 0 0 32px 0;
+}
+
+.bar-analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 50px;
+}
+
+.bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bar-label {
+  flex: 0 0 110px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444455;
+  white-space: nowrap;
+}
+
+.bar-track {
+  flex: 1;
+  height: 10px;
+  background: #EFEFF5;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+
+.bar-fill.strength {
+  background: #5B3DF5;
+}
+
+.bar-fill.weakness {
+  background: #E85FBE;
+}
+
+/* ✅ 공모전 추천 내역 */
+.recommend-history-card .analysis-title {
+  margin-bottom: 32px;
+}
+
+.contest-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 @media (max-width: 760px) {
   .profile-card {
     flex-direction: column;
@@ -401,5 +475,12 @@
   .section-grid {
     grid-template-columns: 1fr;
     gap: 28px;
+  }
+  .bar-analysis-grid {
+    grid-template-columns: 1fr;
+    gap: 28px 0;
+  }
+  .contest-cards-grid {
+    grid-template-columns: 1fr;
   }
 }

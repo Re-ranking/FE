@@ -32,3 +32,15 @@ export const updateMyProfile = async (payload) => {
   const { data } = await axiosInstance.patch('/api/mypage/profile', payload);
   return data;
 };
+
+/**
+ * 공모전 추천 내역 조회
+ * GET /api/mypage/recommendations/competitions
+ * 
+ * ⚠️ CV 분석(강점/약점)은 이 API에 포함되지 않음 - AI 파트 별도 엔드포인트 확인 필요
+ * @returns {Array<{ title, image, score, description }>}
+ */
+export const getRecommendedCompetitions = async () => {
+  const { data } = await axiosInstance.get('/api/mypage/recommendations/competitions');
+  return data;
+};
