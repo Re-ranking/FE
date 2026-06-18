@@ -346,6 +346,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
+  margin-bottom: 56px;
 }
 
 .edit-toggle-btn {
@@ -388,15 +389,29 @@
 
 /* ✅ CV 분석 (bar chart) */
 .analysis-card {
-  padding: 40px;
+  padding: 44px 40px;
 }
 
 .analysis-title {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 800;
   color: #1A1A2E;
-  text-align: center;
-  margin: 0 0 32px 0;
+  text-align: left;
+  margin: 0 0 36px 0;
+  position: relative;
+  padding-left: 18px;
+}
+
+.analysis-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 26px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #7C6BF0 0%, #656ED3 100%);
 }
 
 .bar-analysis-grid {
@@ -408,7 +423,7 @@
 .bar-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .bar-row {
@@ -427,8 +442,8 @@
 
 .bar-track {
   flex: 1;
-  height: 10px;
-  background: #EFEFF5;
+  height: 11px;
+  background: #F1F1F7;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -440,19 +455,40 @@
 }
 
 .bar-fill.strength {
-  background: #5B3DF5;
+  background: linear-gradient(90deg, #7C6BF0 0%, #5B3DF5 100%);
 }
 
 .bar-fill.weakness {
-  background: #E85FBE;
+  background: linear-gradient(90deg, #F184D6 0%, #E85FBE 100%);
 }
 
 /* ✅ 공모전 추천 내역 */
+.recommend-history-card {
+  padding: 44px 40px;
+}
+
 .recommend-history-card .analysis-title {
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .contest-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ✅ 팀원 추천 내역 */
+.team-recommend-history-card {
+  padding: 44px 40px;
+}
+
+.team-recommend-history-card .analysis-title {
+  margin-bottom: 36px;
+}
+
+.team-member-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
@@ -481,6 +517,9 @@
     gap: 28px 0;
   }
   .contest-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .team-member-grid {
     grid-template-columns: 1fr;
   }
 }

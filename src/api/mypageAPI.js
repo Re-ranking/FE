@@ -44,3 +44,14 @@ export const getRecommendedCompetitions = async () => {
   const { data } = await axiosInstance.get('/api/mypage/recommendations/competitions');
   return data;
 };
+
+/**
+ * 팀원 추천 내역 조회
+ * GET /api/mypage/recommendations/team-members
+ * 
+ * @returns {Array<{ name, role, profileImg, matchingReasons }>}
+ */
+export const getRecommendedTeamMembers = async () => {
+  const { data } = await axiosInstance.get('/api/mypage/recommendations/team-members');
+  return data;
+};

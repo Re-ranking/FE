@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import ContestCard from '../components/ContestRecommendCard';
 import useModal from '../hooks/useModal.jsx';
+import MyPageProfileCard from '../components/MyPageProfileCard';
+import MyPageEditableItemSection from '../components/MyPageEditableItemSection';
+import MyPageCvAnalysisSection from '../components/MyPageCvAnalysisSection';
+import MyPageRecommendHistorySection from '../components/MyPageRecommendHistorySection';
+import MyPageTeamRecommendHistorySection from '../components/MyPageTeamRecommendHistorySection';
 import './MyPage.css';
 import defaultProfile from '../assets/images/profile-default.png';
-import iconInterest from '../assets/images/profile-default.png'; // 임시아이콘
+import iconInterest from '../assets/images/profile-default.png'; // ✅ 임시 아이콘 - 실제 아이콘으로 교체 가능
 import iconProject from '../assets/images/profile-default.png';
 import iconAward from '../assets/images/profile-default.png';
 import poster02 from '../assets/images/contest-poster-02.png';
 import poster03 from '../assets/images/contest-poster-03.png';
 import poster06 from '../assets/images/contest-poster-06.png';
+import teamMemberDefaultImg from '../assets/images/yeonwoo.jpg';
 // ✅ 백엔드 연동 시 주석 해제
-// import { getMyCv, updateMyCv, updateMyProfile, getRecommendedCompetitions } from '../api/mypageAPI';
+// import { getMyCv, updateMyCv, updateMyProfile, getRecommendedCompetitions, getRecommendedTeamMembers } from '../api/mypageAPI';
 // ⚠️ CV 분석(강점/약점)은 AI 파트 별도 API - 엔드포인트 확정되면 여기 import 추가
 
 function MyPage() {
@@ -19,7 +24,7 @@ function MyPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // 디자인 작업용 더미 데이터 - 백엔드 연동 시 삭제하고 useState({}) 빈 객체로 변경
+  // ⚠️ 디자인 작업용 더미 데이터 - 백엔드 연동 시 삭제하고 useState({}) 빈 객체로 변경
   const [cvData, setCvData] = useState({
     user_id: "user_028",
     name: "Joclla Dargo",
@@ -76,6 +81,14 @@ function MyPage() {
   ]);
   // ⚠️ 더미 데이터 끝
 
+  // ⚠️ 디자인 작업용 더미 데이터 - 백엔드 연동 시 삭제 (GET /api/mypage/recommendations/team-members 로 대체)
+  const [recommendedTeamMembers, setRecommendedTeamMembers] = useState([
+    { name: "이연우", role: "FRONTEND", profileImg: teamMemberDefaultImg, matchingReasons: ["협업 성향이 잘 맞아요", "프론트 경험이 풍부해요"] },
+    { name: "김철수", role: "BACKEND", profileImg: teamMemberDefaultImg, matchingReasons: ["서버 개발 경험 보유", "문제 해결 능력이 뛰어나요"] },
+    { name: "박지민", role: "DESIGN", profileImg: teamMemberDefaultImg, matchingReasons: ["UI/UX 감각이 뛰어나요", "디자인 경험 다수"] },
+  ]);
+  // ⚠️ 더미 데이터 끝
+
   // ✅ 회원가입 때 입력한 한줄소개(bio) - localStorage의 user 정보에서 가져옴
   const [oneLiner, setOneLiner] = useState('');
 
@@ -108,6 +121,17 @@ function MyPage() {
     //   }
     // };
     // fetchRecommendedContests();
+
+    // ✅ 백엔드 연동 시 아래 주석 해제 (GET /api/mypage/recommendations/team-members)
+    // const fetchRecommendedTeamMembers = async () => {
+    //   try {
+    //     const data = await getRecommendedTeamMembers();
+    //     setRecommendedTeamMembers(data);
+    //   } catch (err) {
+    //     console.error('팀원 추천 내역 로드 실패:', err);
+    //   }
+    // };
+    // fetchRecommendedTeamMembers();
 
     // ⚠️ CV 분석(강점/약점)은 AI 파트 담당 - 엔드포인트 확정되면 fetch 로직 추가 필요
     // 지금은 strengths, weaknesses 더미 데이터 그대로 사용 중
@@ -168,38 +192,21 @@ function MyPage() {
     }
   };
 
-  // 스킬 추가/삭제 (편집 모드에서만)
-  const [skillInput, setSkillInput] = useState('');
-  const handleAddSkill = (e) => {
-    if (e.key === 'Enter' && skillInput.trim()) {
-      setDraft(prev => ({ ...prev, skills: [...prev.skills, skillInput.trim()] }));
-      setSkillInput('');
-    }
+  // ✅ 스킬 추가/삭제 (편집 모드에서만)
+  const handleAddSkill = (value) => {
+    setDraft(prev => ({ ...prev, skills: [...prev.skills, value] }));
   };
   const handleRemoveSkill = (idx) => {
     setDraft(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }));
   };
 
-  // 리스트형 데이터(domains, projects, experience) 개별 항목 추가/삭제
-  const handleAddItem = (field, value, setValue) => {
-    if (value.trim()) {
-      setDraft(prev => ({ ...prev, [field]: [...prev[field], value.trim()] }));
-      setValue('');
-    }
+  // ✅ 리스트형 데이터(domains, projects, experience) 개별 항목 추가/삭제 - 세 섹션 공통
+  const handleAddItem = (field, value) => {
+    setDraft(prev => ({ ...prev, [field]: [...prev[field], value] }));
   };
   const handleRemoveItem = (field, idx) => {
     setDraft(prev => ({ ...prev, [field]: prev[field].filter((_, i) => i !== idx) }));
   };
-  const handleItemKeyDown = (e, field, value, setValue) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddItem(field, value, setValue);
-    }
-  };
-
-  const [domainInput, setDomainInput] = useState('');
-  const [projectInput, setProjectInput] = useState('');
-  const [experienceInput, setExperienceInput] = useState('');
 
   const current = isEditing ? draft : { ...cvData, oneLiner };
 
@@ -209,166 +216,56 @@ function MyPage() {
 
       <main className="mypage-content">
 
-        <div className="profile-card">
-          <div className="profile-avatar-wrapper">
-            <img src={profileImageUrl || defaultProfile} alt={current.name} />
-          </div>
+        {/* ✅ 프로필 카드 (이름, 한줄소개, 스킬) */}
+        <MyPageProfileCard
+          name={current.name}
+          profileImageUrl={profileImageUrl}
+          defaultProfile={defaultProfile}
+          oneLiner={current.oneLiner}
+          skills={current.skills}
+          isEditing={isEditing}
+          onOneLinerChange={(value) => setDraft(prev => ({ ...prev, oneLiner: value }))}
+          onAddSkill={handleAddSkill}
+          onRemoveSkill={handleRemoveSkill}
+        />
 
-          <div className="profile-main">
-            <h1 className="profile-name">{current.name}</h1>
-
-            {isEditing ? (
-              <textarea
-                className="profile-oneliner-textarea"
-                value={draft.oneLiner}
-                onChange={(e) => setDraft(prev => ({ ...prev, oneLiner: e.target.value }))}
-                placeholder="간단한 한 줄 소개를 적어주세요!"
-              />
-            ) : (
-              current.oneLiner && (
-                <div className="profile-oneliner-box">{current.oneLiner}</div>
-              )
-            )}
-          </div>
-
-          <div className="skills-section">
-            <span className="skills-title">Skills</span>
-            <div className="skills-tags">
-              {current.skills.map((skill, idx) => (
-                isEditing ? (
-                  <span key={idx} className="skill-tag editable">
-                    {skill}
-                    <button className="skill-remove-btn" onClick={() => handleRemoveSkill(idx)}>×</button>
-                  </span>
-                ) : (
-                  <span key={idx} className="skill-tag">{skill}</span>
-                )
-              ))}
-              {isEditing && (
-                <input
-                  className="skill-add-input"
-                  placeholder="추가"
-                  value={skillInput}
-                  onChange={(e) => setSkillInput(e.target.value)}
-                  onKeyDown={handleAddSkill}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-
+        {/* ✅ domains & projects & experience - 2열 그리드, 한 칸은 비워둠 */}
         <div className="section-card">
           <div className="section-grid">
-            <div>
-              <h3 className="info-block-title">
-                <img src={iconInterest} alt="" className="info-block-icon" />
-                domains
-              </h3>
-              {isEditing ? (
-                <div className="editable-item-list">
-                  {draft.domains.map((d, idx) => (
-                    <div key={idx} className="editable-item">
-                      <span className="editable-item-text">{d}</span>
-                      <button type="button" className="item-remove-btn" onClick={() => handleRemoveItem('domains', idx)}>×</button>
-                    </div>
-                  ))}
-                  <div className="item-add-row">
-                    <input
-                      className="item-add-input"
-                      placeholder="관심 분야 입력 후 Enter"
-                      value={domainInput}
-                      onChange={(e) => setDomainInput(e.target.value)}
-                      onKeyDown={(e) => handleItemKeyDown(e, 'domains', domainInput, setDomainInput)}
-                    />
-                    <button type="button" className="item-add-btn" onClick={() => handleAddItem('domains', domainInput, setDomainInput)}>
-                      추가
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="info-list">
-                  {current.domains.length > 0 ? (
-                    current.domains.map((d, idx) => (
-                      <p key={idx} className="info-list-item">{d}</p>
-                    ))
-                  ) : (
-                    <p className="info-list-item">아직 등록된 관심 분야가 없어요.</p>
-                  )}
-                </div>
-              )}
-            </div>
+            <MyPageEditableItemSection
+              icon={iconInterest}
+              title="domains"
+              items={current.domains}
+              isEditing={isEditing}
+              emptyText="아직 등록된 관심 분야가 없어요."
+              placeholder="관심 분야 입력 후 Enter"
+              onAdd={(value) => handleAddItem('domains', value)}
+              onRemove={(idx) => handleRemoveItem('domains', idx)}
+            />
 
-            <div>
-              <h3 className="info-block-title">
-                <img src={iconProject} alt="" className="info-block-icon" />
-                projects
-              </h3>
-              {isEditing ? (
-                <div className="editable-item-list">
-                  {draft.projects.map((p, idx) => (
-                    <div key={idx} className="editable-item">
-                      <span className="editable-item-text">{p}</span>
-                      <button type="button" className="item-remove-btn" onClick={() => handleRemoveItem('projects', idx)}>×</button>
-                    </div>
-                  ))}
-                  <div className="item-add-row">
-                    <input
-                      className="item-add-input"
-                      placeholder="프로젝트 입력 후 Enter"
-                      value={projectInput}
-                      onChange={(e) => setProjectInput(e.target.value)}
-                      onKeyDown={(e) => handleItemKeyDown(e, 'projects', projectInput, setProjectInput)}
-                    />
-                    <button type="button" className="item-add-btn" onClick={() => handleAddItem('projects', projectInput, setProjectInput)}>
-                      추가
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="info-list">
-                  {current.projects.map((p, idx) => (
-                    <p key={idx} className="info-list-item">{p}</p>
-                  ))}
-                </div>
-              )}
-            </div>
+            <MyPageEditableItemSection
+              icon={iconProject}
+              title="projects"
+              items={current.projects}
+              isEditing={isEditing}
+              placeholder="프로젝트 입력 후 Enter"
+              onAdd={(value) => handleAddItem('projects', value)}
+              onRemove={(idx) => handleRemoveItem('projects', idx)}
+            />
 
-            <div>
-              <h3 className="info-block-title">
-                <img src={iconAward} alt="" className="info-block-icon" />
-                experience
-              </h3>
-              {isEditing ? (
-                <div className="editable-item-list">
-                  {draft.experience.map((exp, idx) => (
-                    <div key={idx} className="editable-item">
-                      <span className="editable-item-text">{exp}</span>
-                      <button type="button" className="item-remove-btn" onClick={() => handleRemoveItem('experience', idx)}>×</button>
-                    </div>
-                  ))}
-                  <div className="item-add-row">
-                    <input
-                      className="item-add-input"
-                      placeholder="수상/경력 입력 후 Enter"
-                      value={experienceInput}
-                      onChange={(e) => setExperienceInput(e.target.value)}
-                      onKeyDown={(e) => handleItemKeyDown(e, 'experience', experienceInput, setExperienceInput)}
-                    />
-                    <button type="button" className="item-add-btn" onClick={() => handleAddItem('experience', experienceInput, setExperienceInput)}>
-                      추가
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="info-list">
-                  {current.experience.map((e, idx) => (
-                    <p key={idx} className="info-list-item">{e}</p>
-                  ))}
-                </div>
-              )}
-            </div>
+            <MyPageEditableItemSection
+              icon={iconAward}
+              title="experience"
+              items={current.experience}
+              isEditing={isEditing}
+              placeholder="수상/경력 입력 후 Enter"
+              onAdd={(value) => handleAddItem('experience', value)}
+              onRemove={(idx) => handleRemoveItem('experience', idx)}
+            />
           </div>
         </div>
+
+        {/* ✅ 하단 버튼 영역 */}
         <div className="mypage-action-bar">
           {isEditing ? (
             <div className="edit-actions">
@@ -387,53 +284,13 @@ function MyPage() {
         </div>
 
         {/* ⚠️ CV 분석 (강점/약점) - AI 파트 API 미확정, 더미 데이터 표시 중 */}
-        <div className="section-card analysis-card">
-          <h2 className="analysis-title">CV 분석</h2>
-          <div className="bar-analysis-grid">
-            <div className="bar-list">
-              {strengths.map((item, idx) => (
-                <div key={idx} className="bar-row">
-                  <span className="bar-label">{item.name}</span>
-                  <div className="bar-track">
-                    <div
-                      className="bar-fill strength"
-                      style={{ width: `${item.value}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="bar-list">
-              {weaknesses.map((item, idx) => (
-                <div key={idx} className="bar-row">
-                  <span className="bar-label">{item.name}</span>
-                  <div className="bar-track">
-                    <div
-                      className="bar-fill weakness"
-                      style={{ width: `${item.value}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <MyPageCvAnalysisSection strengths={strengths} weaknesses={weaknesses} />
 
-        {/* ✅ 공모전 추천 내역 - GET /api/mypage/recommendations/competitions (공모전 추천 페이지 카드 재사용) */}
-        <div className="section-card recommend-history-card">
-          <h2 className="analysis-title">공모전 추천 내역</h2>
-          <div className="contest-cards-grid">
-            {recommendedContests.map((contest, index) => (
-              <ContestCard
-                key={index}
-                title={contest.title}
-                image={contest.image}
-                score={contest.score}
-                description={contest.description}
-              />
-            ))}
-          </div>
-        </div>
+        {/* ✅ 공모전 추천 내역 - GET /api/mypage/recommendations/competitions */}
+        <MyPageRecommendHistorySection recommendedContests={recommendedContests} />
+
+        {/* ✅ 팀원 추천 내역 - GET /api/mypage/recommendations/team-members */}
+        <MyPageTeamRecommendHistorySection members={recommendedTeamMembers} />
 
       </main>
 
