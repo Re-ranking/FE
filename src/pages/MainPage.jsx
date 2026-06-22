@@ -29,6 +29,19 @@ function MainPage() {
     navigate(path);
   };
 
+  // 팀원 추천은 공모전 추천을 먼저 받아야만 이동 가능 (Navbar와 동일한 가드)
+  const handleTeamRecommendClick = () => {
+    if (!isLoggedIn) {
+      openModal('로그인 후 이용해주세요.');
+      return;
+    }
+    if (!localStorage.getItem('contestRecommended')) {
+      openModal('먼저 공모전 추천을 받아주세요.');
+      return;
+    }
+    navigate('/Teamrecommend');
+  };
+
   return (
     <div className="main-container">
       <Navbar />
@@ -71,7 +84,7 @@ function MainPage() {
               </button>
             </div>
 
-            <div className="recommend-section" onClick={() => handleProtectedClick('/Teamrecommend')}>
+            <div className="recommend-section" onClick={handleTeamRecommendClick}>
               <span className="card-badge">TEAM BUILDING</span>
               <h2 className="recommend-title">완벽한 팀원 조합</h2>
               <p className="recommend-text">
