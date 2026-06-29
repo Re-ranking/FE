@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stepper from '../components/Stepper';
 import SurveyCard from '../components/SurveyCard';
 import CollaborationCard from '../components/CollaborationCard';
+import SurveyResult from '../components/SurveyResult';
 import CommonButton from '../components/CommonButton';
 import useModal from '../hooks/useModal.jsx';
-import { saveSurveyStep, submitSurvey } from '../api/surveyAPI';
+import { saveSurveyStep, submitSurvey, getMySurvey } from '../api/surveyAPI';
 import './SurveyPage.css';
 
 function SurveyPage() {
@@ -13,8 +14,29 @@ function SurveyPage() {
   const { openModal, ModalComponent } = useModal();
   const [currentStep, setCurrentStep] = useState(1);
   const [allAnswers, setAllAnswers] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isCheckingSubmission, setIsCheckingSubmission] = useState(true);
 
   const stepRefs = useRef({});
+
+  // 새로고침 시에도 결과를 보여주기 위해 제출 여부/내용을 서버에서 조회
+  useEffect(() => {
+    const checkExistingSubmission = async () => {
+      try {
+        const data = await getMySurvey();
+        if (data && data.answers) {
+          setAllAnswers(data.answers);
+          setIsSubmitted(true);
+        }
+      } catch (err) {
+        // 제출 기록이 없으면 정상적으로 설문 폼을 보여줌
+        console.log('제출된 성향 정보가 없습니다.', err);
+      } finally {
+        setIsCheckingSubmission(false);
+      }
+    };
+    checkExistingSubmission();
+  }, []);
 
   const handleAnswerChange = (stepNum, questionId, value) => {
     setAllAnswers(prev => ({
@@ -26,19 +48,23 @@ function SurveyPage() {
     }));
   };
 
-  // ✅ 스텝별 임시 저장 함수 - axios로 통일, await 없이 백그라운드 처리
+  // 스텝별 임시 저장 함수 - axios로 통일, 저장 완료 후 모달 안내
   const saveTemporaryStep = (stepNum, answers) => {
-    saveSurveyStep(stepNum, answers).catch(err => {
-      console.warn("임시 저장 실패(백그라운드 처리 중):", err);
-    });
+    saveSurveyStep(stepNum, answers)
+      .then(() => {
+        openModal('임시 저장되었습니다.');
+      })
+      .catch(err => {
+        console.warn("임시 저장 실패(백그라운드 처리 중):", err);
+      });
   };
 
-  // ✅ 최종 제출 함수 - 완료 모달 띄우고 마이페이지로 이동
+  // 최종 제출 함수 - 완료 모달 띄우고 결과 화면으로 전환
   const submitFinalSurvey = async () => {
     try {
       await submitSurvey(allAnswers);
       openModal('성향입력이 완료되었습니다.');
-      navigate('/mypage');
+      setIsSubmitted(true);
     } catch (error) {
       console.error('최종 전송 에러:', error);
       openModal('서버 전송 중 오류가 발생했습니다.');
@@ -113,9 +139,8 @@ function SurveyPage() {
     const nextStepNum = currentStepNum + 1;
     const totalSteps = Object.keys(surveyData).length;
 
-    saveTemporaryStep(currentStepNum, allAnswers[currentStepNum]);
-
     if (nextStepNum <= totalSteps) {
+      saveTemporaryStep(currentStepNum, allAnswers[currentStepNum]);
       setCurrentStep(nextStepNum);
 
       setTimeout(() => {
@@ -129,48 +154,72 @@ function SurveyPage() {
     }
   };
 
+  const handleBackToMyPage = () => {
+    navigate('/mypage');
+  };
+
+  if (isCheckingSubmission) {
+    return (
+      <div className="survey-page-container">
+        <div className="survey-loading-wrapper">불러오는 중...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="survey-page-container">
-      <div className="survey-page-layout">
-        <aside className="stepper-sidebar">
-          <Stepper currentStep={currentStep} />
-        </aside>
+      {isSubmitted ? (
+        <div className="survey-page-layout">
+          <main className="survey-main-content survey-result-main">
+            <SurveyResult
+              surveyData={surveyData}
+              allAnswers={allAnswers}
+              onBackToMyPage={handleBackToMyPage}
+            />
+          </main>
+        </div>
+      ) : (
+        <div className="survey-page-layout">
+          <aside className="stepper-sidebar">
+            <Stepper currentStep={currentStep} />
+          </aside>
 
-        <main className="survey-main-content">
-          <div className="survey-content-inner">
-            {Object.entries(surveyData).map(([stepNum, data]) => (
-              <div 
-                key={stepNum} 
-                ref={el => stepRefs.current[stepNum] = el}
-                className="survey-step-wrapper"
-              >
-                {data.type === "single" ? (
-                  <SurveyCard
-                    title={data.title}
-                    questions={data.questions}
-                    answers={allAnswers[stepNum] || {}}
-                    onChange={(qId, val) => handleAnswerChange(stepNum, qId, val)}
-                  />
-                ) : (
-                  <CollaborationCard
-                    title={data.title}
-                    data={data.questions}
-                    answers={allAnswers[stepNum] || {}}
-                    onChange={(qId, val) => handleAnswerChange(stepNum, qId, val)}
-                  />
-                )}
+          <main className="survey-main-content">
+            <div className="survey-content-inner">
+              {Object.entries(surveyData).map(([stepNum, data]) => (
+                <div 
+                  key={stepNum} 
+                  ref={el => stepRefs.current[stepNum] = el}
+                  className="survey-step-wrapper"
+                >
+                  {data.type === "single" ? (
+                    <SurveyCard
+                      title={data.title}
+                      questions={data.questions}
+                      answers={allAnswers[stepNum] || {}}
+                      onChange={(qId, val) => handleAnswerChange(stepNum, qId, val)}
+                    />
+                  ) : (
+                    <CollaborationCard
+                      title={data.title}
+                      data={data.questions}
+                      answers={allAnswers[stepNum] || {}}
+                      onChange={(qId, val) => handleAnswerChange(stepNum, qId, val)}
+                    />
+                  )}
 
-                <div className="survey-next-button">
-                  <CommonButton 
-                    text={parseInt(stepNum) === Object.keys(surveyData).length ? "FINISH" : "NEXT"} 
-                    onClick={() => handleNext(stepNum)} 
-                  />
+                  <div className="survey-next-button">
+                    <CommonButton 
+                      text={parseInt(stepNum) === Object.keys(surveyData).length ? "FINISH" : "NEXT"} 
+                      onClick={() => handleNext(stepNum)} 
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </main>
-      </div>
+              ))}
+            </div>
+          </main>
+        </div>
+      )}
 
       {ModalComponent}
     </div>
