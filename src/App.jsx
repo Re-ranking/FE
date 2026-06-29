@@ -8,6 +8,7 @@ import ContestList from './pages/ContestList';
 import ContestDetail from './pages/ContestDetail';
 import ContestRecommend from './pages/ContestRecommend'; 
 import MyPage from './pages/MyPage';
+import SurveyPage from './pages/SurveyPage';
 import './App.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/contests" element={<ContestList />} />
         <Route path="/contests/:id" element={<ContestDetail />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/survey" element={<SurveyPage />} />
       </Routes>
     </BrowserRouter>
   );

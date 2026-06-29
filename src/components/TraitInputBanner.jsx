@@ -3,16 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 /**
  * 마이페이지 - 협업 성향 입력 안내 배너
- * 클릭 시 성향입력 페이지로 이동 (팀원 매칭에 사용될 성향/성격 테스트)
- *
- * 라우터 경로는 프로젝트 구조에 맞게 수정해서 사용하세요 (예: /trait-test, /personality)
+ * 클릭 시 성향입력(설문) 페이지로 이동
  */
 function TraitInputBanner() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // ⚠️ 실제 라우터 경로로 수정 필요
-    navigate('/trait-input');
+    navigate('/survey');
   };
 
   return (

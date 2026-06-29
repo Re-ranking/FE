@@ -6,6 +6,7 @@ import './ContestDetail.css';
 import poster02 from '../assets/images/contest-poster-02.png';
 import defaultIcon from '../assets/images/profile-default.png';
 
+
 function ContestDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
