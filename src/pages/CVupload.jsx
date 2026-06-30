@@ -4,8 +4,8 @@ import './CVupload.css';
 import CommonButton from '../components/CommonButton';
 import defaultIcon from '../assets/images/profile-default.png';
 import uploadIcon from '../assets/images/upload-icon.png';
-import { uploadCV } from '../api/cvAPI';
-import useModal from '../hooks/useModal.jsx'; // useModal 훅
+import { analyzeCV } from '../api/cvAPI';
+import useModal from '../hooks/useModal.jsx';
 
 function CVupload() {
   const navigate = useNavigate();
@@ -31,11 +31,11 @@ function CVupload() {
 
     const allowedTypes = [
       'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      'image/png',
+      'image/jpeg'
     ];
     if (!allowedTypes.includes(selectedFile.type)) {
-      openModal('PDF 또는 Word 파일만 업로드 가능합니다.'); 
+      openModal('PDF, PNG, JPG 파일만 업로드 가능합니다.');
       return;
     }
 
@@ -45,17 +45,17 @@ function CVupload() {
 
   const handleNext = async () => {
     if (!file) {
-      openModal('CV를 업로드 해주세요!'); 
+      openModal('CV를 업로드 해주세요!');
       return;
     }
 
     setIsLoading(true);
     try {
-      await uploadCV(file);
+      await analyzeCV(file);
       navigate('/main');
     } catch (err) {
-      const message = err.response?.data?.message || 'CV 업로드 중 오류가 발생했습니다.';
-      openModal(message); 
+      const message = err.response?.data?.message || 'CV 분석 중 오류가 발생했습니다.';
+      openModal(message);
     } finally {
       setIsLoading(false);
     }
@@ -87,7 +87,7 @@ function CVupload() {
 
               <input
                 type="file"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf,.png,.jpg,.jpeg"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
