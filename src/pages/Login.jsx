@@ -26,14 +26,9 @@ function Login() {
     setIsLoading(true);
 
     try {
-      // authAPI의 login 함수 호출 (토큰 저장까지 자동 처리됨)
       await login(loginData);
-
-      // 로그인 성공 → 메인 페이지 이동
       navigate('/main');
-
     } catch (err) {
-      // 서버에서 내려준 에러 메시지 우선 표시, 없으면 기본 메시지
       const message = err.response?.data?.message || '로그인 중 오류가 발생했습니다.';
       setError(message);
     } finally {
@@ -70,7 +65,6 @@ function Login() {
           </div>
 
           <div className="bottom-section">
-            {/* ✅ 로딩 중엔 버튼 비활성화 */}
             <CommonButton
               text="Login"
               type="submit"
@@ -78,7 +72,7 @@ function Login() {
             />
 
             {error && (
-              <p style={{ color: 'red', fontSize: '14px', margin: 0 }}>
+              <p className="login-error-text">
                 {error}
               </p>
             )}

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
 import ProfileImage from '../components/ProfileImage';
-import { register, confirmEmail } from '../api/authAPI';
+import { register, confirmEmail, login } from '../api/authAPI';
 import './Register.css';
 
 function Register() {
@@ -14,13 +14,12 @@ function Register() {
     major: '',
     email: '',
     password: '',
-    bio: ''
+    description: ''
   });
   const [profileImage, setProfileImage] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✅ 비밀번호 유효성 검사
   const passwordRules = [
     { label: '8자 이상', test: (pw) => pw.length >= 8 },
     { label: '대문자 포함', test: (pw) => /[A-Z]/.test(pw) },
@@ -30,10 +29,9 @@ function Register() {
   ];
   const isPasswordValid = passwordRules.every(rule => rule.test(formData.password));
 
-  // 이메일 인증 관련 상태
-  const [isCodeSent, setIsCodeSent] = useState(false);       // 인증번호 전송 여부
-  const [code, setCode] = useState('');                       // 입력한 인증번호
-  const [isEmailVerified, setIsEmailVerified] = useState(false); // 인증 완료 여부
+  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [code, setCode] = useState('');
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [codeError, setCodeError] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -42,7 +40,6 @@ function Register() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // 이메일 변경 시 인증 상태 초기화
     if (name === 'email') {
       setIsCodeSent(false);
       setIsEmailVerified(false);
@@ -51,7 +48,7 @@ function Register() {
     }
   };
 
-  // 인증번호 전송 버튼 클릭
+  // signup 호출 - Cognito가 인증 메일을 자동 발송함
   const handleSendCode = async () => {
     if (!formData.email) {
       setCodeError('이메일을 먼저 입력해주세요.');
@@ -60,16 +57,12 @@ function Register() {
     setIsSending(true);
     setCodeError('');
     try {
-      // 회원가입 API 호출 → 서버에서 이메일 발송
       const data = new FormData();
       Object.keys(formData).forEach((key) => data.append(key, formData[key]));
       if (profileImage) data.append('profileImage', profileImage);
       const result = await register(data);
 
-      // signup 응답에서 accessToken 저장
-      localStorage.setItem('accessToken', result.accessToken);
-      if (result.user) localStorage.setItem('user', JSON.stringify(result.user));
-
+      if (result.data) localStorage.setItem('user', JSON.stringify(result.data));
       setIsCodeSent(true);
     } catch (err) {
       setCodeError(err.response?.data?.message || '인증번호 전송에 실패했습니다.');
@@ -78,7 +71,7 @@ function Register() {
     }
   };
 
-  // 인증번호 확인 버튼 클릭
+  // confirm 호출 - 인증 코드 확인, 회원가입 확정
   const handleVerifyCode = async () => {
     if (!code) {
       setCodeError('인증번호를 입력해주세요.');
@@ -97,7 +90,7 @@ function Register() {
     }
   };
 
-  // 최종 회원가입 버튼 클릭
+  // 회원가입 확정 후 로그인까지 자동 처리
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!isEmailVerified) {
@@ -111,6 +104,7 @@ function Register() {
     setError('');
     setIsLoading(true);
     try {
+      await login({ email: formData.email, password: formData.password });
       navigate('/cv-upload');
     } catch (err) {
       setError(err.response?.data?.message || '회원가입 중 오류가 발생했습니다.');
@@ -138,7 +132,6 @@ function Register() {
               <CommonInput name="major" value={formData.major} onChange={handleChange} />
             </div>
 
-            {/* ✅ 이메일 + 인증 버튼 */}
             <div className="input-wrapper">
               <label className="input-label">Email:</label>
               <div className="email-verify-row">
@@ -160,7 +153,6 @@ function Register() {
               </div>
             </div>
 
-            {/* ✅ 인증번호 입력칸 - 전송 후 등장 */}
             {isCodeSent && !isEmailVerified && (
               <div className="input-wrapper">
                 <label className="input-label">인증번호:</label>
@@ -182,24 +174,22 @@ function Register() {
                   </button>
                 </div>
                 {codeError && (
-                  <p style={{ color: 'red', fontSize: '12px', margin: '4px 0 0 4px' }}>
+                  <p className="code-error-text">
                     {codeError}
                   </p>
                 )}
               </div>
             )}
 
-            {/* 인증 완료 메시지 */}
             {isEmailVerified && (
-              <p style={{ color: '#656ED3', fontSize: '12px', margin: '0 0 0 4px', fontWeight: 600 }}>
-                ✓ 이메일 인증이 완료되었습니다.
+              <p className="verify-success-text">
+                이메일 인증이 완료되었습니다.
               </p>
             )}
 
             <div className="input-wrapper">
               <label className="input-label">Password:</label>
               <CommonInput type="password" name="password" value={formData.password} onChange={handleChange} />
-              {/* ✅ 비밀번호 조건 표시 */}
               {formData.password && (
                 <div className="password-rules">
                   {passwordRules.map((rule, idx) => (
@@ -217,8 +207,8 @@ function Register() {
             <div className="input-wrapper">
               <label className="input-label">About me:</label>
               <CommonInput
-                name="bio"
-                value={formData.bio}
+                name="description"
+                value={formData.description}
                 onChange={handleChange}
                 placeholder="간단한 한 줄 소개를 적어주세요!"
               />
@@ -233,7 +223,7 @@ function Register() {
             />
 
             {error && (
-              <p style={{ color: 'red', fontSize: '14px', margin: 0 }}>
+              <p className="register-error-text">
                 {error}
               </p>
             )}
