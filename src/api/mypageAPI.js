@@ -1,10 +1,12 @@
 import axiosInstance from './axiosInstance';
 
 /**
- * CV 정보 가져오기
+ * 내 CV 정보 조회
  * GET /api/mypage/cv
- * 
- * @returns {{ user_id, name, skills, domains, projects, experience }}
+ *
+ * 응답: { name, major, profileImage, introduction, skills, primaryDomains,
+ *         strengths[{name,score}], weaknesses[{name,score}],
+ *         interests, projects[{period,title,description}], awards }
  */
 export const getMyCv = async () => {
   const { data } = await axiosInstance.get('/api/mypage/cv');
@@ -14,8 +16,8 @@ export const getMyCv = async () => {
 /**
  * CV 정보 수정
  * PATCH /api/mypage/cv
- * 
- * @param {{ skills, domains, projects, experience }} payload
+ *
+ * @param {{ skills, interests, projects, awards }} payload
  */
 export const updateMyCv = async (payload) => {
   const { data } = await axiosInstance.patch('/api/mypage/cv', payload);
@@ -23,22 +25,29 @@ export const updateMyCv = async (payload) => {
 };
 
 /**
- * 마이페이지 프로필 정보 수정 (한줄소개 등)
+ * 프로필 수정 (이름, 전공, 한줄소개, 프로필 이미지)
  * PATCH /api/mypage/profile
- * 
- * @param {{ bio: string }} payload
+ * Content-Type: multipart/form-data
+ * 모든 항목 선택값 - 수정할 항목만 포함하면 됨
+ *
+ * @param {{ name?, major?, introduction?, profileImage? }} payload
  */
 export const updateMyProfile = async (payload) => {
-  const { data } = await axiosInstance.patch('/api/mypage/profile', payload);
+  const formData = new FormData();
+  if (payload.name) formData.append('name', payload.name);
+  if (payload.major) formData.append('major', payload.major);
+  if (payload.introduction) formData.append('introduction', payload.introduction);
+  if (payload.profileImage) formData.append('profileImage', payload.profileImage);
+
+  const { data } = await axiosInstance.patch('/api/mypage/profile', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return data;
 };
 
 /**
  * 공모전 추천 내역 조회
  * GET /api/mypage/recommendations/competitions
- * 
- * ⚠️ CV 분석(강점/약점)은 이 API에 포함되지 않음 - AI 파트 별도 엔드포인트 확인 필요
- * @returns {Array<{ title, image, score, description }>}
  */
 export const getRecommendedCompetitions = async () => {
   const { data } = await axiosInstance.get('/api/mypage/recommendations/competitions');
@@ -48,8 +57,6 @@ export const getRecommendedCompetitions = async () => {
 /**
  * 팀원 추천 내역 조회
  * GET /api/mypage/recommendations/team-members
- * 
- * @returns {Array<{ name, role, profileImg, matchingReasons }>}
  */
 export const getRecommendedTeamMembers = async () => {
   const { data } = await axiosInstance.get('/api/mypage/recommendations/team-members');

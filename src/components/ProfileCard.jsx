@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 /**
  * 프로필 카드 (이름, 한줄소개, 태그 목록)
- * - 마이페이지: tagLabel="Skills", tags=skills
- * - 공모전 추천 페이지: tagLabel="Domains", tags=domains
+ * - 마이페이지: tagLabel="Skills", tags=skills, isEditing 가능
+ * - 공모전 추천 페이지: tagLabel="Domains", tags=domains, isEditing=false
  *
  * props:
  * - name: string
  * - profileImageUrl: string | null
  * - defaultProfile: 이미지 import
  * - oneLiner: string
- * - tagLabel: string (예: "Skills", "Domains")
+ * - tagLabel: string
  * - tags: string[]
- * - isEditing: boolean (편집 가능한 페이지에서만 true로 사용, 읽기 전용 페이지는 항상 false)
+ * - isEditing: boolean
  * - onOneLinerChange(value: string)
  * - onAddTag(value: string)
  * - onRemoveTag(idx: number)
+ * - onProfileImageChange(file: File) - 편집 모드에서 이미지 파일 변경 시 호출
  */
 function ProfileCard({
   name,
@@ -28,8 +29,11 @@ function ProfileCard({
   onOneLinerChange,
   onAddTag,
   onRemoveTag,
+  onProfileImageChange,
 }) {
   const [tagInput, setTagInput] = useState('');
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleAddTag = (e) => {
     if (e.key === 'Enter' && tagInput.trim()) {
@@ -38,11 +42,43 @@ function ProfileCard({
     }
   };
 
+  const handleAvatarClick = () => {
+    if (isEditing) {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPreviewUrl(URL.createObjectURL(file));
+    onProfileImageChange?.(file);
+  };
+
+  const displayImage = previewUrl || profileImageUrl || defaultProfile;
+
   return (
     <div className="profile-card">
-      <div className="profile-avatar-wrapper">
-        {/* ⚠️ profileImageUrl이 있으면 실제 프로필 사진, 없으면 기본 이미지 표시 */}
-        <img src={profileImageUrl || defaultProfile} alt={name} />
+      <div
+        className={`profile-avatar-wrapper ${isEditing ? 'profile-avatar-editable' : ''}`}
+        onClick={handleAvatarClick}
+      >
+        <img src={displayImage} alt={name} />
+        {isEditing && (
+          <div className="profile-avatar-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".jpg,.jpeg,.png,.webp"
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
       </div>
 
       <div className="profile-main">

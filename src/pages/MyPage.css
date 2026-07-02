@@ -36,6 +36,32 @@
   overflow: hidden;
   flex-shrink: 0;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.profile-avatar-editable {
+  cursor: pointer;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.profile-avatar-editable:hover .profile-avatar-overlay {
+  opacity: 1;
+}
+
+.profile-avatar-overlay svg {
+  width: 28px;
+  height: 28px;
 }
 
 .profile-avatar-wrapper img {
