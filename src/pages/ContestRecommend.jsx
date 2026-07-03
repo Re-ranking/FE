@@ -56,22 +56,40 @@ function ContestRecommendPage() {
   // ⚠️ 디자인 작업용 더미 데이터 - 백엔드 연동 시 삭제 (공모전 추천 결과 - AI 파트 API)
   const [recommendedContests, setRecommendedContests] = useState([
     {
+      competitionId: 1,
       title: "CYBER SECURITY 해커톤",
-      image: poster03,
+      representativeImageUrl: poster03,
       score: 100,
-      description: "AI/ML 분석 경험을 살려, 즉각적으로 프로토타입을 개발하고 완성도를 높일 수 있는 대회"
+      domainScore: 92,
+      skillScore: 88,
+      category: "웹/모바일/IT",
+      applicationTarget: "대학생",
+      organizer: "한국인터넷진흥원",
+      applicationPeriod: "2026-03-01 ~ 2026-06-30"
     },
     {
+      competitionId: 2,
       title: "제7회 공군 창의·혁신 아이디어 공모 해커톤",
-      image: poster02,
+      representativeImageUrl: poster02,
       score: 90,
-      description: "AI/ML 분석 경험을 살려, 즉각적으로 프로토타입을 개발하고 완성도를 높일 수 있는 대회"
+      domainScore: 85,
+      skillScore: 80,
+      category: "과학/공학",
+      applicationTarget: "대학생/일반인",
+      organizer: "대한민국 공군",
+      applicationPeriod: "2026-04-01 ~ 2026-07-15"
     },
     {
+      competitionId: 3,
       title: "제3회 KISIA 정보보호 개발자 해커톤",
-      image: poster06,
+      representativeImageUrl: poster06,
       score: 80,
-      description: "AI/ML 분석 경험을 살려, 즉각적으로 프로토타입을 개발하고 완성도를 높일 수 있는 대회"
+      domainScore: 72,
+      skillScore: 75,
+      category: "보안",
+      applicationTarget: "대학생/대학원생",
+      organizer: "한국정보보호산업협회",
+      applicationPeriod: "2026-05-01 ~ 2026-08-31"
     }
   ]);
   // ⚠️ 더미 데이터 끝
@@ -251,11 +269,8 @@ function ContestRecommendPage() {
             <div className="contest-cards-grid">
               {recommendedContests.map((contest, index) => (
                 <ContestCard
-                  key={index}
-                  title={contest.title}
-                  image={contest.image}
-                  score={contest.score}
-                  description={contest.description}
+                  key={contest.competitionId ?? index}
+                  contest={contest}
                 />
               ))}
             </div>

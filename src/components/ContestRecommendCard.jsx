@@ -1,16 +1,58 @@
 import React from 'react';
-import './ContestRecommendCard.css'; // 카드 전용 CSS 연결
+import { useNavigate } from 'react-router-dom';
+import './ContestRecommendCard.css';
 
-function ContestRecommendCard({ title, image, score, description }) {
+/**
+ * 마이페이지 공모전 추천 내역 카드
+ * 응답 필드: competitionId, dlContestId, title, score, domainScore, skillScore,
+ *            category, applicationTarget, organizer, applicationPeriod, representativeImageUrl
+ */
+function ContestRecommendCard({ contest }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/contests/${contest.competitionId}`);
+  };
+
   return (
-    <div className="recommend-card">
-      <h3 className="recommend-card-title">{title}</h3>
+    <div className="contest-recommend-card" onClick={handleClick}>
       <div className="recommend-card-image-wrapper">
-        <img src={image} alt={title} className="recommend-card-poster-img" />
+        <img
+          src={contest.representativeImageUrl}
+          alt={contest.title}
+          className="recommend-card-image"
+        />
+        {contest.score !== undefined && (
+          <div className="recommend-card-score-badge">
+            {contest.score}점
+          </div>
+        )}
       </div>
-      <div className="recommend-card-score">score : {score}</div>
-      <p className="recommend-card-desc">{description}</p>
-      <button className="recommend-card-detail-btn">상세보기</button>
+
+      <div className="recommend-card-info">
+        <h3 className="recommend-card-title">{contest.title}</h3>
+
+        <div className="recommend-card-tags">
+          {contest.category && (
+            <span className="recommend-card-tag">#{contest.category}</span>
+          )}
+        </div>
+
+        <div className="recommend-card-scores">
+          {contest.domainScore !== undefined && (
+            <span className="recommend-score-item">
+              분야 <strong>{contest.domainScore}점</strong>
+            </span>
+          )}
+          {contest.skillScore !== undefined && (
+            <span className="recommend-score-item">
+              기술 <strong>{contest.skillScore}점</strong>
+            </span>
+          )}
+        </div>
+
+        <p className="recommend-card-period">{contest.applicationPeriod}</p>
+      </div>
     </div>
   );
 }
