@@ -85,6 +85,7 @@ function MyPage() {
     fetchMyCv();
 
     const fetchRecommendedContests = async () => {
+      if (!localStorage.getItem('contestRecommended')) return;
       try {
         const data = await getRecommendedCompetitions();
         setRecommendedContests(data || []);
