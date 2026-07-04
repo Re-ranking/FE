@@ -24,7 +24,6 @@ function ContestDetail() {
 
   if (!contest) return <div className="loading">로딩 중...</div>;
 
-  // applicationPeriod가 통합 문자열로 내려오므로 마지막 날짜를 추출해 D-day 계산
   const getLiveDDay = (periodStr) => {
     if (!periodStr) return "";
     const dateMatches = periodStr.match(/\d{4}-\d{2}-\d{2}/g);
@@ -40,6 +39,14 @@ function ContestDetail() {
   };
 
   const dDayText = getLiveDDay(contest.applicationPeriod);
+
+  const categoryTags = contest.category
+    ? contest.category.split(',').map(c => c.trim()).filter(Boolean)
+    : [];
+
+  const cleanPeriod = contest.applicationPeriod
+    ? contest.applicationPeriod.replace(/\s*D-\d+|\s*D-DAY|\s*마감/g, '').trim()
+    : '';
 
   const handleRecommendClick = () => {
     navigate(`/contests/${id}/recommend`);
@@ -68,9 +75,9 @@ function ContestDetail() {
             <h1 className="detail-title">{contest.title}</h1>
 
             <div className="detail-tags-list">
-              {contest.category && (
-                <span className="detail-tag-badge">#{contest.category}</span>
-              )}
+              {categoryTags.map((tag, idx) => (
+                <span key={idx} className="detail-tag-badge">#{tag}</span>
+              ))}
             </div>
 
             <div className="info-table">
@@ -95,7 +102,7 @@ function ContestDetail() {
                   <img src={defaultIcon} alt="" className="label-icon" />
                   <span className="label-text">접수 기간</span>
                 </div>
-                <div className="info-value">{contest.applicationPeriod}</div>
+                <div className="info-value">{cleanPeriod}</div>
               </div>
 
               <div className="info-row">
