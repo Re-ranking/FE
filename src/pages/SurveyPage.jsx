@@ -23,13 +23,62 @@ function SurveyPage() {
   useEffect(() => {
     const checkExistingSubmission = async () => {
       try {
-        const data = await getMySurvey();
-        if (data && data.answers) {
-          setAllAnswers(data.answers);
-          setIsSubmitted(true);
+        const res = await getMySurvey();
+        const d = res?.data;
+        if (d) {
+          const SINGLE_KEYS = ['아니다', '보통', '그렇다'];
+          const toVal = (str) => {
+            const idx = SINGLE_KEYS.indexOf(str);
+            return idx >= 0 ? idx + 1 : 1;
+          };
+          const rebuilt = {
+            1: {
+              1: toVal(d.personality?.startInitiative),
+              2: toVal(d.personality?.completionTendency),
+              3: toVal(d.personality?.adaptability),
+              4: toVal(d.personality?.challengeOrientation),
+              5: toVal(d.personality?.consistency),
+              6: toVal(d.personality?.pressureHandling),
+            },
+            2: {
+              1: d.collaborationStyle?.rolePreference || [],
+              2: d.collaborationStyle?.workStyle ? [d.collaborationStyle.workStyle] : [],
+              3: d.collaborationStyle?.decisionStyle ? [d.collaborationStyle.decisionStyle] : [],
+              4: d.collaborationStyle?.contributionStyle || [],
+              5: d.collaborationStyle?.conflictHandling ? [d.collaborationStyle.conflictHandling] : [],
+              6: d.collaborationStyle?.cooperationLevel ? [d.collaborationStyle.cooperationLevel] : [],
+            },
+            3: {
+              1: d.lifePattern?.activityTime || [],
+              2: d.lifePattern?.availableTime || [],
+              3: d.lifePattern?.scheduleManagementStyle ? [d.lifePattern.scheduleManagementStyle] : [],
+              4: d.lifePattern?.deadlineHandlingStyle ? [d.lifePattern.deadlineHandlingStyle] : [],
+              5: d.lifePattern?.meetingFrequency ? [d.lifePattern.meetingFrequency] : [],
+              6: d.lifePattern?.responseSpeed ? [d.lifePattern.responseSpeed] : [],
+            },
+            4: {
+              1: d.communication?.communicationFrequency ? [d.communication.communicationFrequency] : [],
+              2: d.communication?.channelPreference || [],
+              3: d.communication?.feedbackStyle ? [d.communication.feedbackStyle] : [],
+              4: d.communication?.opinionExpressionStyle ? [d.communication.opinionExpressionStyle] : [],
+              5: d.communication?.meetingStyle || [],
+              6: d.communication?.conflictCommunicationStyle ? [d.communication.conflictCommunicationStyle] : [],
+            },
+            5: {
+              1: d.objective?.participationPurpose || [],
+              2: d.objective?.goalLevel ? [d.objective.goalLevel] : [],
+              3: d.objective?.commitmentLevel ? [d.objective.commitmentLevel] : [],
+              4: d.objective?.preferredCompetitionType || [],
+              5: d.objective?.projectDurationPreference ? [d.objective.projectDurationPreference] : [],
+              6: d.objective?.desiredTeamMood ? [d.objective.desiredTeamMood] : [],
+            },
+          };
+          setAllAnswers(rebuilt);
+          if (d.status === 'SUBMITTED') {
+            setIsSubmitted(true);
+          }
         }
       } catch (err) {
-        // 제출 기록이 없으면 정상적으로 설문 폼을 보여줌
         console.log('제출된 성향 정보가 없습니다.', err);
       } finally {
         setIsCheckingSubmission(false);
@@ -48,21 +97,76 @@ function SurveyPage() {
     }));
   };
 
-  // 스텝별 임시 저장 함수 - axios로 통일, 저장 완료 후 모달 안내
-  const saveTemporaryStep = (stepNum, answers) => {
-    saveSurveyStep(stepNum, answers)
-      .then(() => {
-        openModal('임시 저장되었습니다.');
-      })
-      .catch(err => {
-        console.warn("임시 저장 실패(백그라운드 처리 중):", err);
-      });
+  // SurveyCard 라디오 값(1,2,3) → API 텍스트값 변환
+  const SINGLE_LABELS = ["아니다", "보통", "그렇다"];
+  const toSingleLabel = (val) => SINGLE_LABELS[(val || 1) - 1];
+
+  // allAnswers를 API 요청 형식으로 변환
+  const buildPayload = (answers) => {
+    const p = answers[1] || {};
+    const c = answers[2] || {};
+    const l = answers[3] || {};
+    const cm = answers[4] || {};
+    const o = answers[5] || {};
+
+    return {
+      step: 5,
+      personality: {
+        startInitiative: toSingleLabel(p[1]),
+        completionTendency: toSingleLabel(p[2]),
+        adaptability: toSingleLabel(p[3]),
+        challengeOrientation: toSingleLabel(p[4]),
+        consistency: toSingleLabel(p[5]),
+        pressureHandling: toSingleLabel(p[6]),
+      },
+      collaborationStyle: {
+        rolePreference: c[1] || [],
+        workStyle: (c[2] || [])[0] || '',
+        decisionStyle: (c[3] || [])[0] || '',
+        contributionStyle: c[4] || [],
+        conflictHandling: (c[5] || [])[0] || '',
+        cooperationLevel: (c[6] || [])[0] || '',
+      },
+      lifePattern: {
+        activityTime: l[1] || [],
+        availableTime: l[2] || [],
+        scheduleManagementStyle: (l[3] || [])[0] || '',
+        deadlineHandlingStyle: (l[4] || [])[0] || '',
+        meetingFrequency: (l[5] || [])[0] || '',
+        responseSpeed: (l[6] || [])[0] || '',
+      },
+      communication: {
+        communicationFrequency: (cm[1] || [])[0] || '',
+        channelPreference: cm[2] || [],
+        feedbackStyle: (cm[3] || [])[0] || '',
+        opinionExpressionStyle: (cm[4] || [])[0] || '',
+        meetingStyle: cm[5] || [],
+        conflictCommunicationStyle: (cm[6] || [])[0] || '',
+      },
+      objective: {
+        participationPurpose: o[1] || [],
+        goalLevel: (o[2] || [])[0] || '',
+        commitmentLevel: (o[3] || [])[0] || '',
+        preferredCompetitionType: o[4] || [],
+        projectDurationPreference: (o[5] || [])[0] || '',
+        desiredTeamMood: (o[6] || [])[0] || '',
+      },
+    };
   };
 
-  // 최종 제출 함수 - 완료 모달 띄우고 결과 화면으로 전환
+  // 스텝별 임시 저장
+  const saveTemporaryStep = (stepNum, answers) => {
+    const payload = buildPayload({ ...allAnswers, [stepNum]: answers });
+    saveSurveyStep(payload)
+      .then(() => openModal('임시 저장되었습니다.'))
+      .catch(err => console.warn('임시 저장 실패:', err));
+  };
+
+  // 최종 제출
   const submitFinalSurvey = async () => {
     try {
-      await submitSurvey(allAnswers);
+      const payload = buildPayload(allAnswers);
+      await submitSurvey(payload);
       openModal('성향입력이 완료되었습니다.');
       setIsSubmitted(true);
     } catch (error) {

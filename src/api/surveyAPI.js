@@ -1,24 +1,24 @@
 import axiosInstance from './axiosInstance';
 
 /**
- * 성향 등록 임시 저장
- * POST /api/personality-surveys/draft
- * 
- * @param {{ step: number, answers: object }} payload
+ * 성향 설문 제출
+ * POST /api/personality-surveys/submit
+ *
+ * @param {object} payload - { step, personality, collaborationStyle, lifePattern, communication, objective }
  */
-export const saveSurveyStep = async (step, answers) => {
-  const { data } = await axiosInstance.post('/api/personality-surveys/draft', { step, answers });
+export const submitSurvey = async (payload) => {
+  const { data } = await axiosInstance.post('/api/personality-surveys/submit', payload);
   return data;
 };
 
 /**
- * 성향 등록 최종 제출
- * POST /api/personality-surveys/submit
- * 
- * @param {object} allAnswers - 전체 스텝의 답변 객체
+ * 성향 임시 저장
+ * POST /api/personality-surveys/draft
+ *
+ * @param {object} payload - submitSurvey와 동일한 구조
  */
-export const submitSurvey = async (allAnswers) => {
-  const { data } = await axiosInstance.post('/api/personality-surveys/submit', allAnswers);
+export const saveSurveyStep = async (payload) => {
+  const { data } = await axiosInstance.post('/api/personality-surveys/draft', payload);
   return data;
 };
 
