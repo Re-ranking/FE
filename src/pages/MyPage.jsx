@@ -194,7 +194,7 @@ function MyPage() {
               title="interests"
               items={current.interests}
               isEditing={isEditing}
-              emptyText="아직 등록된 관심 분야가 없어요."
+              emptyText="수정하기 버튼을 눌러 관심 분야를 추가해보세요!"
               placeholder="관심 분야 입력 후 Enter"
               onAdd={(value) => handleAddItem('interests', value)}
               onRemove={(idx) => handleRemoveItem('interests', idx)}
@@ -207,6 +207,7 @@ function MyPage() {
                 [p.period, p.title, p.description].filter(Boolean).join(' | ')
               )}
               isEditing={isEditing}
+              emptyText="수정하기 버튼을 눌러 프로젝트를 추가해보세요!"
               placeholder="프로젝트 입력 후 Enter"
               onAdd={(value) => handleAddItem('projects', { period: '', title: value, description: '' })}
               onRemove={(idx) => handleRemoveItem('projects', idx)}
@@ -217,6 +218,7 @@ function MyPage() {
               title="awards"
               items={current.awards}
               isEditing={isEditing}
+              emptyText="수정하기 버튼을 눌러 수상/경력을 추가해보세요!"
               placeholder="수상/경력 입력 후 Enter"
               onAdd={(value) => handleAddItem('awards', value)}
               onRemove={(idx) => handleRemoveItem('awards', idx)}
