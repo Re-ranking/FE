@@ -16,9 +16,7 @@ export const analyzeCV = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const { data } = await axiosInstance.post('/api/cv/analyze', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
+  const { data } = await axiosInstance.post('/api/cv/analyze', formData);
 
   return data;
 };

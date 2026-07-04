@@ -88,10 +88,10 @@ function SurveyPage() {
       type: "multi",
       title: "Collaboration Style",
       questions: [
-        { id: 1, question: "역할 선호", limit: 2, isMulti: false, options: ["리더 / 조율자", "디자인 담당", "발표/문서화 담당", "기획자", "아이디어 제안자", "자료조사 담당", "개발 / 구현 담당", "보조 / 지원 역할"] },
+        { id: 1, question: "역할 선호", limit: 2, isMulti: false, options: ["리더 / 조율자", "디자인 담당", "기획자", "아이디어 제안자", "개발 / 구현 담당", "보조 / 지원 역할"] },
         { id: 2, question: "업무수행방식", limit: 1, isMulti: false, options: ["개인 작업 선호", "분업 후 공유 선호", "실시간 협업 선호"] },
         { id: 3, question: "의사결정 스타일", limit: 1, isMulti: false, options: ["빠르게 결정하고 실행", "충분히 논의 후 결정", "근거와 자료 기반 결정", "리더 중심 결정 선호"] },
-        { id: 4, question: "팀 기여방식", limit: 2, isMulti: false, options: ["아이디어 제시", "실행력", "분위기 조율", "자료 정리"] },
+        { id: 4, question: "팀 기여방식", limit: 2, isMulti: false, options: ["아이디어 제시", "실행력", "일정관리", "분위기 조율", "자료 정리", "발표/전달력"] },
         { id: 5, question: "갈등 상황 대처", limit: 1, isMulti: false, options: ["직접 대화로 해결", "중재자 필요", "일단 피하고 나중에 이야기", "다수 의견 따름"] },
         { id: 6, question: "협업 선호 강도", limit: 1, isMulti: false, options: ["매우 협업형", "혼합형", "독립형"] }
       ]
@@ -100,7 +100,7 @@ function SurveyPage() {
       type: "multi",
       title: "Life Pattern",
       questions: [
-        { id: 1, question: "활동 시간대", limit: 2, isMulti: false, options: ["아침형", "낮형", "저녁형", "밤형"] },
+        { id: 1, question: "활동 시간대", limit: 2, isMulti: false, options: ["아침형", "낮형", "저녁형", "새벽형"] },
         { id: 2, question: "작업 가능 시간", limit: 2, isMulti: false, options: ["평일 오전", "평일 오후", "평일 저녁", "주말 위주", "시간 유동적"] },
         { id: 3, question: "일정 관리 스타일", limit: 1, isMulti: false, options: ["계획형", "반계획형", "즉흥형"] },
         { id: 4, question: "마감 처리 방식", limit: 1, isMulti: false, options: ["미리 준비형", "중간 점검형", "마감 집중형"] },
@@ -127,8 +127,8 @@ function SurveyPage() {
         { id: 1, question: "참여 목적", limit: 7, isMulti: true, options: ["수상", "포트폴리오 강화", "실무 경험", "취업 준비", "팀 프로젝트 경험", "인맥 형성", "진로 탐색"] },
         { id: 2, question: "목표 수준", limit: 1, isMulti: false, options: ["수상 목표", "본선 진출 목표", "결과보다 완주 목표", "경험 자체가 중요"] },
         { id: 3, question: "몰입 가능 수준", limit: 1, isMulti: false, options: ["매우 높음", "중간", "제한적"] },
-        { id: 4, question: "선호 공모전 유형", limit: 6, isMulti: true, options: ["기획형", "개발형", "디자인형", "데이터/AI형", "창업/비즈니스형","발표 중심형"] },
-        { id: 5, question: "장기/단기 프로젝트 선호", limit: 1, isMulti: false, options: ["단기 집중형", "중기형", "장기형"] },
+        { id: 4, question: "선호 공모전 유형", limit: 6, isMulti: true, options: ["기획", "개발", "디자인", "데이터/AI", "창업/비즈니스","발표 중심"] },
+        { id: 5, question: "장기/단기 프로젝트 선호", limit: 1, isMulti: false, options: ["단기 집중", "중기", "장기"] },
         { id: 6, question: "기대하는 팀 분위기", limit: 1, isMulti: false, options: ["빡세게 성과내는 분위기", "서로 배려하면서 가는 분위기", "자유롭고 유연한 분위기", "체계적이고 규칙적인 분위기"] }
       ]
     }
