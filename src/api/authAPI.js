@@ -43,7 +43,7 @@ export const logout = async () => {
     console.error('로그아웃 API 오류:', err);
   } finally {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
+    // user 정보(이름/전공/한줄소개/프로필이미지)는 재로그인 후에도 유지
   }
 };
 

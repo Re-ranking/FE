@@ -8,32 +8,42 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// refreshToken이 없으므로 401 발생 시 재발급 없이 로그아웃 처리
-// 단, 인증이 필요 없는 엔드포인트(회원가입/로그인/이메일인증)는 예외
-const AUTH_FREE_URLS = [
+const publicAuthUrls = [
   '/api/auth/signup',
   '/api/auth/login',
   '/api/auth/confirm',
 ];
 
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('accessToken');
+    const isPublicAuthRequest = publicAuthUrls.some((url) =>
+      config.url?.startsWith(url)
+    );
+
+    // 회원가입/로그인/이메일인증 요청에는 Authorization 절대 붙이지 않음
+    if (token && !isPublicAuthRequest) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    // FormData는 Content-Type을 브라우저가 자동으로 boundary 포함해서 넣어야 함
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    const requestUrl = error.config?.url || '';
-    const isAuthFree = AUTH_FREE_URLS.some(url => requestUrl.includes(url));
+    const isPublicAuthRequest = publicAuthUrls.some((url) =>
+      error.config?.url?.startsWith(url)
+    );
 
-    if (error.response?.status === 401 && !isAuthFree) {
+    if (error.response?.status === 401 && !isPublicAuthRequest) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('user');
       window.location.href = '/login';

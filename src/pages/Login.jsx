@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
-import { login } from '../api/authAPI';  //api 주소 가져오기
+import { login } from '../api/authAPI';
+import { getMyCv } from '../api/mypageAPI';
 import './Login.css';
 
 function Login() {
@@ -13,7 +14,7 @@ function Login() {
     password: ''
   });
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +28,22 @@ function Login() {
 
     try {
       await login(loginData);
+
+      // 로그인 후 CV 정보에서 user 정보를 가져와 localStorage에 저장
+      try {
+        const cvData = await getMyCv();
+        if (cvData) {
+          localStorage.setItem('user', JSON.stringify({
+            name: cvData.name || '',
+            major: cvData.major || '',
+            profileImage: cvData.profileImage || '',
+            description: cvData.introduction || '',
+          }));
+        }
+      } catch (cvErr) {
+        console.warn('user 정보 로드 실패 (로그인은 성공):', cvErr);
+      }
+
       navigate('/main');
     } catch (err) {
       const message = err.response?.data?.message || '로그인 중 오류가 발생했습니다.';

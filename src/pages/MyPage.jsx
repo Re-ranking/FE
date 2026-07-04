@@ -39,24 +39,47 @@ function MyPage() {
   const [draft, setDraft] = useState(null);
 
   useEffect(() => {
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+
+    const toFullUrl = (url) => {
+      if (!url) return null;
+      if (url.startsWith('http')) return url;
+      return `${BASE_URL}${url}`;
+    };
+
     const fetchMyCv = async () => {
       try {
         const data = await getMyCv();
+        const savedUser = localStorage.getItem('user');
+        const user = savedUser ? JSON.parse(savedUser) : {};
+
         setCvData({
-          name: data.name || '',
-          major: data.major || '',
-          profileImage: data.profileImage || '',
-          introduction: data.introduction || '',
+          name: data.name || user.name || '',
+          major: data.major || user.major || '',
+          profileImage: toFullUrl(data.profileImage) || toFullUrl(user.profileImage) || '',
+          introduction: data.introduction || user.description || '',
           skills: data.skills || [],
           interests: data.interests || [],
           projects: data.projects || [],
           awards: data.awards || [],
         });
-        setStrengths(data.strengths || []);
-        setWeaknesses(data.weaknesses || []);
-        setProfileImageUrl(data.profileImage || null);
+        setStrengths((data.strengths || []).map(s => ({ name: s.name, value: s.score })));
+        setWeaknesses((data.weaknesses || []).map(w => ({ name: w.name, value: w.score })));
+        setProfileImageUrl(toFullUrl(data.profileImage) || toFullUrl(user.profileImage) || null);
       } catch (err) {
         console.error('CV 정보 로드 실패:', err);
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+          const user = JSON.parse(savedUser);
+          setCvData(prev => ({
+            ...prev,
+            name: user.name || '',
+            major: user.major || '',
+            introduction: user.description || '',
+            profileImage: toFullUrl(user.profileImage) || '',
+          }));
+          setProfileImageUrl(toFullUrl(user.profileImage) || null);
+        }
       }
     };
     fetchMyCv();

@@ -16,7 +16,9 @@ export const analyzeCV = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const { data } = await axiosInstance.post('/api/cv/analyze', formData);
+  const { data } = await axiosInstance.post('/api/cv/analyze', formData, {
+    timeout: 60000, // DL 분석이 최대 30초 이상 걸릴 수 있어서 60초로 설정
+  });
 
   return data;
 };

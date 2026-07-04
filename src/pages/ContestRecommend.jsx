@@ -28,22 +28,30 @@ function ContestRecommendPage() {
   const [recommendedContests, setRecommendedContests] = useState([]);
 
   useEffect(() => {
-    // 프로필 카드용 기본 정보 (localStorage)
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+    const toFullUrl = (url) => {
+      if (!url) return null;
+      if (url.startsWith('http')) return url;
+      return `${BASE_URL}${url}`;
+    };
+
     const user = localStorage.getItem('user');
     if (user) {
       const parsed = JSON.parse(user);
       setName(parsed.name || '');
-      setOneLiner(parsed.introduction || '');
-      setProfileImageUrl(parsed.profileImage || null);
+      setOneLiner(parsed.description || '');
+      setProfileImageUrl(toFullUrl(parsed.profileImage) || null);
     }
 
-    // GET /api/mypage/cv - domains(interests), 프로필 정보
     const fetchCvInfo = async () => {
       try {
         const data = await getMyCv();
-        setName(data.name || '');
-        setOneLiner(data.introduction || '');
-        setProfileImageUrl(data.profileImage || null);
+        const savedUser = localStorage.getItem('user');
+        const u = savedUser ? JSON.parse(savedUser) : {};
+
+        setName(data.name || u.name || '');
+        setOneLiner(data.introduction || u.description || '');
+        setProfileImageUrl(toFullUrl(data.profileImage) || toFullUrl(u.profileImage) || null);
         setDomains(data.interests || []);
       } catch (err) {
         console.error('CV 정보 로드 실패:', err);
