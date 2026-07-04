@@ -52,7 +52,6 @@ function ContestRecommendPage() {
         setName(data.name || u.name || '');
         setOneLiner(data.introduction || u.description || '');
         setProfileImageUrl(toFullUrl(data.profileImage) || toFullUrl(u.profileImage) || null);
-        setDomains(data.interests || []);
       } catch (err) {
         console.error('CV 정보 로드 실패:', err);
       }
@@ -65,6 +64,7 @@ function ContestRecommendPage() {
         const data = await getLatestCV();
         if (data?.cvAnalysis) {
           const analysis = data.cvAnalysis;
+          setDomains(analysis.primaryDomains || []);
           setStrengths((analysis.strengths || []).map(s => ({
             name: s.name,
             value: s.score,
@@ -94,7 +94,8 @@ function ContestRecommendPage() {
     setIsAnalyzing(true);
     try {
       const data = await getRecommendedCompetitions();
-      setRecommendedContests(data || []);
+      const sorted = (data || []).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+      setRecommendedContests(sorted);
       setShowResults(true);
       localStorage.setItem('contestRecommended', 'true');
     } catch (err) {

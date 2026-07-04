@@ -88,7 +88,8 @@ function MyPage() {
       if (!localStorage.getItem('contestRecommended')) return;
       try {
         const data = await getRecommendedCompetitions();
-        setRecommendedContests(data || []);
+        const sorted = (data || []).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+        setRecommendedContests(sorted);
       } catch (err) {
         console.error('공모전 추천 내역 로드 실패:', err);
       }
