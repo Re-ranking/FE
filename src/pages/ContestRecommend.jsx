@@ -9,7 +9,7 @@ import LoadingOverlay from '../components/LoadingOverlay';
 import '../components/LoadingOverlay.css';
 import defaultProfile from '../assets/images/profile-default.png';
 import { getLatestCV } from '../api/cvAPI';
-import { getMyCv } from '../api/mypageAPI';
+import { getMyCv, getRecommendedCompetitions } from '../api/mypageAPI';
 
 const STRENGTH_COLORS = ['#471E8F', '#8E6CEF', '#C2B2FC', '#E6E1FE'];
 const WEAKNESS_COLORS = ['#D83EAD', '#EFA1DC', '#F7C8EB', '#FCEAF7'];
@@ -93,24 +93,8 @@ function ContestRecommendPage() {
   const handleRecommendClick = async () => {
     setIsAnalyzing(true);
     try {
-      // GET /api/cv/latest로 분석 결과 + 추천 공모전 함께 받아옴
-      const data = await getLatestCV();
-      if (data?.cvAnalysis) {
-        const analysis = data.cvAnalysis;
-        setStrengths((analysis.strengths || []).map(s => ({
-          name: s.name,
-          value: s.score,
-          average: s.averageScore,
-          diff: s.difference >= 0 ? `+${s.difference}%` : `${s.difference}%`
-        })));
-        setWeaknesses((analysis.weaknesses || []).map(w => ({
-          name: w.name,
-          value: w.score,
-          average: w.averageScore,
-          diff: w.difference >= 0 ? `+${w.difference}%` : `${w.difference}%`
-        })));
-      }
-      setRecommendedContests(data?.recommendations || []);
+      const data = await getRecommendedCompetitions();
+      setRecommendedContests(data || []);
       setShowResults(true);
       localStorage.setItem('contestRecommended', 'true');
     } catch (err) {

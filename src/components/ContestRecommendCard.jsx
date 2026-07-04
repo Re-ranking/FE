@@ -14,6 +14,10 @@ function ContestRecommendCard({ contest }) {
     navigate(`/contests/${contest.competitionId}`);
   };
 
+      const categoryTags = contest.category
+        ? contest.category.split(',').map(c => c.trim()).filter(Boolean)
+        : [];
+
   return (
     <div className="contest-recommend-card" onClick={handleClick}>
       <div className="recommend-card-image-wrapper">
@@ -33,9 +37,9 @@ function ContestRecommendCard({ contest }) {
         <h3 className="recommend-card-title">{contest.title}</h3>
 
         <div className="recommend-card-tags">
-          {contest.category && (
-            <span className="recommend-card-tag">#{contest.category}</span>
-          )}
+          {categoryTags.map((tag, idx) => (
+            <span key={idx} className="recommend-card-tag">#{tag}</span>
+          ))}
         </div>
 
         <div className="recommend-card-scores">
