@@ -57,8 +57,12 @@ export const getRecommendedCompetitions = async () => {
 /**
  * 팀원 추천 내역 조회
  * GET /api/mypage/recommendations/team-members
+ *
+ * 팀 매칭 연산이 최대 1분 정도 걸릴 수 있어서 60초로 타임아웃 설정
  */
 export const getRecommendedTeamMembers = async () => {
-  const { data } = await axiosInstance.get('/api/mypage/recommendations/team-members');
+  const { data } = await axiosInstance.get('/api/mypage/recommendations/team-members', {
+    timeout: 90000,
+  });
   return data;
 };

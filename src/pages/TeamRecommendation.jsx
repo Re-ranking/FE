@@ -7,6 +7,7 @@ import LoadingOverlay from '../components/LoadingOverlay';
 import '../components/LoadingOverlay.css';
 import useModal from '../hooks/useModal.jsx';
 import { getRecommendedTeamMembers } from '../api/mypageAPI';
+import { getMySurvey } from '../api/surveyAPI';
 
 function TeamRecommendation() {
   const [searchParams] = useSearchParams();
@@ -19,6 +20,18 @@ function TeamRecommendation() {
   useEffect(() => {
     const fetchTeamRecommend = async () => {
       setIsMatching(true);
+
+      // 성향 설문을 아직 제출하지 않은 경우 팀원 추천 API가 500을 반환하므로,
+      // 먼저 설문 제출 여부를 확인한 뒤에만 호출한다.
+      try {
+        await getMySurvey();
+      } catch (surveyErr) {
+        console.warn('성향 설문 미제출로 팀원 추천을 건너뜁니다:', surveyErr);
+        setIsMatching(false);
+        openModal('팀원 추천을 받으려면 먼저 성향 설문을 제출해주세요.');
+        return;
+      }
+
       try {
         const data = await getRecommendedTeamMembers();
         setMembers(data || []);

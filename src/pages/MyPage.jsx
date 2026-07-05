@@ -13,6 +13,7 @@ import iconInterest from '../assets/images/profile-default.png';
 import iconProject from '../assets/images/profile-default.png';
 import iconAward from '../assets/images/profile-default.png';
 import { getMyCv, updateMyCv, updateMyProfile, getRecommendedCompetitions, getRecommendedTeamMembers } from '../api/mypageAPI';
+import { getMySurvey } from '../api/surveyAPI';
 
 function MyPage() {
   const { openModal, ModalComponent } = useModal();
@@ -97,6 +98,15 @@ function MyPage() {
     fetchRecommendedContests();
 
     const fetchRecommendedTeamMembers = async () => {
+      // 성향 설문을 아직 제출하지 않은 경우 팀원 추천 API가 500을 반환하므로,
+      // 먼저 설문 제출 여부를 확인한 뒤에만 호출한다.
+      try {
+        await getMySurvey();
+      } catch (surveyErr) {
+        console.warn('성향 설문 미제출로 팀원 추천을 건너뜁니다:', surveyErr);
+        return;
+      }
+
       try {
         const data = await getRecommendedTeamMembers();
         setRecommendedTeamMembers(data || []);
