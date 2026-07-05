@@ -45,7 +45,8 @@ axiosInstance.interceptors.response.use(
 
     if (error.response?.status === 401 && !isPublicAuthRequest) {
       localStorage.removeItem('accessToken');
-      localStorage.removeItem('user');
+      // user 정보(이름/전공/한줄소개/프로필이미지)는 토큰 만료 후에도 유지
+      // -> 재로그인 시 getMyCv() 응답이 비어있어도 기존 프로필 정보가 화면에 남아있도록 함
       window.location.href = '/login';
     }
     return Promise.reject(error);

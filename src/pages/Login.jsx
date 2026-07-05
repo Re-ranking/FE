@@ -30,14 +30,18 @@ function Login() {
       await login(loginData);
 
       // 로그인 후 CV 정보에서 user 정보를 가져와 localStorage에 저장
+      // CV API 값이 비어있는 경우(name: null, major: '' 등) 기존 localStorage 값을 덮어쓰지 않도록 병합
       try {
         const cvData = await getMyCv();
+        const savedUser = localStorage.getItem('user');
+        const existingUser = savedUser ? JSON.parse(savedUser) : {};
+
         if (cvData) {
           localStorage.setItem('user', JSON.stringify({
-            name: cvData.name || '',
-            major: cvData.major || '',
-            profileImage: cvData.profileImage || '',
-            description: cvData.introduction || '',
+            name: cvData.name || existingUser.name || '',
+            major: cvData.major || existingUser.major || '',
+            profileImage: cvData.profileImage || existingUser.profileImage || '',
+            description: cvData.introduction || existingUser.description || '',
           }));
         }
       } catch (cvErr) {
