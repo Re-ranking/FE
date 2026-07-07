@@ -1,66 +1,79 @@
 .member-card {
+  position: relative;
   background: #FFFFFF;
-  border: 1px solid #EAEAEA;
-  border-radius: 28px;
-  padding: 36px 28px;
+  border: 1px solid #ECEAF6;
+  border-radius: 24px;
+  padding: 34px 26px 28px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 20px rgba(26, 26, 46, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .member-card:hover {
   transform: translateY(-6px);
   border-color: #C5C7F5;
-  box-shadow: 0 12px 36px rgba(101, 110, 211, 0.12);
+  box-shadow: 0 14px 34px rgba(90, 95, 224, 0.14);
 }
 
+.member-card.is-top {
+  border-color: #F0678B;
+  box-shadow: 0 4px 24px rgba(240, 103, 139, 0.1);
+}
+
+.member-card.is-top:hover {
+  box-shadow: 0 14px 34px rgba(240, 103, 139, 0.18);
+}
+
+/* ---- 랭크 배지 (우상단 고정) ---- */
+.member-rank-badge {
+  position: absolute;
+  top: -14px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 20px;
+  border-radius: 22px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(135deg, #5A5FE0 0%, #4B4FC4 100%);
+  box-shadow: 0 6px 14px rgba(90, 95, 224, 0.3);
+}
+
+.member-card.is-top .member-rank-badge {
+  background: linear-gradient(135deg, #F0678B 0%, #D8467A 100%);
+  box-shadow: 0 6px 14px rgba(240, 103, 139, 0.32);
+}
+
+/* ---- 상단: 아바타 + 이름 ---- */
 .member-card-top {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 
-.member-avatar-wrapper {
-  position: relative;
-  width: 72px;
-  height: 72px;
+.member-avatar-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #E4DEFA 0%, #F0F1FF 100%);
 }
 
 .member-avatar {
-  width: 72px;
-  height: 72px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: contain;
-  background: #F0F1FF;
-  border: 2px solid #E4DEFA;
+  background: #F8F8FC;
   padding: 8px;
   box-sizing: border-box;
-}
-
-.member-rank-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #F0F1FF;
-  border-radius: 20px;
-  padding: 5px 16px;
-}
-
-.member-rank-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #9494A6;
-  letter-spacing: 0.5px;
-}
-
-.member-rank-number {
-  font-size: 16px;
-  font-weight: 800;
-  color: #656ED3;
-  letter-spacing: -0.5px;
+  display: block;
 }
 
 .member-name-row {
@@ -72,70 +85,149 @@
 }
 
 .member-name {
-  font-size: 17px;
+  font-size: 17.5px;
   font-weight: 800;
   color: #1A1A2E;
   margin: 0;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.02em;
 }
 
 .member-role {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
-  color: #2D2D3F;
-  background: #F2F2F7;
-  padding: 4px 14px;
+  color: #4B4FC4;
+  background: #F0F1FF;
+  padding: 4px 13px;
   border-radius: 20px;
 }
 
-.member-score {
-  font-size: 13px;
-  font-weight: 600;
-  color: #9494A6;
-  margin: 0;
+/* ---- 매칭 점수 바 ---- */
+.member-score-block {
+  margin-bottom: 20px;
+}
+
+.member-score-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.member-score-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #9490C4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.member-score-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1A1A2E;
+}
+
+.member-score-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #F0F0F7;
+  overflow: hidden;
+}
+
+.member-score-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #5A5FE0 0%, #4B4FC4 100%);
+}
+
+.member-card.is-top .member-score-fill {
+  background: linear-gradient(90deg, #F0678B 0%, #D8467A 100%);
 }
 
 .member-divider {
   height: 1px;
   background: #F2F2F7;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
+/* ---- 태그 ---- */
 .member-tags-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.member-tag-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.member-tag-label {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #B9B7D6;
+  width: 44px;
 }
 
 .member-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  min-width: 0;
 }
 
 .member-tag {
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 11px;
-  border-radius: 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
 }
 
 .skill-tag {
-  background: #F0F1FF;
+  background: transparent;
   color: #5A5FE0;
+  border: 1px solid #DEDCF9;
 }
 
 .domain-tag {
-  background: #F0FDF4;
-  color: #16A34A;
+  background: transparent;
+  color: #17A363;
+  border: 1px solid #D3F0E1;
 }
 
+.more-tag {
+  background: #F5F5F9;
+  color: #A6A4BE;
+  border: 1px solid #ECEAF6;
+}
+
+/* ---- 추천 사유 ---- */
 .member-reason-box {
+  position: relative;
   background: #F8F8FC;
   border-radius: 14px;
-  padding: 14px 16px;
+  padding: 14px 16px 14px 20px;
   margin-top: auto;
+}
+
+.member-reason-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #5A5FE0 0%, #4B4FC4 100%);
+}
+
+.member-card.is-top .member-reason-box::before {
+  background: linear-gradient(180deg, #F0678B 0%, #D8467A 100%);
 }
 
 .member-reason {

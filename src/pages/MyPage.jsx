@@ -35,6 +35,7 @@ function MyPage() {
   const [weaknesses, setWeaknesses] = useState([]);
   const [recommendedContests, setRecommendedContests] = useState([]);
   const [recommendedTeamMembers, setRecommendedTeamMembers] = useState([]);
+  const [isSurveySubmitted, setIsSurveySubmitted] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [profileImageFile, setProfileImageFile] = useState(null);
   const [draft, setDraft] = useState(null);
@@ -97,16 +98,27 @@ function MyPage() {
     };
     fetchRecommendedContests();
 
-    const fetchRecommendedTeamMembers = async () => {
-      // 성향 설문을 아직 제출하지 않은 경우 팀원 추천 API가 500을 반환하므로,
-      // 먼저 설문 제출 여부를 확인한 뒤에만 호출한다.
+    // 성향 설문 제출 여부 확인 (TraitInputBanner 문구 + 팀원 추천 가드에 공통으로 사용)
+    const fetchSurveyStatus = async () => {
       try {
-        await getMySurvey();
-      } catch (surveyErr) {
-        console.warn('성향 설문 미제출로 팀원 추천을 건너뜁니다:', surveyErr);
+        const res = await getMySurvey();
+        const submitted = res?.data?.status === 'SUBMITTED';
+        setIsSurveySubmitted(submitted);
+        return submitted;
+      } catch (err) {
+        console.log('제출된 성향 정보가 없습니다.', err);
+        setIsSurveySubmitted(false);
+        return false;
+      }
+    };
+
+    // 성향 설문을 아직 제출하지 않은 경우 팀원 추천 API가 500을 반환하므로,
+    // 설문 제출 여부가 확인된 이후에만 호출한다.
+    const fetchRecommendedTeamMembers = async (surveySubmitted) => {
+      if (!surveySubmitted) {
+        console.warn('성향 설문 미제출로 팀원 추천을 건너뜁니다.');
         return;
       }
-
       try {
         const data = await getRecommendedTeamMembers();
         setRecommendedTeamMembers(data || []);
@@ -114,7 +126,12 @@ function MyPage() {
         console.error('팀원 추천 내역 로드 실패:', err);
       }
     };
-    fetchRecommendedTeamMembers();
+
+    const initSurveyAndTeamMembers = async () => {
+      const submitted = await fetchSurveyStatus();
+      await fetchRecommendedTeamMembers(submitted);
+    };
+    initSurveyAndTeamMembers();
   }, []);
 
   const handleEditStart = () => {
@@ -196,7 +213,7 @@ function MyPage() {
           onProfileImageChange={(file) => setProfileImageFile(file)}
         />
 
-        <TraitInputBanner />
+        <TraitInputBanner isSubmitted={isSurveySubmitted} />
 
         <div className="section-card">
           <div className="section-grid">

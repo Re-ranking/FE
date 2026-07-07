@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 /**
  * 마이페이지 - 협업 성향 입력 안내 배너
  * 클릭 시 성향입력(설문) 페이지로 이동
+ *
+ * @param {boolean} isSubmitted - 이미 성향 설문을 제출했는지 여부 (MyPage에서 전달받음)
  */
-function TraitInputBanner() {
+function TraitInputBanner({ isSubmitted = false }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -22,11 +24,15 @@ function TraitInputBanner() {
         </div>
         <div>
           <p className="trait-title">나의 협업 성향, 알고 있나요?</p>
-          <p className="trait-desc">1분 테스트로 더 잘 맞는 팀원을 찾아드려요.</p>
+          <p className="trait-desc">
+            {isSubmitted
+              ? '이미 성향 입력을 완료했어요. 결과를 다시 확인해보세요.'
+              : '1분 테스트로 더 잘 맞는 팀원을 찾아드려요.'}
+          </p>
         </div>
       </div>
       <button className="trait-btn" onClick={handleClick}>
-        시작하기
+        {isSubmitted ? '내역 확인하기' : '시작하기'}
       </button>
     </div>
   );
