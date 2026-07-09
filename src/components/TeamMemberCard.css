@@ -1,95 +1,254 @@
 .member-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 28px;
-  padding: 40px 35px;
-  box-shadow: 0 15px 35px rgba(65, 62, 101, 0.04), 0 2px 4px rgba(0, 0, 0, 0.01);
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid #ECEAF6;
+  border-radius: 20px;
+  padding: 28px 26px 26px;
   display: flex;
   flex-direction: column;
-  width: 100%; 
-  min-height: 280px;
-  box-sizing: border-box; 
-  position: relative;
+  box-shadow: 0 2px 16px rgba(26, 26, 46, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
 }
 
 .member-card:hover {
-  transform: translateY(-8px);
-  background: #ffffff;
-  border-color: rgba(101, 110, 211, 0.4);
-  box-shadow: 0 25px 45px rgba(101, 110, 211, 0.12);
+  transform: translateY(-5px);
+  border-color: #D8D6EF;
+  box-shadow: 0 12px 30px rgba(90, 95, 224, 0.12);
 }
 
-.card-top {
+/* ---- 1등 강조: 카드 전체 테두리 대신 상단 리본으로만 은근하게 ---- */
+.member-card.is-top {
+  box-shadow: 0 4px 20px rgba(26, 26, 46, 0.08);
+}
+
+.member-card.is-top:hover {
+  box-shadow: 0 12px 30px rgba(26, 26, 46, 0.16);
+}
+
+.member-card.is-top::before {
+  content: 'TOP MATCH';
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: #1A1A2E;
+  padding: 5px 14px 5px 16px;
+  border-radius: 0 0 10px 0;
+}
+
+/* ---- 랭크 배지 (카드 우상단 코너 리본) ---- */
+.member-rank-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  background: #F5F5FA;
+  color: #1A1A2E;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 7px 15px 7px 17px;
+  border-radius: 0 0 0 12px;
+  letter-spacing: -0.1px;
+}
+
+.member-rank-badge::before {
+  content: '★';
+  font-size: 8.5px;
+  color: #5A5FE0;
+  margin-right: 3px;
+}
+
+.member-card.is-top .member-rank-badge {
+  background: #F0F0F5;
+}
+
+.member-card.is-top .member-rank-badge::before {
+  color: #1A1A2E;
+}
+
+/* ---- 상단: 아바타 + 이름 ---- */
+.member-card-top {
   display: flex;
-  align-items: center; 
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
   margin-bottom: 24px;
 }
 
-.profile-img-wrapper {
-  width: 84px;
-  height: 84px;
+.member-avatar-ring {
+  position: relative;
+  width: 74px;
+  height: 74px;
   border-radius: 50%;
-  overflow: hidden;
-  background-color: #f1f5f9;
-  border: 2px solid #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  flex-shrink: 0; 
-  transition: transform 0.4s ease;
+  padding: 3px;
+  background: linear-gradient(135deg, #E4DEFA 0%, #F0F1FF 100%);
 }
 
-.member-card:hover .profile-img-wrapper {
-  transform: scale(1.05);
-}
-
-.profile-img {
+.member-avatar {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  border-radius: 50%;
+  object-fit: contain;
+  background: #F8F8FC;
+  padding: 8px;
+  box-sizing: border-box;
+  display: block;
 }
 
-.info-text {
+.member-name-row {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start; 
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
 .member-name {
-  font-size: 23px;
+  font-size: 17px;
   font-weight: 800;
-  color: #1e293b;
+  color: #1A1A2E;
   margin: 0;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.02em;
 }
 
 .member-role {
-  font-size: 0.9rem;
-  color: #656ED3;
+  font-size: 11.5px;
   font-weight: 700;
-  margin: 6px 0 0 0;
-  background-color: #f0f1ff;
-  padding: 4px 12px;
-  border-radius: 8px;
-  letter-spacing: 0.5px;
+  color: #6C6C82;
+  background: #F5F5F9;
+  padding: 3px 11px;
+  border-radius: 20px;
 }
 
-.card-divider {
+/* ---- 매칭 점수 바 ---- */
+.member-score-block {
+  margin-bottom: 22px;
+}
+
+.member-score-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+
+.member-score-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #ACAAC6;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.member-score-value {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #1A1A2E;
+}
+
+.member-score-track {
+  height: 5px;
+  border-radius: 3px;
+  background: #F1F1F6;
+  overflow: hidden;
+}
+
+.member-score-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: #5A5FE0;
+}
+
+.member-card.is-top .member-score-fill {
+  background: #1A1A2E;
+}
+
+.member-divider {
   height: 1px;
-  background-color: #e2e8f0;
-  margin-bottom: 24px;
+  background: #F2F2F7;
+  margin-bottom: 18px;
 }
 
-.matching-reason {
-  font-size: 15px;
-  color: #334155;
-  line-height: 1.65;
+/* ---- 태그: 라벨 위 / 미니 배지 아래 구조 ---- */
+.member-tags-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.member-tag-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.member-tag-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #ACAAC6;
+}
+
+.member-tag-label::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #5A5FE0;
+}
+
+.member-tag-group.is-domain .member-tag-label::before {
+  background: #17A363;
+}
+
+.member-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.member-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 8px;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+}
+
+.skill-tag {
+  background: #F0F1FC;
+  color: #4C50C9;
+}
+
+.domain-tag {
+  background: #EAFAF1;
+  color: #17A363;
+}
+
+/* ---- 추천 사유 ---- */
+.member-reason-box {
+  background: #F8F8FB;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-top: auto;
+}
+
+.member-reason {
+  font-size: 14px;
+  color: #5C5C72;
+  line-height: 1.7;
   margin: 0;
-  text-align: left; 
   word-break: keep-all;
 }

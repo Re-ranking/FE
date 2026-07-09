@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #696db5;
-  --text-color: #1A1A1A;
+  --primary-color: #656ED3;
+  --text-color: #1A1A2E;
   --bg-gradient: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
 }
 
@@ -17,27 +17,35 @@
 
 .register-card {
   width: 100%;
-  max-width: 540px;
-  min-height: 750px; /* ✅ 로그인보다 살짝 크게 */
-
-  border-radius: 25px;
-  background: #FFF;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-
+  max-width: 580px;
+  min-height: 780px;
+  border-radius: 32px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.8) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.03),
+    0 20px 50px rgba(105, 109, 181, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  padding: clamp(40px, 6vw, 100px) clamp(20px, 5vw, 60px);
+  padding: clamp(44px, 6vw, 90px) clamp(28px, 5vw, 64px);
   box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ✅ 프로필 영역 */
+.register-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 6px 40px rgba(0, 0, 0, 0.04),
+    0 24px 60px rgba(105, 109, 181, 0.14);
+}
+
 .profile-wrapper {
-  margin-bottom: 50px;
+  margin-bottom: 44px;
 }
 
-/* ✅ 폼 */
 .register-form {
   display: flex;
   flex-direction: column;
@@ -45,30 +53,33 @@
   flex: 1;
 }
 
-/* ✅ 입력 영역 */
 .input-section {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* 로그인보다 살짝 좁게 */
+  gap: 18px;
   margin-bottom: 30px;
 }
+
 .input-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 9px;
   width: 100%;
 }
 
+.input-wrapper :global(.common-input) {
+  font-size: 15.5px;
+  height: 50px;
+}
+
 .input-label {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text-color);
   margin-left: 5px;
 }
 
-
-/* ✅ 하단 영역 */
 .bottom-section {
   margin-top: auto;
   display: flex;
@@ -78,20 +89,23 @@
   width: 100%;
 }
 
+.bottom-section :global(.common-button) {
+  height: 54px;
+  font-size: 16px;
+  font-weight: 700;
+}
 
-/* ✅ 로그인 안내 텍스트 */
 .login-text {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: var(--text-color);
+  font-size: 15px;
+  color: #4A4A5E;
   margin: 0;
   text-align: center;
 }
 
-/* ✅ 로그인 링크 */
 .login-link {
   color: var(--primary-color);
-  font-weight: 600;
+  font-weight: 700;
   margin-left: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -99,16 +113,103 @@
 
 .login-link:hover {
   text-decoration: underline;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-/* ✅ 모바일 대응 */
+.register-error-text {
+  color: #E0445C;
+  font-size: 14.5px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.email-verify-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  align-items: center;
+}
+
+.email-verify-row input,
+.email-verify-row .common-input {
+  flex: 1;
+}
+
+.verify-send-btn {
+  height: 50px;
+  padding: 0 20px;
+  background: #F0F1FF;
+  color: #656ED3;
+  border: 1.5px solid #C5C7F5;
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  transition: all 0.15s ease;
+}
+
+.verify-send-btn:hover {
+  background: #656ED3;
+  color: #fff;
+  border-color: #656ED3;
+}
+
+.verify-send-btn:disabled {
+  background: #F5F5F8;
+  color: #B0B0C0;
+  border-color: #E8E8F0;
+  cursor: not-allowed;
+}
+
+.code-error-text {
+  color: #E0445C;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 4px 0 0 4px;
+}
+
+.verify-success-text {
+  color: #656ED3;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin: 0 0 0 4px;
+}
+
+.password-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.password-rule {
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 9px;
+}
+
+.password-rule.valid {
+  color: #656ED3;
+  background: #F0F1FF;
+}
+
+.password-rule.invalid {
+  color: #A0A0B0;
+  background: #F5F5F8;
+}
+
 @media (max-width: 480px) {
   .register-card {
-    border-radius: 18px;
+    border-radius: 24px;
+    padding: 50px 24px;
   }
 
   .login-text {
-    font-size: 13px;
+    font-size: 14px;
   }
 }

@@ -11,6 +11,23 @@
   z-index: 1000;
 }
 
+.navbar-left,
+.navbar-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right {
+  justify-content: flex-end;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .logo-container {
   display: flex;
   align-items: center;

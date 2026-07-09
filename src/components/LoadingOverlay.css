@@ -1,0 +1,152 @@
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(26, 26, 46, 0.34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: loadingFadeIn 0.25s ease;
+}
+
+.loading-overlay-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 400px;
+  max-width: 90vw;
+  padding: 64px 48px 48px;
+  background: #FFFFFF;
+  border: 1px solid #ECEAF6;
+  border-radius: 32px;
+  box-shadow: 0 28px 72px rgba(90, 95, 224, 0.24), 0 8px 24px rgba(26, 26, 46, 0.08);
+  box-sizing: border-box;
+}
+
+.loading-overlay-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 5px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, #5A5FE0 0%, #4B4FC4 100%);
+}
+
+/* ---- 링 스피너 (conic-gradient 기반, 소프트 테일) ---- */
+.loading-spinner {
+  position: relative;
+  width: 76px;
+  height: 76px;
+}
+
+.loading-spinner-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, #5A5FE0 280deg, #4B4FC4 340deg, transparent 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  animation: loadingSpin 1s linear infinite;
+}
+
+.loading-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.loading-eyebrow {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9490C4;
+  margin: 0;
+}
+
+.loading-message {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1A1A2E;
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.2px;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.loading-submessage {
+  font-size: 15px;
+  font-weight: 500;
+  color: #9494A6;
+  margin: 0;
+  text-align: center;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+/* ---- 진행 바 (부정형 로딩 인디케이터) ---- */
+.loading-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: #F0F0F7;
+  overflow: hidden;
+}
+
+.loading-progress-bar {
+  width: 40%;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #5A5FE0 0%, #4B4FC4 100%);
+  animation: loadingProgressSlide 1.3s ease-in-out infinite;
+}
+
+@keyframes loadingSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loadingProgressSlide {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(340%); }
+}
+
+@keyframes loadingFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner-ring { animation-duration: 1.8s; }
+  .loading-progress-bar { animation: none; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .loading-overlay-content {
+    width: 92vw;
+    padding: 48px 32px 36px;
+    gap: 22px;
+    border-radius: 26px;
+  }
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+  }
+  .loading-message {
+    font-size: 19px;
+  }
+  .loading-submessage {
+    font-size: 14px;
+  }
+}
