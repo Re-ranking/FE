@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import Navbar from '../components/Navbar';
+import { useAuth } from '../hooks/useAuth';
+import useModal from '../hooks/useModal';
 import './MainPage.css';
 import mainIcon1 from '../assets/images/main-icon1.png'; 
 import mainIcon2 from '../assets/images/main-icon2.png';
 
 function MainPage() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
-
-  useEffect(() => {
-  }, []);
+  const { isLoggedIn } = useAuth();
+  const { openModal, ModalComponent } = useModal();
 
   const handleMainButtonClick = () => {
     if (isLoggedIn) {
@@ -20,9 +20,31 @@ function MainPage() {
     }
   };
 
+  // 로그인 여부 확인 후 페이지 이동
+  const handleProtectedClick = (path) => {
+    if (!isLoggedIn) {
+      openModal('로그인 후 이용해주세요.');
+      return;
+    }
+    navigate(path);
+  };
+
+  // 팀원 추천은 공모전 추천을 먼저 받아야만 이동 가능 (Navbar와 동일한 가드)
+  const handleTeamRecommendClick = () => {
+    if (!isLoggedIn) {
+      openModal('로그인 후 이용해주세요.');
+      return;
+    }
+    if (!localStorage.getItem('contestRecommended')) {
+      openModal('먼저 공모전 추천을 받아주세요.');
+      return;
+    }
+    navigate('/Teamrecommend');
+  };
+
   return (
     <div className="main-container">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
 
       <main className="main-content">
         <section className="hero-left">
@@ -49,7 +71,7 @@ function MainPage() {
         <section className="hero-right">
           <div className="recommend-container">
             
-            <div className="recommend-section" onClick={() => navigate('/contest-recommend')}>
+            <div className="recommend-section" onClick={() => handleProtectedClick('/contest-recommend')}>
               <span className="card-badge">AI MATCHING</span>
               <h2 className="recommend-title">공모전 고민 그만</h2>
               <p className="recommend-text">
@@ -62,7 +84,7 @@ function MainPage() {
               </button>
             </div>
 
-            <div className="recommend-section" onClick={() => navigate('/Teamrecommend')}>
+            <div className="recommend-section" onClick={handleTeamRecommendClick}>
               <span className="card-badge">TEAM BUILDING</span>
               <h2 className="recommend-title">완벽한 팀원 조합</h2>
               <p className="recommend-text">
@@ -78,6 +100,8 @@ function MainPage() {
           </div>
         </section>
       </main>
+
+      {ModalComponent}
     </div>
   );
 }

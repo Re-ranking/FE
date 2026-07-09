@@ -1,0 +1,309 @@
+/* 1. 전체 페이지 컨테이너 */
+.survey-page-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
+  background-attachment: fixed; /* 스크롤 시 배경 고정 */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ✅ 큰 화면에서 Stepper + 본문이 한 묶음으로 가운데 정렬되도록 감싸는 레이아웃 */
+.survey-page-layout {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  align-items: flex-start;
+}
+
+/* 2. 왼쪽 스테퍼 사이드바 영역 */
+.stepper-sidebar {
+  width: 300px;
+  position: sticky; /* 스크롤 따라오기 */
+  top: 100px;
+  height: fit-content;
+  margin-left: 60px;
+  padding-top: 60px;
+  flex-shrink: 0;
+}
+
+/* 3. 오른쪽 메인 설문 영역 */
+.survey-main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* 4. 설문 카드들이 담기는 내부 래퍼 */
+.survey-content-inner {
+  width: 100%;
+  max-width: 1100px;
+  padding: 80px 50px 150px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 카드 세트들을 중앙에 배치 */
+}
+
+/* ✅ 카드 + 버튼 하나를 감싸는 개별 스텝 래퍼 */
+.survey-step-wrapper {
+  width: 100%;
+  margin-bottom: 100px; /* 다음 카드 세트와의 간격 */
+  display: flex;
+  flex-direction: column;
+  /* 💡 중요: 내부의 버튼을 오른쪽 끝으로 밀어내기 위한 설정 */
+  align-items: flex-end; 
+  scroll-margin-top: 100px; /* 스크롤 시 멈추는 위치 여백 */
+}
+
+/* 카드 컴포넌트 자체가 래퍼 너비를 꽉 채우도록 설정 */
+.survey-step-wrapper > div:first-child {
+  width: 100%;
+}
+
+/* 5. 각 카드 바로 아래의 NEXT 버튼 영역 */
+.survey-next-button {
+  margin-top: 25px; /* 카드 하단과 버튼 사이 여백 */
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* CommonButton 스타일 정의 */
+.survey-next-button button {
+  width: 220px;
+  height: 56px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #8C7BF7 0%, #656ED3 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 8px 22px rgba(101, 110, 211, 0.35);
+  transition: all 0.2s ease;
+}
+
+.survey-next-button button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 10px 26px rgba(101, 110, 211, 0.45);
+}
+
+.survey-next-button button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  .survey-page-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  .stepper-sidebar {
+    position: relative;
+    top: 0;
+    width: calc(100% - 40px);
+    margin: 30px 20px 0;
+    padding-top: 0;
+  }
+  .survey-content-inner {
+    padding: 40px 24px 100px 24px;
+  }
+}
+
+/* ✅ 제출 여부 조회 중 로딩 */
+.survey-loading-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6B6B7D;
+}
+
+/* ✅ 제출 완료 후 결과 화면 */
+.survey-result-main {
+  justify-content: center;
+}
+
+.survey-result-container {
+  width: 100%;
+  max-width: 900px;
+  padding: 90px 50px 130px 50px;
+  box-sizing: border-box;
+}
+
+.survey-result-heading {
+  font-size: 38px;
+  font-weight: 800;
+  color: #1A1A2E;
+  text-align: center;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.5px;
+}
+
+.survey-result-subheading {
+  font-size: 15.5px;
+  color: #9494A6;
+  text-align: center;
+  margin: 0 0 56px 0;
+  font-weight: 500;
+}
+
+.survey-result-section {
+  margin-bottom: 48px;
+}
+
+.survey-result-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #1A1A2E;
+  margin: 0 0 20px 0;
+}
+
+.survey-result-title::before {
+  content: '';
+  width: 6px;
+  height: 22px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #7C6BF0 0%, #656ED3 100%);
+}
+
+.survey-result-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 36px 40px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.survey-result-question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.survey-result-question-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #F2F2F7;
+}
+
+.survey-result-question-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.survey-result-question-text {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #2D2D3F;
+  line-height: 1.55;
+  flex: 1;
+}
+
+.survey-result-answer-badge {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #F0F1FF 0%, #E9EBFF 100%);
+  color: #5A5FE0;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.survey-result-multi-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #F2F2F7;
+}
+
+.survey-result-multi-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.survey-result-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.survey-result-tag {
+  background: #F7F7FB;
+  color: #4A4A5E;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 16px;
+  border: 1px solid #ECECF3;
+}
+
+.survey-result-tag.empty {
+  background: #F5F5F8;
+  color: #B0B0C0;
+  border-color: #ECECEC;
+}
+
+.survey-result-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+
+.survey-result-back-btn {
+  width: 280px;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 14px;
+  background: #1A1A2E;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  letter-spacing: -0.2px;
+  box-shadow: 0px 8px 22px rgba(26, 26, 46, 0.25);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.survey-result-back-btn:hover {
+  background: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0px 10px 26px rgba(26, 26, 46, 0.35);
+}
+
+.survey-result-back-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .survey-result-container {
+    padding: 50px 24px 80px 24px;
+  }
+  .survey-result-heading {
+    font-size: 28px;
+  }
+  .survey-result-card {
+    padding: 28px 24px;
+  }
+  .survey-result-question-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .survey-result-back-btn {
+    width: 100%;
+  }
+}

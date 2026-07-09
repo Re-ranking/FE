@@ -7,6 +7,8 @@ import TeamRecommendation from './pages/TeamRecommendation';
 import ContestList from './pages/ContestList';   
 import ContestDetail from './pages/ContestDetail';
 import ContestRecommend from './pages/ContestRecommend'; 
+import MyPage from './pages/MyPage';
+import SurveyPage from './pages/SurveyPage';
 import './App.css';
 
 function App() {
@@ -16,12 +18,14 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/CVupload" element={<CVupload />} />
+        <Route path="/cv-upload" element={<CVupload />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/Teamrecommend" element={<TeamRecommendation />} />
         <Route path="/contest-recommend" element={<ContestRecommend />} />
         <Route path="/contests" element={<ContestList />} />
         <Route path="/contests/:id" element={<ContestDetail />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/survey" element={<SurveyPage />} />
       </Routes>
     </BrowserRouter>
   );
