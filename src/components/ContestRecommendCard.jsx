@@ -14,9 +14,9 @@ function ContestRecommendCard({ contest }) {
     navigate(`/contests/${contest.competitionId}`);
   };
 
-      const categoryTags = contest.category
-        ? contest.category.split(',').map(c => c.trim()).filter(Boolean)
-        : [];
+  const categoryTags = contest.category
+    ? contest.category.split(',').map(c => c.trim()).filter(Boolean)
+    : [];
 
   return (
     <div className="contest-recommend-card" onClick={handleClick}>
@@ -44,18 +44,29 @@ function ContestRecommendCard({ contest }) {
 
         <div className="recommend-card-scores">
           {contest.domainScore !== undefined && (
-            <span className="recommend-score-item">
-              분야 <strong>{contest.domainScore}점</strong>
-            </span>
+            <div className="recommend-score-item">
+              <span className="recommend-score-label">분야 점수</span>
+              <strong>{contest.domainScore}점</strong>
+            </div>
+          )}
+          {contest.domainScore !== undefined && contest.skillScore !== undefined && (
+            <div className="recommend-score-divider" />
           )}
           {contest.skillScore !== undefined && (
-            <span className="recommend-score-item">
-              기술 <strong>{contest.skillScore}점</strong>
-            </span>
+            <div className="recommend-score-item">
+              <span className="recommend-score-label">기술 점수</span>
+              <strong>{contest.skillScore}점</strong>
+            </div>
           )}
         </div>
 
-        <p className="recommend-card-period">{contest.applicationPeriod}</p>
+        <p className="recommend-card-period">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="3" />
+            <path d="M16 2v4M8 2v4M3 10h18" />
+          </svg>
+          {contest.applicationPeriod}
+        </p>
       </div>
     </div>
   );

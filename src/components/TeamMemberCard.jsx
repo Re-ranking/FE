@@ -6,20 +6,16 @@ function TeamMemberCard({ member }) {
   const isTop = member.rank === 1;
   const scoreWidth = Math.max(0, Math.min(100, member.score ?? 0));
 
-  const MAX_TAGS = 3;
-  const renderTagGroup = (label, items, tagClass) => {
+  const renderTagGroup = (label, items, tagClass, groupClass = '') => {
     if (!items || items.length === 0) return null;
-    const visible = items.slice(0, MAX_TAGS);
-    const rest = items.length - visible.length;
 
     return (
-      <div className="member-tag-group">
+      <div className={`member-tag-group ${groupClass}`.trim()}>
         <span className="member-tag-label">{label}</span>
         <div className="member-tags">
-          {visible.map((item, idx) => (
+          {items.map((item, idx) => (
             <span key={idx} className={`member-tag ${tagClass}`}>{item}</span>
           ))}
-          {rest > 0 && <span className="member-tag more-tag">+{rest}</span>}
         </div>
       </div>
     );
@@ -54,7 +50,7 @@ function TeamMemberCard({ member }) {
 
       <div className="member-tags-section">
         {renderTagGroup('SKILL', member.skills, 'skill-tag')}
-        {renderTagGroup('DOMAIN', member.domains, 'domain-tag')}
+        {renderTagGroup('DOMAIN', member.domains, 'domain-tag', 'is-domain')}
       </div>
 
       {member.reason && (

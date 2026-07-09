@@ -1,11 +1,17 @@
 import React from 'react';
 import TeamMemberCard from '../components/TeamMemberCard';
 
-function MyPageTeamRecommendHistorySection({ members }) {
+function MyPageTeamRecommendHistorySection({ members, isLoading }) {
   return (
     <div className="section-card team-recommend-history-card">
       <h2 className="analysis-title">팀원 추천 내역</h2>
-      {members.length === 0 ? (
+      {isLoading ? (
+        <div className="team-member-grid">
+          <div className="team-skeleton-card" />
+          <div className="team-skeleton-card" />
+          <div className="team-skeleton-card" />
+        </div>
+      ) : members.length === 0 ? (
         <p style={{ color: '#9494A6', fontSize: '15px' }}>
           아직 추천받은 팀원이 없어요. 성향 입력 후 팀원 추천을 받아보세요!
         </p>

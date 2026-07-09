@@ -35,6 +35,7 @@ function MyPage() {
   const [weaknesses, setWeaknesses] = useState([]);
   const [recommendedContests, setRecommendedContests] = useState([]);
   const [recommendedTeamMembers, setRecommendedTeamMembers] = useState([]);
+  const [isLoadingTeamMembers, setIsLoadingTeamMembers] = useState(true);
   const [isSurveySubmitted, setIsSurveySubmitted] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [profileImageFile, setProfileImageFile] = useState(null);
@@ -117,6 +118,7 @@ function MyPage() {
     const fetchRecommendedTeamMembers = async (surveySubmitted) => {
       if (!surveySubmitted) {
         console.warn('성향 설문 미제출로 팀원 추천을 건너뜁니다.');
+        setIsLoadingTeamMembers(false);
         return;
       }
       try {
@@ -124,6 +126,8 @@ function MyPage() {
         setRecommendedTeamMembers(data || []);
       } catch (err) {
         console.error('팀원 추천 내역 로드 실패:', err);
+      } finally {
+        setIsLoadingTeamMembers(false);
       }
     };
 
@@ -275,7 +279,7 @@ function MyPage() {
 
         <MyPageRecommendHistorySection recommendedContests={recommendedContests} />
 
-        <MyPageTeamRecommendHistorySection members={recommendedTeamMembers} />
+        <MyPageTeamRecommendHistorySection members={recommendedTeamMembers} isLoading={isLoadingTeamMembers} />
 
       </main>
 

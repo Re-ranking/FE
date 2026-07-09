@@ -1,11 +1,11 @@
 .contest-recommend-card {
   background: #FFFFFF;
-  border: 1px solid #EAEAEA;
+  border: 1px solid #ECEAF6;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 18px rgba(26, 26, 46, 0.05);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -14,7 +14,7 @@
 .contest-recommend-card:hover {
   transform: translateY(-6px);
   border-color: #C5C7F5;
-  box-shadow: 0 16px 40px rgba(101, 110, 211, 0.14);
+  box-shadow: 0 16px 40px rgba(90, 95, 224, 0.16);
 }
 
 .recommend-card-image-wrapper {
@@ -30,32 +30,55 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 .contest-recommend-card:hover .recommend-card-image {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
+/* 이미지 하단 그라디언트 - 배지 가독성 확보 */
+.recommend-card-image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.28) 100%);
+  pointer-events: none;
+}
+
+/* 매칭 점수 배지 - 프로스티드 글라스 스타일, 텍스트는 검정 */
 .recommend-card-score-badge {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: #656ED3;
-  color: #ffffff;
+  z-index: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #1A1A2E;
   font-size: 15px;
   font-weight: 800;
-  padding: 6px 16px;
+  padding: 6px 15px;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(101, 110, 211, 0.4);
-  letter-spacing: -0.3px;
+  box-shadow: 0 4px 14px rgba(26, 26, 46, 0.18);
+  letter-spacing: -0.2px;
+}
+
+.recommend-card-score-badge::before {
+  content: '★';
+  font-size: 11px;
+  color: #5A5FE0;
+  margin-right: 4px;
 }
 
 .recommend-card-info {
   padding: 22px 24px 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
 }
 
@@ -66,7 +89,7 @@
   margin: 0;
   line-height: 1.45;
   flex: 1;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.02em;
 }
 
 .recommend-card-tags {
@@ -76,38 +99,64 @@
 }
 
 .recommend-card-tag {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: #5A5FE0;
-  background: #F0F1FF;
-  padding: 5px 13px;
+  background: transparent;
+  border: 1px solid #DEDCF9;
+  padding: 4px 12px;
   border-radius: 14px;
 }
 
+/* 분야/기술 점수 - 검정 텍스트, 라벨은 위에 작게 */
 .recommend-card-scores {
   display: flex;
-  gap: 16px;
-  padding: 12px 16px;
+  gap: 10px;
+  padding: 14px 16px;
   background: #F8F8FC;
   border-radius: 14px;
 }
 
 .recommend-score-item {
-  font-size: 14px;
-  color: #9494A6;
-  font-weight: 500;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.recommend-score-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #9490C4;
+  text-transform: uppercase;
 }
 
 .recommend-score-item strong {
-  color: #656ED3;
+  font-size: 16px;
+  color: #1A1A2E;
   font-weight: 800;
 }
 
+.recommend-score-divider {
+  width: 1px;
+  background: #EAE9F2;
+}
+
+/* 지원 기간 - 검정 텍스트 + 캘린더 아이콘 */
 .recommend-card-period {
-  font-size: 13.5px;
-  color: #B0B0C0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #1A1A2E;
+  font-weight: 600;
   margin: 0;
-  font-weight: 500;
-  padding-top: 4px;
+  padding-top: 12px;
   border-top: 1px solid #F2F2F7;
+}
+
+.recommend-card-period svg {
+  flex-shrink: 0;
+  color: #9490C4;
 }

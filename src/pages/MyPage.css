@@ -137,38 +137,37 @@
 }
 
 .skills-tags {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   width: 100%;
 }
 
 .skill-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: #F0F1FF;
   color: #5A5FE0;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 22px;
   font-size: 13.5px;
   font-weight: 700;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: keep-all;
   text-align: center;
-  overflow: visible;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .skill-tag.editable {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 6px;
-  padding: 8px 8px 8px 12px;
+  padding: 8px 8px 8px 14px;
 }
 
-.skill-tag,
 .skill-add-input {
-  width: 100%;
-  box-sizing: border-box;
-  justify-content: center;
-  text-align: center;
+  flex: 1 1 160px;
+  min-width: 140px;
 }
 
 .skill-remove-btn {
@@ -604,6 +603,23 @@
   gap: 25px;
   width: 100%;
   box-sizing: border-box;
+}
+
+.team-skeleton-card {
+  height: 250px;
+  border-radius: 24px;
+  background: linear-gradient(100deg, #F1F1F7 30%, #FAFAFC 50%, #F1F1F7 70%);
+  background-size: 200% 100%;
+  animation: team-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes team-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-skeleton-card { animation: none; }
 }
 
 @media (max-width: 760px) {
