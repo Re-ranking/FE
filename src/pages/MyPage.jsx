@@ -115,7 +115,12 @@ function MyPage() {
 
     // 성향 설문을 아직 제출하지 않은 경우 팀원 추천 API가 500을 반환하므로,
     // 설문 제출 여부가 확인된 이후에만 호출한다.
+    // 또한 공모전 추천과 동일하게, 실제로 팀원 추천을 받아본 적 있는 사용자만 호출한다.
     const fetchRecommendedTeamMembers = async (surveySubmitted) => {
+      if (!localStorage.getItem('teamRecommended')) {
+        setIsLoadingTeamMembers(false);
+        return;
+      }
       if (!surveySubmitted) {
         console.warn('성향 설문 미제출로 팀원 추천을 건너뜁니다.');
         setIsLoadingTeamMembers(false);

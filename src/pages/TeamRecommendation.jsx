@@ -36,6 +36,7 @@ function TeamRecommendation() {
       try {
         const data = await getRecommendedTeamMembers();
         setMembers(data || []);
+        localStorage.setItem('teamRecommended', 'true');
       } catch (err) {
         console.error('팀원 추천 로드 실패:', err);
         openModal('팀원 추천 정보를 불러오지 못했습니다.');
