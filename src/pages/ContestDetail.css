@@ -151,10 +151,11 @@
   margin-top: 28px;
 }
 
-.visit-btn, .share-card-btn {
+.visit-btn, .save-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   height: 52px;
   min-height: 52px;
   max-height: 52px;
@@ -163,14 +164,14 @@
   font-size: 15px;
   font-weight: 600;
   box-sizing: border-box;
-  border: none;
+  border: 1.5px solid transparent;
   margin: 0;
   cursor: pointer;
   white-space: nowrap;
   font-family: inherit;
   -webkit-appearance: none;
   appearance: none;
-  transition: background 0.15s ease, transform 0.1s ease;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
 .visit-btn {
@@ -182,23 +183,28 @@
   background: #E4E4EC;
 }
 
-.share-card-btn {
+.save-btn {
+  background: #FFFFFF;
+  color: #656ED3;
+  border-color: #C5C7F5;
+}
+
+.save-btn:hover {
+  background: #F0F1FF;
+}
+
+.save-btn.is-saved {
   background: #656ED3;
   color: #FFFFFF;
+  border-color: #656ED3;
   box-shadow: 0 4px 14px rgba(101, 110, 211, 0.25);
 }
 
-.share-card-btn:hover:not(:disabled) {
+.save-btn.is-saved:hover {
   background: #4f56b5;
-  box-shadow: 0 6px 18px rgba(101, 110, 211, 0.35);
 }
 
-.share-card-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.visit-btn:active, .share-card-btn:active {
+.visit-btn:active, .save-btn:active {
   transform: scale(0.98);
 }
 
@@ -242,7 +248,7 @@
     flex-direction: column;
     align-items: stretch;
   }
-  .visit-btn, .share-card-btn {
+  .visit-btn, .save-btn {
     width: 100%;
   }
 }

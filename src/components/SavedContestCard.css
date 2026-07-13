@@ -1,0 +1,107 @@
+.saved-contest-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid #ECEAF6;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(26, 26, 46, 0.04);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.saved-contest-card:hover {
+  transform: translateY(-4px);
+  border-color: #D8D6EF;
+  box-shadow: 0 10px 26px rgba(90, 95, 224, 0.1);
+}
+
+.saved-card-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #F0F1FF;
+  flex-shrink: 0;
+}
+
+.saved-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.saved-card-unsave-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #656ED3;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(26, 26, 46, 0.16);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.saved-card-unsave-btn:hover {
+  color: #E0445C;
+  transform: scale(1.08);
+}
+
+.saved-card-info {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.saved-card-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #1A1A2E;
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.saved-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.saved-card-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #5A5FE0;
+  background: #F0F1FF;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.saved-card-period {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #9494A6;
+  font-weight: 600;
+  margin: 0;
+  margin-top: auto;
+}
+
+.saved-card-period svg {
+  flex-shrink: 0;
+}

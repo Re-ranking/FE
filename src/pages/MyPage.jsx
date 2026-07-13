@@ -7,6 +7,7 @@ import MyPageEditableItemSection from '../components/MyPageEditableItemSection';
 import MyPageCvAnalysisSection from '../components/MyPageCvAnalysisSection';
 import MyPageRecommendHistorySection from '../components/MyPageRecommendHistorySection';
 import MyPageTeamRecommendHistorySection from '../components/MyPageTeamRecommendHistorySection';
+import MyPageSavedContestsSection from '../components/MyPageSavedContestsSection';
 import './MyPage.css';
 import defaultProfile from '../assets/images/profile-default.png';
 import iconInterest from '../assets/images/profile-default.png';
@@ -283,6 +284,8 @@ function MyPage() {
         <MyPageCvAnalysisSection strengths={strengths} weaknesses={weaknesses} />
 
         <MyPageRecommendHistorySection recommendedContests={recommendedContests} />
+
+        <MyPageSavedContestsSection />
 
         <MyPageTeamRecommendHistorySection members={recommendedTeamMembers} isLoading={isLoadingTeamMembers} />
 
