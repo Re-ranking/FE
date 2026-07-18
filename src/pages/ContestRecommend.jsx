@@ -81,7 +81,6 @@ function ContestRecommendPage() {
         if (data?.recommendations?.length > 0) {
           setRecommendedContests(data.recommendations);
           setShowResults(true);
-          localStorage.setItem('contestRecommended', 'true');
         }
       } catch (err) {
         console.error('최신 CV 분석 결과 로드 실패:', err);
