@@ -18,7 +18,7 @@ function MyPageTeamRecommendHistorySection({ members, isLoading }) {
       ) : (
         <div className="team-member-grid">
           {members.map((member, index) => (
-            <TeamMemberCard key={index} member={member} />
+            <TeamMemberCard key={index} member={member} showReason={false} />
           ))}
         </div>
       )}

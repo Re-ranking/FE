@@ -2,7 +2,7 @@ import React from 'react';
 import './TeamMemberCard.css';
 import defaultProfile from '../assets/images/profile-default.png';
 
-function TeamMemberCard({ member }) {
+function TeamMemberCard({ member, showReason = true }) {
   const isTop = member.rank === 1;
   const scoreWidth = Math.max(0, Math.min(100, member.score ?? 0));
 
@@ -53,7 +53,7 @@ function TeamMemberCard({ member }) {
         {renderTagGroup('DOMAIN', member.domains, 'domain-tag', 'is-domain')}
       </div>
 
-      {member.reason && (
+      {showReason && member.reason && (
         <div className="member-reason-box">
           <p className="member-reason">{member.reason}</p>
         </div>
