@@ -123,8 +123,15 @@
 }
 
 .tr-card-slot {
+  display: flex;
+  flex-direction: column;
   opacity: 0;
   animation: tr-rise 0.55s ease forwards;
+}
+
+.tr-card-slot .member-card {
+  flex: 1;
+  width: 100%;
 }
 
 .tr-card-slot:nth-child(1) { animation-delay: 0.03s; }
