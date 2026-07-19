@@ -6,6 +6,8 @@ import defaultIcon from '../assets/images/profile-default.png';
 import uploadIcon from '../assets/images/upload-icon.png';
 import { analyzeCV } from '../api/cvAPI';
 import useModal from '../hooks/useModal.jsx';
+import LoadingOverlay from '../components/LoadingOverlay';
+import '../components/LoadingOverlay.css';
 
 function CVupload() {
   const navigate = useNavigate();
@@ -108,6 +110,12 @@ function CVupload() {
       </div>
 
       {ModalComponent}
+
+      <LoadingOverlay
+        isVisible={isLoading}
+        message="CV를 분석하고 있어요"
+        subMessage="잠시만 기다려주세요. 최대 1분 정도 걸릴 수 있어요."
+      />
     </div>
   );
 }
