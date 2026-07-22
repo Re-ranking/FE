@@ -35,7 +35,7 @@ function ContestRecommendCard({ contest }) {
   const dDayText = getLiveDDay(contest.applicationPeriod);
   const isClosed = dDayText === '마감';
   const cleanPeriod = contest.applicationPeriod
-    ? contest.applicationPeriod.replace(/\s*D-\d+|\s*D-DAY|\s*마감/g, '').trim()
+    ? contest.applicationPeriod.replace(/\s*D[+-]\d+|\s*D-DAY|\s*마감/g, '').trim()
     : '';
 
   return (

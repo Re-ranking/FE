@@ -62,7 +62,7 @@ function ContestDetail() {
     : [];
 
   const cleanPeriod = contest.applicationPeriod
-    ? contest.applicationPeriod.replace(/\s*D-\d+|\s*D-DAY|\s*마감/g, '').trim()
+    ? contest.applicationPeriod.replace(/\s*D[+-]\d+|\s*D-DAY|\s*마감/g, '').trim()
     : '';
 
   const handleToggleSave = () => {
