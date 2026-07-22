@@ -7,6 +7,20 @@ import './ContestRecommendCard.css';
  * 응답 필드: competitionId, dlContestId, title, score, domainScore, skillScore,
  *            category, applicationTarget, organizer, applicationPeriod, representativeImageUrl
  */
+function getLiveDDay(periodStr) {
+  if (!periodStr) return "";
+  const dateMatches = periodStr.match(/\d{4}-\d{2}-\d{2}/g);
+  if (!dateMatches || dateMatches.length === 0) return "";
+  const endDateStr = dateMatches[dateMatches.length - 1];
+
+  const endDate = new Date(endDateStr);
+  const today = new Date();
+  endDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  const diffDays = Math.ceil((endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  return diffDays > 0 ? `D-${diffDays}` : diffDays === 0 ? "D-DAY" : "마감";
+}
+
 function ContestRecommendCard({ contest }) {
   const navigate = useNavigate();
 
@@ -18,8 +32,11 @@ function ContestRecommendCard({ contest }) {
     ? contest.category.split(',').map(c => c.trim()).filter(Boolean)
     : [];
 
+  const dDayText = getLiveDDay(contest.applicationPeriod);
+  const isClosed = dDayText === '마감';
+
   return (
-    <div className="contest-recommend-card" onClick={handleClick}>
+    <div className={`contest-recommend-card${isClosed ? ' is-closed' : ''}`} onClick={handleClick}>
       <div className="recommend-card-image-wrapper">
         <img
           src={contest.representativeImageUrl}
@@ -65,6 +82,11 @@ function ContestRecommendCard({ contest }) {
             <rect x="3" y="4" width="18" height="18" rx="3" />
             <path d="M16 2v4M8 2v4M3 10h18" />
           </svg>
+          {dDayText && (
+            <span className={`recommend-card-dday${isClosed ? ' is-closed' : ''}`}>
+              {dDayText}
+            </span>
+          )}
           {contest.applicationPeriod}
         </p>
       </div>
