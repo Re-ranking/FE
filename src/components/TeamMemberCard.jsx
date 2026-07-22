@@ -1,14 +1,14 @@
 import React from 'react';
 import './TeamMemberCard.css';
+import memberAvatarIcon from '../assets/images/member-avatar-icon.svg';
 
-// 이름을 기반으로 일관된 색을 뽑아주는 팔레트 (사람마다 다른 아바타 색상)
 const AVATAR_PALETTE = [
-  ['#8E6CEF', '#5A5FE0'], // violet
-  ['#F0678B', '#D8467A'], // coral
-  ['#4FC3A1', '#17A363'], // green
-  ['#5FA8E8', '#3B7DD8'], // blue
-  ['#F2B33D', '#E0932A'], // amber
-  ['#B98CE0', '#8E5FC9'], // purple
+  ['#C2B2FC', '#8E6CEF'],
+  ['#F7C8EB', '#EFA1DC'],
+  ['#B5D4F4', '#85B7EB'],
+  ['#9FE1CB', '#5DCAA5'],
+  ['#FBD9B0', '#F5B876'],
+  ['#E6E1FE', '#C2B2FC'],
 ];
 
 function getAvatarColors(name = '') {
@@ -24,7 +24,6 @@ function TeamMemberCard({ member, showReason = true }) {
   const isTop = member.rank === 1;
   const scoreWidth = Math.max(0, Math.min(100, member.score ?? 0));
   const [colorStart, colorEnd] = getAvatarColors(member.name);
-  const initial = member.name ? member.name.trim().charAt(0) : '?';
 
   const renderTagGroup = (label, items, tagClass, groupClass = '') => {
     if (!items || items.length === 0) return null;
@@ -51,7 +50,7 @@ function TeamMemberCard({ member, showReason = true }) {
             className="member-avatar-initial"
             style={{ background: `linear-gradient(135deg, ${colorStart} 0%, ${colorEnd} 100%)` }}
           >
-            {initial}
+            <img src={memberAvatarIcon} alt="" className="member-avatar-icon" />
           </div>
         </div>
 
