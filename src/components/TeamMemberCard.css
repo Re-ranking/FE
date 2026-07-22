@@ -235,12 +235,12 @@
   border: 1px solid transparent;
 }
 
-.skill-tag {
+.member-skill-tag {
   color: #7C6BF0;
   border-color: #DEDCF9;
 }
 
-.domain-tag {
+.member-domain-tag {
   color: #D8467A;
   border-color: #F5C6DE;
 }

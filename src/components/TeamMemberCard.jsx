@@ -2,13 +2,14 @@ import React from 'react';
 import './TeamMemberCard.css';
 import memberAvatarIcon from '../assets/images/member-avatar-icon.svg';
 
+// 이름을 기반으로 일관된 색을 뽑아주는 팔레트 (프로젝트의 파스텔 톤에 맞춤)
 const AVATAR_PALETTE = [
-  ['#C2B2FC', '#8E6CEF'],
-  ['#F7C8EB', '#EFA1DC'],
-  ['#B5D4F4', '#85B7EB'],
-  ['#9FE1CB', '#5DCAA5'],
-  ['#FBD9B0', '#F5B876'],
-  ['#E6E1FE', '#C2B2FC'],
+  ['#C2B2FC', '#8E6CEF'], // 바이올렛 (CV 분석 강점 차트와 동일 톤)
+  ['#F7C8EB', '#EFA1DC'], // 핑크 (CV 분석 약점 차트와 동일 톤)
+  ['#B5D4F4', '#85B7EB'], // 블루 파스텔
+  ['#9FE1CB', '#5DCAA5'], // 민트 파스텔
+  ['#FBD9B0', '#F5B876'], // 피치 파스텔
+  ['#E6E1FE', '#C2B2FC'], // 라일락 파스텔
 ];
 
 function getAvatarColors(name = '') {
@@ -73,8 +74,8 @@ function TeamMemberCard({ member, showReason = true }) {
       <div className="member-divider"></div>
 
       <div className="member-tags-section">
-        {renderTagGroup('SKILL', member.skills, 'skill-tag')}
-        {renderTagGroup('DOMAIN', member.domains, 'domain-tag', 'is-domain')}
+        {renderTagGroup('SKILL', member.skills, 'member-skill-tag')}
+        {renderTagGroup('DOMAIN', member.domains, 'member-domain-tag', 'is-domain')}
       </div>
 
       {showReason && member.reason && (
