@@ -4,6 +4,7 @@
   border: 1px solid #ECEAF6;
   border-radius: 20px;
   padding: 28px 26px 26px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 16px rgba(26, 26, 46, 0.04);
@@ -90,15 +91,19 @@
   background: linear-gradient(135deg, #E4DEFA 0%, #F0F1FF 100%);
 }
 
-.member-avatar {
+.member-avatar-initial {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: contain;
-  background: #F8F8FC;
-  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  display: block;
+  color: #FFFFFF;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0;
+  user-select: none;
 }
 
 .member-name-row {
@@ -208,7 +213,7 @@
 }
 
 .member-tag-group.is-domain .member-tag-label::before {
-  background: #17A363;
+  background: #E85FBE;
 }
 
 .member-tags {
@@ -233,8 +238,8 @@
 }
 
 .domain-tag {
-  background: #EAFAF1;
-  color: #17A363;
+  background: #FDF0F7;
+  color: #D8467A;
 }
 
 /* ---- 추천 사유 ---- */
