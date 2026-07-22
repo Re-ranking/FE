@@ -34,6 +34,9 @@ function ContestRecommendCard({ contest }) {
 
   const dDayText = getLiveDDay(contest.applicationPeriod);
   const isClosed = dDayText === '마감';
+  const cleanPeriod = contest.applicationPeriod
+    ? contest.applicationPeriod.replace(/\s*D-\d+|\s*D-DAY|\s*마감/g, '').trim()
+    : '';
 
   return (
     <div className={`contest-recommend-card${isClosed ? ' is-closed' : ''}`} onClick={handleClick}>
@@ -87,7 +90,7 @@ function ContestRecommendCard({ contest }) {
               {dDayText}
             </span>
           )}
-          {contest.applicationPeriod}
+          {cleanPeriod}
         </p>
       </div>
     </div>
