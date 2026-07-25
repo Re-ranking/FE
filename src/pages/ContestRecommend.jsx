@@ -9,7 +9,7 @@ import LoadingOverlay from '../components/LoadingOverlay';
 import '../components/LoadingOverlay.css';
 import defaultProfile from '../assets/images/profile-default.png';
 import { getLatestCV } from '../api/cvAPI';
-import { getMyCv, getRecommendedCompetitions } from '../api/mypageAPI';
+import { getMyCv } from '../api/mypageAPI';
 
 const STRENGTH_COLORS = ['#471E8F', '#8E6CEF', '#C2B2FC', '#E6E1FE'];
 const WEAKNESS_COLORS = ['#D83EAD', '#EFA1DC', '#F7C8EB', '#FCEAF7'];
@@ -92,8 +92,9 @@ function ContestRecommendPage() {
   const handleRecommendClick = async () => {
     setIsAnalyzing(true);
     try {
-      const data = await getRecommendedCompetitions();
-      const sorted = (data || []).sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+      const data = await getLatestCV();
+      const recommendations = data?.recommendations || [];
+      const sorted = [...recommendations].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
       setRecommendedContests(sorted);
       setShowResults(true);
       localStorage.setItem('contestRecommended', 'true');
