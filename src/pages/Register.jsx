@@ -4,6 +4,7 @@ import CommonInput from '../components/CommonInput';
 import CommonButton from '../components/CommonButton';
 import ProfileImage from '../components/ProfileImage';
 import { register, confirmEmail, login } from '../api/authAPI';
+import { updateMyProfile } from '../api/mypageAPI';
 import './Register.css';
 
 function Register() {
@@ -105,6 +106,21 @@ function Register() {
     setIsLoading(true);
     try {
       await login({ email: formData.email, password: formData.password });
+
+      // localStorage 캐시에만 의존하지 않도록, 가입 시 입력한 프로필 정보를
+      // 실제 백엔드(DB)에도 저장한다. 이 호출이 실패해도 회원가입 자체를
+      // 막지는 않는다 (이미 계정 생성/로그인은 성공한 상태이므로).
+      try {
+        await updateMyProfile({
+          name: formData.name,
+          major: formData.major,
+          introduction: formData.description,
+          profileImage: profileImage || undefined,
+        });
+      } catch (profileErr) {
+        console.warn('프로필 정보 저장 실패 (회원가입은 성공):', profileErr);
+      }
+
       navigate('/cv-upload');
     } catch (err) {
       setError(err.response?.data?.message || '회원가입 중 오류가 발생했습니다.');
