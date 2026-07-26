@@ -181,12 +181,12 @@ html, body {
 
 .cra-summary-chip {
   flex: 1;
-  min-width: 220px;
+  min-width: 240px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 14px 18px;
-  border-radius: 14px;
+  gap: 7px;
+  padding: 20px 24px;
+  border-radius: 16px;
   background: #F8F8FB;
 }
 
@@ -199,7 +199,7 @@ html, body {
 }
 
 .cra-summary-label {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -207,7 +207,7 @@ html, body {
 }
 
 .cra-summary-text {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   color: #2D2D3F;
 }
@@ -225,15 +225,15 @@ html, body {
 .cra-analysis-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 56px;
+  gap: 0 64px;
 }
 
 .cra-list-heading {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 20px 0;
-  font-size: 12px;
+  gap: 9px;
+  margin: 0 0 26px 0;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -241,8 +241,8 @@ html, body {
 }
 
 .cra-list-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #7C6BF0;
 }
@@ -254,7 +254,7 @@ html, body {
 .cra-bar-list {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 30px;
 }
 
 .cra-bar-row {
@@ -266,12 +266,12 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 9px;
+  margin-bottom: 12px;
   gap: 12px;
 }
 
 .cra-bar-label {
-  font-size: 14.5px;
+  font-size: 16.5px;
   font-weight: 600;
   color: #2D2D3F;
   word-break: keep-all;
@@ -281,22 +281,22 @@ html, body {
 .cra-bar-stats {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
 .cra-bar-value {
-  font-size: 13px;
+  font-size: 15.5px;
   font-weight: 800;
   color: #1A1A2E;
   font-variant-numeric: tabular-nums;
 }
 
 .cra-delta-badge {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 8px;
+  padding: 3px 9px;
+  border-radius: 9px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -312,22 +312,22 @@ html, body {
 
 .cra-bar-track-wrapper {
   position: relative;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .cra-bar-marker {
   position: absolute;
-  top: -8px;
+  top: -10px;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid #4A4A5E;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #4A4A5E;
 }
 
 .cra-bar-track {
-  height: 8px;
+  height: 11px;
   background: #F1F1F7;
   border-radius: 8px;
   overflow: hidden;
@@ -350,18 +350,18 @@ html, body {
 .cra-legend {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
+  gap: 7px;
+  font-size: 12.5px;
   color: #ACAAC6;
-  margin: 24px 0 0 0;
+  margin: 28px 0 0 0;
 }
 
 .cra-legend-marker {
   width: 0;
   height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid #4A4A5E;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #4A4A5E;
 }
 
 @media (max-width: 760px) {
@@ -375,6 +375,28 @@ html, body {
   display: flex;
   justify-content: center;
   margin-top: 40px;
+}
+
+.cra-cta-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid #F2F2F7;
+}
+
+.cra-team-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.cra-team-cta-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #6C6C82;
+  margin: 0;
 }
 
 .recommend-trigger-btn {
@@ -391,7 +413,7 @@ html, body {
   letter-spacing: -0.2px;
   font-family: inherit;
   box-shadow: 0 6px 20px rgba(101, 110, 211, 0.3);
-  transition: background-color 0.15s ease, transform 0.1s ease;
+  transition: background-color 0.15s ease, transform 0.1s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .recommend-trigger-btn:hover {
@@ -400,6 +422,17 @@ html, body {
 
 .recommend-trigger-btn:active {
   transform: scale(0.98); 
+}
+
+.recommend-trigger-btn.secondary {
+  background-color: #FFFFFF;
+  color: #656ED3;
+  border: 1.5px solid #C5C7F5;
+  box-shadow: none;
+}
+
+.recommend-trigger-btn.secondary:hover {
+  background-color: #F0F1FF;
 }
 
 /* ==========================================

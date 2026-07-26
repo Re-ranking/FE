@@ -198,12 +198,12 @@ function ContestRecommendPage() {
             <p className="cra-legend">
               <span className="cra-legend-marker" />평균 지점
             </p>
-          </div>
 
-          <div className="action-button-container">
-            <button className="recommend-trigger-btn" onClick={handleRecommendClick} disabled={isAnalyzing}>
-              {isAnalyzing ? '불러오는 중...' : '공모전 추천 받기'}
-            </button>
+            <div className="cra-cta-row">
+              <button className="recommend-trigger-btn" onClick={handleRecommendClick} disabled={isAnalyzing}>
+                {isAnalyzing ? '불러오는 중...' : '공모전 추천 받기'}
+              </button>
+            </div>
           </div>
         </section>
 
@@ -222,8 +222,9 @@ function ContestRecommendPage() {
         )}
 
         {showResults && (
-          <div className="action-button-container" style={{ marginTop: '50px' }}>
-            <button className="recommend-trigger-btn" onClick={handleTeamRecommendClick}>
+          <div className="cra-team-cta" style={{ marginTop: '50px' }}>
+            <p className="cra-team-cta-text">이 공모전에 딱 맞는 팀원도 찾아볼까요?</p>
+            <button className="recommend-trigger-btn secondary" onClick={handleTeamRecommendClick}>
               팀원 추천 받기
             </button>
           </div>
