@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import './ContestRecommend.css';
 import Navbar from '../components/Navbar';
 import ProfileCard from '../components/ProfileCard';
@@ -10,9 +9,6 @@ import '../components/LoadingOverlay.css';
 import defaultProfile from '../assets/images/profile-default.png';
 import { getLatestCV } from '../api/cvAPI';
 import { getMyCv } from '../api/mypageAPI';
-
-const STRENGTH_COLORS = ['#471E8F', '#8E6CEF', '#C2B2FC', '#E6E1FE'];
-const WEAKNESS_COLORS = ['#D83EAD', '#EFA1DC', '#F7C8EB', '#FCEAF7'];
 
 function ContestRecommendPage() {
   const navigate = useNavigate();
@@ -58,7 +54,8 @@ function ContestRecommendPage() {
     };
     fetchCvInfo();
 
-    // GET /api/cv/latest - 이전 분석 결과(강점/약점/추천 공모전) 불러오기
+    // GET /api/cv/latest - 이전 분석 결과(강점/약점) 불러오기
+    // 공모전 추천 결과는 "공모전 추천 받기" 버튼을 눌렀을 때만 보여준다.
     const fetchLatestCV = async () => {
       try {
         const data = await getLatestCV();
@@ -77,10 +74,6 @@ function ContestRecommendPage() {
             average: w.averageScore,
             diff: w.difference >= 0 ? `+${w.difference}%` : `${w.difference}%`
           })));
-        }
-        if (data?.recommendations?.length > 0) {
-          setRecommendedContests(data.recommendations);
-          setShowResults(true);
         }
       } catch (err) {
         console.error('최신 CV 분석 결과 로드 실패:', err);
@@ -110,6 +103,41 @@ function ContestRecommendPage() {
     navigate(`/Teamrecommend?contestId=${topContestId}`);
   };
 
+  const topStrength = strengths.length > 0
+    ? strengths.reduce((max, item) => (item.value > max.value ? item : max), strengths[0])
+    : null;
+  const topWeakness = weaknesses.length > 0
+    ? weaknesses.reduce((min, item) => (item.value < min.value ? item : min), weaknesses[0])
+    : null;
+
+  const renderBarList = (items, type) => (
+    <div className="cra-bar-list">
+      {items.map((item, idx) => {
+        const isPositive = item.diff.startsWith('+');
+        const markerPos = Math.max(0, Math.min(100, item.average));
+        return (
+          <div key={idx} className="cra-bar-row">
+            <div className="cra-bar-top">
+              <span className="cra-bar-label">{item.name}</span>
+              <div className="cra-bar-stats">
+                <span className="cra-bar-value">{item.value}%</span>
+                <span className={`cra-delta-badge${isPositive ? ' positive' : ' negative'}`}>
+                  {item.diff}
+                </span>
+              </div>
+            </div>
+            <div className="cra-bar-track-wrapper">
+              <div className="cra-bar-marker" style={{ left: `${markerPos}%` }} />
+              <div className="cra-bar-track">
+                <div className={`cra-bar-fill ${type}`} style={{ width: `${item.value}%` }} />
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
   return (
     <>
       <Navbar />
@@ -130,85 +158,46 @@ function ContestRecommendPage() {
         <section className="cv-analysis-section">
           <h2 className="section-title">CV 분석</h2>
 
-          <div className="analysis-grid">
-            <div className="charts-container">
-              <div className="chart-item">
-                <div className="recharts-wrapper">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie data={strengths} cx="50%" cy="50%" innerRadius={43} outerRadius={65} paddingAngle={0} dataKey="value">
-                        {strengths.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={STRENGTH_COLORS[index % STRENGTH_COLORS.length]} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="recharts-donut-center">강점</div>
-                </div>
-                <ul className="chart-legend">
-                  {strengths.map((item, idx) => (
-                    <li key={idx}>
-                      <span className="legend-dot" style={{ backgroundColor: STRENGTH_COLORS[idx] }}></span>
-                      {item.name}
-                    </li>
-                  ))}
-                </ul>
+          <div className="cra-analysis-card">
+            {(topStrength || topWeakness) && (
+              <div className="cra-summary-row">
+                {topStrength && (
+                  <div className="cra-summary-chip strength">
+                    <span className="cra-summary-label">가장 강한 역량</span>
+                    <span className="cra-summary-text">
+                      {topStrength.name} <strong>{topStrength.value}%</strong>
+                    </span>
+                  </div>
+                )}
+                {topWeakness && (
+                  <div className="cra-summary-chip weakness">
+                    <span className="cra-summary-label">보완이 필요한 부분</span>
+                    <span className="cra-summary-text">
+                      {topWeakness.name} <strong>{topWeakness.value}%</strong>
+                    </span>
+                  </div>
+                )}
               </div>
+            )}
 
-              <div className="chart-item">
-                <div className="recharts-wrapper">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie data={weaknesses} cx="50%" cy="50%" innerRadius={43} outerRadius={65} paddingAngle={0} dataKey="value">
-                        {weaknesses.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={WEAKNESS_COLORS[index % WEAKNESS_COLORS.length]} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="recharts-donut-center">약점</div>
-                </div>
-                <ul className="chart-legend">
-                  {weaknesses.map((item, idx) => (
-                    <li key={idx}>
-                      <span className="legend-dot" style={{ backgroundColor: WEAKNESS_COLORS[idx] }}></span>
-                      {item.name}
-                    </li>
-                  ))}
-                </ul>
+            <div className="cra-analysis-grid">
+              <div>
+                <p className="cra-list-heading strength">
+                  <span className="cra-list-dot strength" />강점
+                </p>
+                {renderBarList(strengths, 'strength')}
+              </div>
+              <div>
+                <p className="cra-list-heading weakness">
+                  <span className="cra-list-dot weakness" />약점
+                </p>
+                {renderBarList(weaknesses, 'weakness')}
               </div>
             </div>
 
-            <div className="table-container">
-              <table className="analysis-table">
-                <thead>
-                  <tr>
-                    <th>항목</th>
-                    <th>내 점수</th>
-                    <th>평균(비교)</th>
-                    <th>차이</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {strengths.map((item, idx) => (
-                    <tr key={`strength-row-${idx}`}>
-                      <td><span className="table-dot" style={{ backgroundColor: STRENGTH_COLORS[idx] }}></span>{item.name}</td>
-                      <td>{item.value}%</td>
-                      <td>{item.average}%</td>
-                      <td className="plus-text">{item.diff}</td>
-                    </tr>
-                  ))}
-                  {weaknesses.map((item, idx) => (
-                    <tr key={`weakness-row-${idx}`}>
-                      <td><span className="table-dot" style={{ backgroundColor: WEAKNESS_COLORS[idx] }}></span>{item.name}</td>
-                      <td>{item.value}%</td>
-                      <td>{item.average}%</td>
-                      <td className="minus-text">{item.diff}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <p className="cra-legend">
+              <span className="cra-legend-marker" />평균 지점
+            </p>
           </div>
 
           <div className="action-button-container">

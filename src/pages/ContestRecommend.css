@@ -163,11 +163,7 @@ html, body {
   background: linear-gradient(180deg, #7C6BF0 0%, #656ED3 100%);
 }
 
-.analysis-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 30px;
-  align-items: center;
+.cra-analysis-card {
   background: #FFFFFF;
   border: 1px solid #EAEAEA;
   padding: 40px;
@@ -176,115 +172,204 @@ html, body {
   box-sizing: border-box;
 }
 
-.charts-container {
+.cra-summary-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.cra-summary-chip {
+  flex: 1;
+  min-width: 220px;
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 5px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #F8F8FB;
 }
 
-.chart-item {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  justify-content: flex-start;
+.cra-summary-chip.strength {
+  background: #F5F3FF;
 }
 
-.recharts-wrapper {
-  position: relative;
-  width: 130px;
-  height: 130px;
+.cra-summary-chip.weakness {
+  background: #FDF0F7;
+}
+
+.cra-summary-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ACAAC6;
+}
+
+.cra-summary-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2D2D3F;
+}
+
+.cra-summary-chip.strength .cra-summary-text strong {
+  color: #5B3DF5;
+  font-weight: 800;
+}
+
+.cra-summary-chip.weakness .cra-summary-text strong {
+  color: #D8467A;
+  font-weight: 800;
+}
+
+.cra-analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 56px;
+}
+
+.cra-list-heading {
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 8px;
+  margin: 0 0 20px 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ACAAC6;
+}
+
+.cra-list-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7C6BF0;
+}
+
+.cra-list-dot.weakness {
+  background: #E85FBE;
+}
+
+.cra-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.cra-bar-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.cra-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  gap: 12px;
+}
+
+.cra-bar-label {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #2D2D3F;
+  word-break: keep-all;
+  line-height: 1.4;
+}
+
+.cra-bar-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   flex-shrink: 0;
 }
 
-.recharts-donut-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 86px;
-  height: 86px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.05rem;
+.cra-bar-value {
+  font-size: 13px;
   font-weight: 800;
-  color: #222;
-  pointer-events: none; 
+  color: #1A1A2E;
+  font-variant-numeric: tabular-nums;
 }
 
-.chart-legend {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #444;
-  align-items: flex-start; /* 그래프 옆 라벨 왼쪽 정렬 */
+.cra-delta-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 8px;
+  font-variant-numeric: tabular-nums;
 }
 
-.legend-dot {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  margin-right: 8px;
-  vertical-align: middle;
+.cra-delta-badge.positive {
+  color: #5B3DF5;
+  background: #EEEDFE;
 }
 
-.table-container {
-  width: 100%;
+.cra-delta-badge.negative {
+  color: #D8467A;
+  background: #FBEAF0;
 }
 
-.analysis-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  text-align: center;
+.cra-bar-track-wrapper {
+  position: relative;
+  margin-top: 10px;
 }
 
-.analysis-table th {
-  color: #666;
-  font-weight: 600;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #eee;
+.cra-bar-marker {
+  position: absolute;
+  top: -8px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #4A4A5E;
 }
 
-.analysis-table td {
-  padding: 13px 6px;
-  color: #333;
-  font-weight: 500;
-}
-
-/* 표 내부 첫 번째 열(항목 라벨) 왼쪽 정렬 추가 */
-.analysis-table th:first-child,
-.analysis-table td:first-child {
-  text-align: left;
-  padding-left: 15px;
-}
-
-.analysis-table tbody tr {
-  border-bottom: 1px solid #f5f5f5;
-}
-
-.table-dot {
-  display: inline-block;
-  width: 8px;
+.cra-bar-track {
   height: 8px;
-  border-radius: 2px;
-  margin-right: 8px;
-  vertical-align: middle;
+  background: #F1F1F7;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.plus-text { color: #5136FF; font-weight: 700 !important; }
-.minus-text { color: #FF5A92; font-weight: 700 !important; }
+.cra-bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.6s ease;
+}
+
+.cra-bar-fill.strength {
+  background: linear-gradient(90deg, #7C6BF0 0%, #5B3DF5 100%);
+}
+
+.cra-bar-fill.weakness {
+  background: linear-gradient(90deg, #F184D6 0%, #E85FBE 100%);
+}
+
+.cra-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #ACAAC6;
+  margin: 24px 0 0 0;
+}
+
+.cra-legend-marker {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #4A4A5E;
+}
+
+@media (max-width: 760px) {
+  .cra-analysis-grid {
+    grid-template-columns: 1fr;
+    gap: 32px 0;
+  }
+}
 
 .action-button-container {
   display: flex;
