@@ -1,5 +1,15 @@
 import axiosInstance from './axiosInstance';
 
+// localStorage에만 저장되는 "계정 종속" 데이터 키 모음
+// (백엔드 연동 없이 프론트에서만 관리되는 값들이라, 다른 계정으로 로그인하면
+//  명시적으로 정리해주지 않는 한 그대로 남아있게 됨)
+const ACCOUNT_SCOPED_KEYS = ['savedContests', 'contestRecommended', 'teamRecommended'];
+const LAST_EMAIL_KEY = 'lastLoggedInEmail';
+
+const clearAccountScopedData = () => {
+  ACCOUNT_SCOPED_KEYS.forEach((key) => localStorage.removeItem(key));
+};
+
 /**
  * 회원가입 API
  * POST /api/auth/signup
@@ -27,6 +37,15 @@ export const register = async (formData) => {
 export const login = async (credentials) => {
   const { data } = await axiosInstance.post('/api/auth/login', credentials);
 
+  // 이전에 로그인했던 계정과 다른 이메일이면(=다른 사람/새 계정),
+  // 이전 계정의 저장 목록/추천 여부 플래그를 초기화한다.
+  // 같은 계정으로 재로그인하는 경우엔 그대로 유지된다.
+  const lastEmail = localStorage.getItem(LAST_EMAIL_KEY);
+  if (lastEmail && lastEmail !== credentials.email) {
+    clearAccountScopedData();
+  }
+  localStorage.setItem(LAST_EMAIL_KEY, credentials.email);
+
   localStorage.setItem('accessToken', data.data.accessToken);
 
   return data;
@@ -43,7 +62,8 @@ export const logout = async () => {
     console.error('로그아웃 API 오류:', err);
   } finally {
     localStorage.removeItem('accessToken');
-    // user 정보(이름/전공/한줄소개/프로필이미지)는 재로그인 후에도 유지
+    // user 정보, 저장 목록 등은 재로그인 시 이메일이 같으면 그대로 유지된다
+    // (다른 계정으로 로그인하면 login()에서 자동으로 정리됨)
   }
 };
 
