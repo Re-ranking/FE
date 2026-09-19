@@ -21,6 +21,7 @@ function ContestCard({ contest, id }) {
           src={contest.imageUrl}
           alt={contest.title}
           className="poster-img"
+          loading="lazy"
         />
       </div>
 
@@ -33,16 +34,18 @@ function ContestCard({ contest, id }) {
           ))}
         </div>
 
-        <div className="contest-details">
-          <p>
-            <span className="detail-label">대상</span>
-            {contest.target}
-          </p>
-        </div>
+        <div className="contest-footer">
+          <div className="contest-details">
+            <p>
+              <span className="detail-label">대상</span>
+              {contest.target}
+            </p>
+          </div>
 
-        <button className="detail-btn" onClick={handleDetailClick}>
-          상세보기
-        </button>
+          <button type="button" className="detail-btn" onClick={handleDetailClick}>
+            상세보기
+          </button>
+        </div>
       </div>
     </div>
   );

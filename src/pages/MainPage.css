@@ -1,32 +1,50 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+/* ---------- 디자인 토큰 ---------- */
 .main-container {
+  --primary: #5A5FE0;
+  --primary-light: #7176F0;
+  --accent: #B07CF8;
+  --primary-soft: #F0F1FF;
+  --ink: #1A1A2E;
+  --ink-sub: #444455;
+  --ink-mute: #666677;
+  --line: #EDEDF5;
+
   width: 100%;
   min-height: 100vh;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  color: var(--ink);
 }
 
 .main-content {
   display: flex;
-  flex: 1; 
-  min-height: calc(100vh - 70px); 
-  align-items: stretch; 
+  flex: 1;
+  min-height: calc(100vh - 70px);
+  align-items: stretch;
 }
 
+/* ---------- 왼쪽: 히어로 ---------- */
 .hero-left {
   flex: 1.6;
   background: linear-gradient(180deg, #D5D1FD 21.63%, #FFF3F6 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px;
+  padding: 64px 48px;
 }
 
 .hero-content {
   text-align: center;
+  width: 100%;
   max-width: 640px;
 }
 
+/* 검은 막대 애니메이션 (원본 그대로) */
 .deco-lines {
   display: flex;
   justify-content: center;
@@ -36,24 +54,24 @@
 }
 
 .deco-lines span {
-  width: 5px; 
+  width: 5px;
   background-color: #111111;
   display: inline-block;
   border-radius: 3px;
   animation: barBounce 1s ease-in-out infinite alternate;
 }
 
-.deco-lines span:nth-child(1) { 
-  height: 80px; 
+.deco-lines span:nth-child(1) {
+  height: 80px;
   animation-delay: 0.1s;
 }
-.deco-lines span:nth-child(2) { 
-  height: 170px; 
-  background: linear-gradient(to top, #6366f1, #111); 
+.deco-lines span:nth-child(2) {
+  height: 170px;
+  background: linear-gradient(to top, #6366f1, #111);
   animation-delay: 0.4s;
 }
-.deco-lines span:nth-child(3) { 
-  height: 70px; 
+.deco-lines span:nth-child(3) {
+  height: 70px;
   animation-delay: 0.2s;
 }
 
@@ -63,40 +81,119 @@
 }
 
 .hero-title {
-  font-size: 3rem; 
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
   font-weight: 800;
-  color: #111111;
-  line-height: 1.45;
-  margin-bottom: 30px;
+  color: var(--ink);
+  line-height: 1.38;
+  margin-bottom: 22px;
   word-break: keep-all;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.025em;
 }
 
 .hero-description {
-  font-size: 1.3rem;
-  color: #444444;
-  line-height: 1.75;
-  margin-bottom: 50px;
+  font-size: 1.15rem;
+  color: var(--ink-sub);
+  line-height: 1.7;
+  margin: 0 auto 34px;
+  max-width: 520px;
   font-weight: 500;
+  word-break: keep-all;
 }
 
 .signup-main-btn {
-  background-color: #111111;
+  background-color: var(--ink);
   color: #ffffff;
-  padding: 20px 80px;
+  padding: 18px 64px;
   border-radius: 14px;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
+  font-family: inherit;
   border: none;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 24px rgba(26, 26, 46, 0.18);
+  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.signup-main-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(26, 26, 46, 0.18);
+}
+
+.signup-main-btn:focus-visible,
+.recommend-btn:focus-visible {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 3px;
+}
+
+/* CV 업로드 → AI 분석 → 추천 흐름 */
+.hero-steps {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin: 36px 0 0;
+  padding: 0;
+}
+
+.hero-steps li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px 9px 9px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(90, 95, 224, 0.16), 0 1px 3px rgba(26, 26, 46, 0.06);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* 알약 사이를 잇는 연결선 */
+.hero-steps li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -22px;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  transform: translateY(-50%);
+}
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+}
+
+/* 마지막 단계(결과)는 색을 채워 목적지로 강조 */
+.hero-steps li:last-child {
+  background: var(--ink);
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(26, 26, 46, 0.3);
+}
+
+.hero-steps li:last-child .step-num {
+  background: #ffffff;
+  color: var(--ink);
+}
+
+/* ---------- 오른쪽: 기능 카드 ---------- */
 .hero-right {
-  flex: 1; 
-  background-color: #fafbfc; 
-  background-image: 
+  flex: 1;
+  background-color: #fafbfc;
+  background-image:
     linear-gradient(rgba(101, 110, 211, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(101, 110, 211, 0.03) 1px, transparent 1px),
     radial-gradient(circle at 80% 20%, rgba(226, 223, 255, 0.7) 0%, transparent 50%),
@@ -112,11 +209,18 @@
 .recommend-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  gap: 35px; 
+  justify-content: center;
   width: 100%;
-  max-width: 550px;
+  max-width: 520px;
   z-index: 2;
+}
+
+/* 1단계 → 2단계 연결선 */
+.step-connector {
+  width: 0;
+  height: 36px;
+  margin-left: 58px;
+  border-left: 2px dashed #BFC2F3;
 }
 
 .recommend-section {
@@ -125,14 +229,16 @@
   align-items: flex-start;
   text-align: left;
   background: #ffffff;
-  border: 1px solid #EDEDF5;
-  border-radius: 24px;
-  padding: 36px 40px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 32px 36px;
   box-shadow: 0 2px 16px rgba(101, 110, 211, 0.06);
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s ease;
 }
 
 .recommend-section::before {
@@ -140,42 +246,37 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 4px;
-  background: linear-gradient(90deg, #7176F0, #B07CF8);
+  background: linear-gradient(90deg, var(--primary-light), var(--accent));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.recommend-section:hover::before {
-  opacity: 1;
-}
-
-.recommend-section:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(101, 110, 211, 0.12);
-  border-color: #D4D5F8;
-}
-
-.card-badge {
-  background-color: #F0F1FF;
-  color: #5A5FE0;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  margin-bottom: 14px;
+/* 1단계 / 2단계 배지 */
+.card-step {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
   letter-spacing: 1px;
+  line-height: 1.2;
 }
 
 .recommend-title {
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
   margin-bottom: 12px;
-  color: #1A1A2E;
+  padding-right: 60px; /* 우측 상단 아이콘과 겹치지 않도록 */
+  color: var(--ink);
 }
 
 .recommend-text {
-  font-size: 14px;
-  color: #666677;
+  font-size: 0.95rem;
+  color: var(--ink-mute);
   line-height: 1.7;
   margin-bottom: 10px;
   word-break: keep-all;
@@ -185,45 +286,151 @@
 .main-icon {
   position: absolute;
   right: 36px;
-  top: 36px;
+  top: 32px;
   width: 60px;
   height: 60px;
   object-fit: contain;
-  opacity: 0.75;
-  transition: all 0.3s ease;
-}
-
-.recommend-section:hover .main-icon {
-  transform: scale(1.1) rotate(5deg);
-  opacity: 1;
+  opacity: 0.8;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .recommend-btn {
-  margin-top: 24px;
+  margin-top: 22px;
   background: #F0F0F5;
   color: #2D2D3F;
-  padding: 11px 24px;
+  padding: 11px 22px;
   border-radius: 10px;
   font-size: 0.95rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   font-family: inherit;
 }
 
-.recommend-section:hover .recommend-btn {
-  background: #656ED3;
+/* 키보드 포커스 시에도 hover와 같은 상태로 보이게 */
+.recommend-section:has(.recommend-btn:focus-visible)::before {
+  opacity: 1;
+}
+
+.recommend-section:has(.recommend-btn:focus-visible) .recommend-btn {
+  background: var(--primary);
   color: #ffffff;
 }
 
+/* hover는 마우스 환경에서만 (모바일 터치에서 hover가 남는 문제 방지) */
+@media (hover: hover) {
+  .signup-main-btn:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(90, 95, 224, 0.3);
+  }
+
+  .recommend-section:hover::before {
+    opacity: 1;
+  }
+
+  .recommend-section:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(101, 110, 211, 0.12);
+    border-color: #D4D5F8;
+  }
+
+  .recommend-section:hover .main-icon {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 1;
+  }
+
+  .recommend-section:hover .recommend-btn {
+    background: var(--primary);
+    color: #ffffff;
+  }
+}
+
+/* ---------- 반응형 ---------- */
 @media (max-width: 1024px) {
   .main-content {
     flex-direction: column;
   }
-  .hero-left, .hero-right {
+
+  .hero-left,
+  .hero-right {
     flex: none;
     width: 100%;
-    padding: 60px 20px;
+  }
+
+  .hero-left {
+    padding: 56px 20px;
+  }
+
+  .hero-right {
+    padding: 44px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-description {
+    font-size: 1.05rem;
+  }
+
+  .signup-main-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 18px 24px;
+  }
+
+  /* 좁은 화면에서는 세로로 쌓고 연결선은 숨김 */
+  .hero-steps {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero-steps li:not(:last-child)::after {
+    display: none;
+  }
+
+  .recommend-section {
+    padding: 24px 22px;
+  }
+
+  .main-icon {
+    top: 22px;
+    right: 22px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .recommend-title {
+    font-size: 1.4rem;
+    padding-right: 52px;
+  }
+
+  .recommend-text {
+    max-width: 100%;
+  }
+
+  .step-connector {
+    margin-left: 46px;
+  }
+}
+
+/* ---------- 모션 최소화 설정 존중 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .deco-lines span {
+    animation: none;
+  }
+
+  .signup-main-btn,
+  .recommend-section,
+  .recommend-section::before,
+  .main-icon,
+  .recommend-btn {
+    transition: none;
+  }
+
+  .signup-main-btn:hover,
+  .recommend-section:hover,
+  .recommend-section:hover .main-icon {
+    transform: none;
   }
 }

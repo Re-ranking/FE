@@ -58,13 +58,18 @@ function MainPage() {
             </h1>
             <p className="hero-description">
               내 이력서(CV)만 올리면 끝!<br />
-              AI가 내 역량에 딱 맞는 공모전부터, 부족한 점을 채워<br />
-              줄 찰떡궁합 팀원까지 한 번에 찾아줍니다.
+              AI가 내 역량에 딱 맞는 공모전부터, 부족한 점을 채워줄 찰떡궁합 팀원까지 한 번에 찾아줍니다.
             </p>
 
-            <button className="signup-main-btn" onClick={handleMainButtonClick}>
+            <button type="button" className="signup-main-btn" onClick={handleMainButtonClick}>
               {isLoggedIn ? "공모전 둘러보러 가기" : "회원가입"}
             </button>
+
+            <ol className="hero-steps">
+              <li><span className="step-num" aria-hidden="true">1</span>CV 업로드</li>
+              <li><span className="step-num" aria-hidden="true">2</span>AI 분석</li>
+              <li><span className="step-num" aria-hidden="true">3</span>공모전·팀원 추천</li>
+            </ol>
           </div>
         </section>
 
@@ -72,28 +77,30 @@ function MainPage() {
           <div className="recommend-container">
             
             <div className="recommend-section" onClick={() => handleProtectedClick('/contest-recommend')}>
-              <span className="card-badge">AI MATCHING</span>
+              <span className="card-step">AI MATCHING</span>
               <h2 className="recommend-title">공모전 고민 그만</h2>
               <p className="recommend-text">
                 내 CV 분석을 통한 맞춤형 공모전 추천.<br />
                 단순 키워드가 아닌 심층 연관성 분석
               </p>
               <img src={mainIcon1} alt="공모전 추천 아이콘" className="main-icon" />
-              <button className="recommend-btn">
-                추천받기 →
+              <button type="button" className="recommend-btn">
+                공모전 추천받기
               </button>
             </div>
 
+            <div className="step-connector" aria-hidden="true"></div>
+
             <div className="recommend-section" onClick={handleTeamRecommendClick}>
-              <span className="card-badge">TEAM BUILDING</span>
+              <span className="card-step">TEAM BUILDING</span>
               <h2 className="recommend-title">완벽한 팀원 조합</h2>
               <p className="recommend-text">
                 내가 부족한 직무 역량을 채워줄 완벽한 퍼즐 조각.<br />
                 역량 보완성부터 협업 성향까지 고려한 완벽한 팀 빌딩
               </p>
               <img src={mainIcon2} alt="팀원 추천 아이콘" className="main-icon" />
-              <button className="recommend-btn">
-                추천받기 →
+              <button type="button" className="recommend-btn">
+                팀원 추천받기
               </button>
             </div>
 
