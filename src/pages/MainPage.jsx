@@ -1,10 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../hooks/useAuth';
 import useModal from '../hooks/useModal';
 import './MainPage.css';
-import mainIcon1 from '../assets/images/main-icon1.png'; 
+import mainIcon1 from '../assets/images/main-icon1.png';
 import mainIcon2 from '../assets/images/main-icon2.png';
 
 function MainPage() {
@@ -20,7 +20,6 @@ function MainPage() {
     }
   };
 
-  // 로그인 여부 확인 후 페이지 이동
   const handleProtectedClick = (path) => {
     if (!isLoggedIn) {
       openModal('로그인 후 이용해주세요.');
@@ -29,7 +28,6 @@ function MainPage() {
     navigate(path);
   };
 
-  // 팀원 추천은 공모전 추천을 먼저 받아야만 이동 가능 (Navbar와 동일한 가드)
   const handleTeamRecommendClick = () => {
     if (!isLoggedIn) {
       openModal('로그인 후 이용해주세요.');
@@ -48,17 +46,21 @@ function MainPage() {
 
       <main className="main-content">
         <section className="hero-left">
+          <div className="hero-blobs" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+
           <div className="hero-content">
             <div className="deco-lines">
               <span></span><span></span><span></span>
             </div>
             <h1 className="hero-title">
               "나한테 맞는 공모전이 어딨지..?"<br />
-              이제 검색 말고 매칭 받으세요
+              이제 검색 말고 <span className="hero-highlight">매칭</span> 받으세요
             </h1>
             <p className="hero-description">
               내 이력서(CV)만 올리면 끝!<br />
-              AI가 내 역량에 딱 맞는 공모전부터, 부족한 점을 채워줄 찰떡궁합 팀원까지 한 번에 찾아줍니다.
+              AI가 내 역량에 딱 맞는 공모전부터,<br />부족한 점을 채워줄 찰떡궁합 팀원까지 한 번에 찾아줍니다.
             </p>
 
             <button type="button" className="signup-main-btn" onClick={handleMainButtonClick}>
@@ -75,7 +77,7 @@ function MainPage() {
 
         <section className="hero-right">
           <div className="recommend-container">
-            
+
             <div className="recommend-section" onClick={() => handleProtectedClick('/contest-recommend')}>
               <span className="card-step">AI MATCHING</span>
               <h2 className="recommend-title">공모전 고민 그만</h2>
