@@ -134,13 +134,25 @@ function MainPage() {
             <button type="button" className="signup-main-btn" onClick={handleMainButtonClick}>
               {isLoggedIn ? "공모전 둘러보러 가기" : "회원가입"}
             </button>
-
-            <ol className="hero-steps">
-              <li><span className="step-num" aria-hidden="true">1</span>CV 업로드</li>
-              <li><span className="step-num" aria-hidden="true">2</span>AI 분석</li>
-              <li><span className="step-num" aria-hidden="true">3</span>공모전·팀원 추천</li>
-            </ol>
           </div>
+
+          <ol className="main-steps-bar">
+            <li className="main-step-item">
+              <span className="main-step-index">01</span>
+              <strong className="main-step-title">CV 업로드</strong>
+              <span className="main-step-desc">PDF 하나만 올리면 준비 끝</span>
+            </li>
+            <li className="main-step-item">
+              <span className="main-step-index">02</span>
+              <strong className="main-step-title">AI 분석</strong>
+              <span className="main-step-desc">역량과 경험을 자동으로 분석</span>
+            </li>
+            <li className="main-step-item">
+              <span className="main-step-index">03</span>
+              <strong className="main-step-title">공모전·팀원 추천</strong>
+              <span className="main-step-desc">나에게 맞는 공모전과 팀원 매칭</span>
+            </li>
+          </ol>
         </section>
 
         <section className="main-features" id="features">
