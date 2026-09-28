@@ -10,6 +10,19 @@ const clearAccountScopedData = () => {
   ACCOUNT_SCOPED_KEYS.forEach((key) => localStorage.removeItem(key));
 };
 
+// JWT(accessToken)의 exp를 읽어 만료 여부 확인
+// 토큰 형식을 해석할 수 없으면 만료로 보지 않음 (기존 동작 유지)
+const isTokenExpired = (token) => {
+  try {
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(atob(base64));
+    if (!payload.exp) return false;
+    return payload.exp * 1000 <= Date.now();
+  } catch {
+    return false;
+  }
+};
+
 /**
  * 회원가입 API
  * POST /api/auth/signup
@@ -37,6 +50,11 @@ export const register = async (formData) => {
 export const login = async (credentials) => {
   const { data } = await axiosInstance.post('/api/auth/login', credentials);
 
+  const accessToken = data?.data?.accessToken;
+  if (!accessToken) {
+    throw new Error('로그인 토큰을 받지 못했습니다.');
+  }
+
   // 이전에 로그인했던 계정과 다른 이메일이면(=다른 사람/새 계정),
   // 이전 계정의 저장 목록/추천 여부 플래그를 초기화한다.
   // 같은 계정으로 재로그인하는 경우엔 그대로 유지된다.
@@ -46,7 +64,7 @@ export const login = async (credentials) => {
   }
   localStorage.setItem(LAST_EMAIL_KEY, credentials.email);
 
-  localStorage.setItem('accessToken', data.data.accessToken);
+  localStorage.setItem('accessToken', accessToken);
 
   return data;
 };
@@ -87,5 +105,13 @@ export const getCurrentUser = () => {
 
 /** 로그인 여부 확인 */
 export const isAuthenticated = () => {
-  return !!localStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken');
+  if (!token || token === 'undefined' || token === 'null') return false;
+
+  // 만료된 토큰이 남아 있으면 지우고 로그아웃 상태로 처리
+  if (isTokenExpired(token)) {
+    localStorage.removeItem('accessToken');
+    return false;
+  }
+  return true;
 };
