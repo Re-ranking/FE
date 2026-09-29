@@ -400,7 +400,7 @@ html, body {
 }
 
 .recommend-trigger-btn {
-  background-color: #656ED3;
+  background-color: #000;
   color: #ffffff;
   border: none;
   outline: none;
@@ -417,7 +417,7 @@ html, body {
 }
 
 .recommend-trigger-btn:hover {
-  background-color: #4f56b5; 
+  background-color: #000; 
 }
 
 .recommend-trigger-btn:active {
