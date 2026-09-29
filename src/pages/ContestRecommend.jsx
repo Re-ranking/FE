@@ -238,12 +238,13 @@ function ContestRecommendPage() {
         )}
 
         {showResults && (
-          <div className="cra-team-cta" style={{ marginTop: '50px' }}>
-            <p className="cra-team-cta-text">이 공모전에 딱 맞는 팀원도 찾아볼까요?</p>
-            <button className="recommend-trigger-btn secondary" onClick={handleTeamRecommendClick}>
+          <section className="cr-next-step">
+            <p className="cr-next-title">공모전에 딱 맞는 팀원도 찾아볼까요?</p>
+            <button className="cr-next-btn" onClick={handleTeamRecommendClick}>
               팀원 추천 받기
+              <span className="cr-next-arrow" aria-hidden="true">→</span>
             </button>
-          </div>
+          </section>
         )}
       </div>
 
