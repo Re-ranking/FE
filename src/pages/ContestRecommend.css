@@ -469,3 +469,146 @@ html, body {
     transform: translateY(0);
   }
 }
+
+/* ==========================================
+   페이지 헤더 (팀원 추천 페이지와 동일한 형식)
+========================================== */
+.cr-hero {
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto 56px;
+  box-sizing: border-box;
+}
+
+.cr-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4B4FC4;
+  margin: 0 0 22px 0;
+}
+
+.cr-eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1.5px;
+  background: #5A5FE0;
+  display: inline-block;
+}
+
+.cr-headline {
+  font-size: 44px;
+  font-weight: 800;
+  color: #1A1A2E;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px 0;
+}
+
+.cr-headline em {
+  font-style: normal;
+  font-weight: 800;
+  color: #5A5FE0;
+}
+
+.cr-subcopy {
+  font-size: 16px;
+  color: #5C5C72;
+  line-height: 1.7;
+  max-width: 440px;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* ==========================================
+   추천 공모전 결과 (팀원 추천 결과와 동일한 형식)
+========================================== */
+.cr-result-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 80px auto 0;
+  box-sizing: border-box;
+}
+
+.cr-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #ECEAF6;
+}
+
+.cr-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A1A2E;
+  margin: 0;
+}
+
+.cr-section-title::before {
+  content: '';
+  width: 6px;
+  height: 22px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #5A5FE0 0%, #4B4FC4 100%);
+}
+
+.cr-section-count {
+  font-size: 17px;
+  font-weight: 700;
+  color: #9490C4;
+}
+
+.cr-contest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.cr-card-slot {
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  animation: cr-rise 0.55s ease forwards;
+}
+
+.cr-card-slot > * {
+  flex: 1;
+  width: 100%;
+}
+
+.cr-card-slot:nth-child(1) { animation-delay: 0.03s; }
+.cr-card-slot:nth-child(2) { animation-delay: 0.11s; }
+.cr-card-slot:nth-child(3) { animation-delay: 0.19s; }
+.cr-card-slot:nth-child(4) { animation-delay: 0.27s; }
+.cr-card-slot:nth-child(5) { animation-delay: 0.35s; }
+.cr-card-slot:nth-child(6) { animation-delay: 0.43s; }
+.cr-card-slot:nth-child(n+7) { animation-delay: 0.5s; }
+
+@keyframes cr-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cr-card-slot { animation: none; opacity: 1; }
+}
+
+@media (max-width: 980px) {
+  .cr-contest-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+}
+
+@media (max-width: 650px) {
+  .cr-hero { margin: 10px auto 40px; }
+  .cr-headline { font-size: 32px; }
+  .cr-contest-grid { grid-template-columns: 1fr; }
+}

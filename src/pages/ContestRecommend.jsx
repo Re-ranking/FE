@@ -143,6 +143,18 @@ function ContestRecommendPage() {
       <Navbar />
 
       <div className="recommend-page-container">
+        <section className="cr-hero">
+          <p className="cr-eyebrow">Contest Match</p>
+          <h1 className="cr-headline">
+            내 CV에 <em>딱 맞는 공모전</em>을<br />
+            찾아드릴게요
+          </h1>
+          <p className="cr-subcopy">
+            업로드한 CV로 강점과 보완할 점을 분석하고,
+            내 역량과 연관성이 높은 공모전을 골라봤어요.
+          </p>
+        </section>
+
         <section className="profile-section">
           <ProfileCard
             name={name}
@@ -208,14 +220,18 @@ function ContestRecommendPage() {
         </section>
 
         {showResults && (
-          <section className="result-section">
-            <h2 className="section-title">공모전 추천 결과</h2>
-            <div className="contest-cards-grid">
+          <section className="cr-result-section">
+            <div className="cr-section-head">
+              <h2 className="cr-section-title">추천 공모전</h2>
+              {recommendedContests.length > 0 && (
+                <span className="cr-section-count">총 {recommendedContests.length}개 추천됨</span>
+              )}
+            </div>
+            <div className="cr-contest-grid">
               {recommendedContests.map((contest, index) => (
-                <ContestCard
-                  key={contest.competitionId ?? index}
-                  contest={contest}
-                />
+                <div className="cr-card-slot" key={contest.competitionId ?? index}>
+                  <ContestCard contest={contest} />
+                </div>
               ))}
             </div>
           </section>
