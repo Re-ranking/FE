@@ -6,6 +6,7 @@ import useModal from '../hooks/useModal';
 import './MainPage.css';
 import mainIcon1 from '../assets/images/main-icon1.png';
 import mainIcon2 from '../assets/images/main-icon2.png';
+import purpleIcon from '../assets/images/purple-icon.png';
 
 function MainPage() {
   const navigate = useNavigate();
@@ -159,7 +160,7 @@ function MainPage() {
           <div className="main-feature-grid">
             <article className="recommend-section" onClick={() => handleProtectedClick('/contest-recommend')}>
               <div className="main-card-top">
-                <span className="card-step"><b>01</b>AI MATCHING</span>
+                <span className="card-step">AI MATCHING</span>
                 <div className="main-card-icon">
                   <img src={mainIcon1} alt="" className="main-icon" />
                 </div>
@@ -181,7 +182,7 @@ function MainPage() {
 
             <article className="recommend-section" onClick={handleTeamRecommendClick}>
               <div className="main-card-top">
-                <span className="card-step"><b>02</b>TEAM BUILDING</span>
+                <span className="card-step">TEAM BUILDING</span>
                 <div className="main-card-icon">
                   <img src={mainIcon2} alt="" className="main-icon" />
                 </div>
@@ -199,6 +200,31 @@ function MainPage() {
           </div>
         </section>
       </main>
+
+      <footer className="main-footer">
+        <div className="main-footer-inner">
+          <div className="main-footer-top">
+            <div className="main-footer-brand">
+              <img src={purpleIcon} alt="" className="main-footer-logo" />
+              <p className="main-footer-title">
+                Personalized RAG 기반<br />
+                공모전 Re-ranking 및 팀매칭
+              </p>
+            </div>
+
+            <ul className="main-footer-info">
+              <li>숙명여자대학교</li>
+              <li>인공지능공학부</li>
+              <li>2026 졸업프로젝트</li>
+            </ul>
+          </div>
+
+          <div className="main-footer-bottom">
+            <p>© 2026 숙명여자대학교 인공지능공학부 졸업프로젝트</p>
+            <p>RAG · Re-ranking · Team Matching</p>
+          </div>
+        </div>
+      </footer>
 
       {ModalComponent}
     </div>
